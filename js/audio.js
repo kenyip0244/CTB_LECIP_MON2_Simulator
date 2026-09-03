@@ -9,7 +9,7 @@ class Mon2AudioSystem {
   constructor() {
     this.audioCtx = null;
     this.enabled = true;
-    this.speechEnabled = true;
+    this.speechEnabled = false; // TTS disabled per user request
     this.volume = 0.7;
     this.synth = window.speechSynthesis || null;
   }
@@ -66,60 +66,8 @@ class Mon2AudioSystem {
   }
 
   speakAnnouncement(stop, status = "next") {
-    if (!this.enabled || !this.speechEnabled || !this.synth) return;
-
-    // Stop any ongoing speech
-    this.synth.cancel();
-
-    // Text synthesis
-    let zhText = "";
-    let enText = "";
-
-    if (stop.isTerminus) {
-      zhText = `終點站：${stop.zh}。多謝乘搭城巴。請攜帶所有個人物品下車。`;
-      enText = `Terminus: ${stop.en}. Thank you for travelling with Citybus. Please alight with all your belongings.`;
-    } else if (status === "arrived") {
-      zhText = `此站係：${stop.zh}。`;
-      enText = `This stop is: ${stop.en}.`;
-      if (stop.landmarks && stop.landmarks.length > 0) {
-        zhText += `前往${stop.landmarks.slice(0, 2).join("、")}嘅乘客請喺呢度落車。`;
-      }
-    } else {
-      zhText = `下一站：${stop.zh}。`;
-      enText = `Next stop: ${stop.en}.`;
-      if (stop.landmarks && stop.landmarks.length > 0) {
-        zhText += `前往${stop.landmarks.slice(0, 2).join("、")}嘅乘客請準備落車。`;
-      }
-    }
-
-    // Delay slightly after chime finishes
-    setTimeout(() => {
-      // Find suitable Cantonese / Chinese voice
-      const voices = this.synth.getVoices();
-      let cantoneseVoice = voices.find(v => v.lang === "zh-HK" || v.lang === "zh_HK");
-      if (!cantoneseVoice) {
-        cantoneseVoice = voices.find(v => v.lang.startsWith("zh"));
-      }
-
-      let englishVoice = voices.find(v => v.lang === "en-GB" || v.lang === "en-US" || v.lang.startsWith("en"));
-
-      const utterZh = new SpeechSynthesisUtterance(zhText);
-      utterZh.rate = 0.95;
-      utterZh.volume = this.volume;
-      if (cantoneseVoice) utterZh.voice = cantoneseVoice;
-
-      const utterEn = new SpeechSynthesisUtterance(enText);
-      utterEn.rate = 0.95;
-      utterEn.volume = this.volume;
-      if (englishVoice) utterEn.voice = englishVoice;
-
-      // Queue Cantonese then English
-      this.synth.speak(utterZh);
-      utterZh.onend = () => {
-        this.synth.speak(utterEn);
-      };
-    }, 900);
+    // TTS completely removed per user request ("刪除tts")
   }
 }
 
-window.mon2Audio = new Mon2AudioSystem();
+

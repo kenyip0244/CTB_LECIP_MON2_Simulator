@@ -4067,3 +4067,460 @@ body {
   align-items: center;
   justify-content: center;
 }
+
+
+/* ==========================================================================
+   ROUTE NUMBER ENLARGEMENT & CITYFLYER RED-BG WHITE-TEXT BADGE
+   ========================================================================== */
+/* 1. 路線號碼加大 (Enlarge Route Number) */
+.header-route-badge {
+  font-size: 44px !important;
+  width: 110px !important;
+  min-width: 110px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.header-route-badge .route-num {
+  font-size: 44px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+}
+
+/* 2. Cityflyer 路線編號卡片沒有底板顏色 跟隨旁邊的紅色 紅底白字 */
+.mode-cityflyer .header-route-badge {
+  background: transparent !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.mode-cityflyer .header-route-badge .route-num {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+
+/* ==========================================================================
+   USER SPECIFICATIONS:
+   1. 分鐘的數字是黑色 (Minute numbers are black)
+   2. 「此站」不顯示在分鐘行，而是圓形的車站編號中將背景色由紅色改為綠色 (Circle turns green upon arrival)
+   3. 頂部的此站和下一站 都是黑色 (Top 'Next stop' & 'This stop' are black)
+   ========================================================================== */
+
+/* 1. 分鐘的數字與單位文字是黑色 */
+.eta-big,
+.eta-mins,
+.eta-value-box,
+.ic-eta-val {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.eta-unit-text,
+.eta-min-text,
+.eta-unit-box {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+/* 2. 圓形車站編號背景色由紅色改為綠色（此站到站狀態） */
+.track-circle-arrived-green {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #16A34A !important; /* Authentic Emerald Green */
+  border: 2.5px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+  font-weight: 900 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-english);
+  flex-shrink: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  margin: auto 0;
+}
+
+.ladder-track-cell .track-circle-arrived-green {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #16A34A !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 12.5px !important;
+  font-weight: 900 !important;
+  margin: 0;
+}
+
+/* 3. 頂部的「此站」和「下一站」都是黑色 */
+.trio-subheader-title,
+.trio-subheader-title.title-next,
+.trio-subheader-title.title-arrived,
+.ladder-header-title,
+.mode3-status-label {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.mode-cityflyer .trio-subheader-title.title-next,
+.mode-cityflyer .trio-subheader-title.title-arrived,
+.mode-cityflyer .ladder-header-title,
+.mode-cityflyer .mode3-status-label {
+  color: #000000 !important;
+}
+
+
+/* ==========================================================================
+   HORIZONTAL CITYFLYER LAYOUT (Matching photo ebd42bf0.png: 16:9 widescreen)
+   ========================================================================== */
+.mon2-frame.horizontal {
+  width: 780px !important;
+  height: 440px !important;
+  border-radius: 8px;
+}
+
+/* Hide vertical footer on horizontal screen, since driver info is in header */
+.mon2-frame.horizontal .mon2-footer {
+  display: none !important;
+}
+
+.mon2-frame.horizontal .mon2-main {
+  height: calc(100% - 72px) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  padding: 6px !important;
+  overflow: hidden !important;
+}
+
+/* Horizontal Cityflyer Header */
+.mon2-frame.horizontal.mode-cityflyer .mon2-header {
+  height: 72px !important;
+  min-height: 72px !important;
+  background: linear-gradient(90deg, #B70028 0%, #D8262C 42%, #A00022 100%) !important;
+  border-bottom: 3.5px solid var(--cityflyer-gold) !important;
+  display: flex !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-route-badge {
+  width: 125px !important;
+  min-width: 125px !important;
+  font-size: 50px !important;
+  font-weight: 900 !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-dest-box {
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding-left: 6px !important;
+  min-width: 180px !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-zh {
+  color: #FFFFFF !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-en {
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Horizontal Header Driver Info */
+.mon2-frame.horizontal .header-driver-box {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 16px !important;
+}
+
+.mon2-frame.horizontal .h-driver-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  width: 100% !important;
+  gap: 12px !important;
+}
+
+.mon2-frame.horizontal .h-driver-name-zh {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal .h-driver-name-en {
+  font-size: 11px !important;
+  color: #E2E8F0 !important;
+}
+
+.mon2-frame.horizontal .h-motto-zh {
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal .h-motto-en {
+  font-size: 11px !important;
+  color: #E2E8F0 !important;
+}
+
+.mon2-frame.horizontal .h-id-label {
+  font-size: 11px !important;
+  color: #CBD5E1 !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal .h-id-num {
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal .header-time-box {
+  width: 110px !important;
+  min-width: 110px !important;
+  background: #FFFFFF !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-left: 1px solid #CBD5E1 !important;
+}
+
+.mon2-frame.horizontal .header-time-box .time-label {
+  font-size: 9.5px !important;
+  color: #475569 !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal .header-time-box .time-value {
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  color: #0F172A !important;
+}
+
+/* Horizontal Main Content Split Layout */
+.mon2-frame.horizontal #panel-mode-1,
+.mon2-frame.horizontal #panel-mode-2,
+.mon2-frame.horizontal #panel-mode-3,
+.mon2-frame.horizontal #panel-mode-5 {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal .trio-layout-wrapper {
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal .trio-main-name {
+  font-size: 24px !important;
+}
+
+.mon2-frame.horizontal .trio-sub-text {
+  font-size: 14px !important;
+  color: #B70028 !important; /* Red landmark notice as in photo */
+}
+
+
+/* ==========================================================================
+   HORIZONTAL CITYBUS NORMAL ROUTE LAYOUT (Matching photo 412828eb.png: B8)
+   ========================================================================== */
+.mon2-frame.horizontal.mode-ctb .mon2-header {
+  height: 72px !important;
+  min-height: 72px !important;
+  background: #FFFFFF !important;
+  border-bottom: 3.5px solid var(--ctb-divider-red) !important;
+  display: flex !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  width: 120px !important;
+  min-width: 120px !important;
+  font-size: 52px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-dest-box {
+  background: var(--ctb-bright-yellow) !important;
+  padding: 6px 14px !important;
+  min-width: 220px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-zh {
+  color: #000000 !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-en {
+  color: #1E293B !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* Horizontal Normal Header Driver Card */
+.mon2-frame.horizontal.mode-ctb .header-driver-box {
+  background: transparent !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  padding: 0 16px !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-zh {
+  color: #0022AA !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-en {
+  color: #475569 !important;
+  font-size: 11px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-motto-zh {
+  color: #0022AA !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-motto-en {
+  color: #475569 !important;
+  font-size: 11px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-label {
+  color: #475569 !important;
+  font-size: 11px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-num {
+  color: #0022AA !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+/* Horizontal Screen Full Width 5-Stops List (Photo 412828eb.png) */
+.mon2-frame.horizontal.mode-ctb .trio-layout-wrapper {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-subheader-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 4px 16px !important;
+  min-height: 36px !important;
+  border-bottom: 2px solid #E2E8F0 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-row-item {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 16px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-row-item:nth-child(even) {
+  background-color: #FFF04D !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-row-item:nth-child(odd) {
+  background-color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-name-col {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 28px !important;
+  flex: 1 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-main-name {
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-sub-text {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin: 0 !important;
+}
+
+
+/* ==========================================================================
+   TIME BOX SPECIFICATION:
+   現在時間
+   Time Now
+   HH:MM
+   ========================================================================== */
+.header-time-box {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 4px 10px !important;
+}
+
+.time-label-zh {
+  font-family: var(--font-chinese) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #334155 !important;
+  line-height: 1.15 !important;
+}
+
+.time-label-en {
+  font-family: var(--font-english) !important;
+  font-size: 9.5px !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  line-height: 1.1 !important;
+}
+
+.time-value {
+  font-family: var(--font-english) !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  color: #0F172A !important;
+  line-height: 1.1 !important;
+  margin-top: 1px !important;
+}

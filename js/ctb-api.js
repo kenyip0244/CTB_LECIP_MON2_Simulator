@@ -201,6 +201,46 @@ class CitybusAPIService {
 
     return mockTrips;
   }
+
+  // 5. Fetch Real-time Interchange Routes ETA for a specific stop from Citybus API
+  async fetchStopInterchanges(stopId, currentRouteCode) {
+    if (!stopId) return [];
+
+    try {
+      // Data.gov.hk returns all route ETAs for that stopId
+      const resp = await fetch(`${this.baseUrl}/eta/ctb/${stopId}`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      if (json && json.data && json.data.length > 0) {
+        const routeMap = new Map();
+        const now = new Date();
+
+        json.data.forEach(item => {
+          // Exclude the current route itself
+          if (item.route && item.route.toUpperCase() !== (currentRouteCode || "").toUpperCase() && item.eta) {
+            const etaDate = new Date(item.eta);
+            const diffMins = Math.max(0, Math.round((etaDate - now) / 60000));
+            if (!routeMap.has(item.route) || routeMap.get(item.route).etaMins > diffMins) {
+              routeMap.set(item.route, {
+                route: item.route,
+                destZh: item.dest_tc || "",
+                destEn: item.dest_en || "",
+                eta: String(diffMins || "<1"),
+                etaMins: diffMins
+              });
+            }
+          }
+        });
+
+        const list = Array.from(routeMap.values()).slice(0, 8);
+        return list;
+      }
+    } catch (err) {
+      console.warn(`Citybus API /eta/ctb/${stopId} failed:`, err);
+    }
+
+    return [];
+  }
 }
 
 window.ctbAPI = new CitybusAPIService();

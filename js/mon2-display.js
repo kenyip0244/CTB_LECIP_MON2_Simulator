@@ -153,7 +153,8 @@ class Mon2Display {
             </div>
 
             <div class="header-time-box">
-              <div class="time-label">現在時間 Current Time</div>
+              <div class="time-label-zh">現在時間</div>
+              <div class="time-label-en">Time Now</div>
               <div class="time-value" id="header-clock">15:04</div>
             </div>
           </header>
@@ -653,8 +654,8 @@ class Mon2Display {
       this.Mon2_Tex_Mode = 1; // CTB CityFlyer
       frame.classList.add("mode-cityflyer");
       if (badge) {
-        badge.style.backgroundColor = "#FFFFFF";
-        badge.style.color = "#B70028";
+        badge.style.backgroundColor = "transparent";
+        badge.style.color = "#FFFFFF";
       }
     } else if (targetTheme === "rickshaw") {
       this.Mon2_Tex_Mode = 2; // NWFB RSB
@@ -907,17 +908,17 @@ class Mon2Display {
       // Track row cell: vertically aligns circle to station row midpoint!
       trackHtml += `
         <div class="track-row-cell">
-          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+          <div class="${isFirst ? (isArrived ? 'track-circle-arrived-green' : 'track-circle-active') : 'track-circle-upcoming'}">
             ${s.num}
           </div>
           ${chevronHtml}
         </div>
       `;
 
-      // Right-side ETA: When arrived, show '此站'; when next stop, show '2 分鐘'
+      // Right-side ETA: 「此站」不顯示在分鐘行，分鐘數字為黑色！
       let etaColHtml = "";
       if (isFirst && isArrived) {
-        etaColHtml = `<span class="tag-active-stop">此站</span>`;
+        etaColHtml = `<span class="eta-big">&lt;1</span><span class="eta-unit-text">分鐘</span>`;
       } else {
         etaColHtml = `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`;
       }
@@ -1000,7 +1001,7 @@ class Mon2Display {
 
       trackHtml += `
         <div class="track-row-cell">
-          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+          <div class="${isFirst ? (isArrived ? 'track-circle-arrived-green' : 'track-circle-active') : 'track-circle-upcoming'}">
             ${s.num}
           </div>
           ${chevronHtml}
@@ -1009,7 +1010,7 @@ class Mon2Display {
 
       let etaColHtml = "";
       if (isFirst && isArrived) {
-        etaColHtml = `<span class="tag-active-stop">This stop</span>`;
+        etaColHtml = `<span class="eta-big">&lt;1</span><span class="eta-unit-text">min</span>`;
       } else {
         etaColHtml = `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`;
       }
@@ -1052,7 +1053,9 @@ class Mon2Display {
     const isArrived = (this.telargo_busarrivingstop === 1);
 
     // If stop has interchange routes -> Render Interchange Table
-    if (stop.interchanges && stop.interchanges.length > 0) {
+    const isTransferStation = /轉乘|轉車|收費廣場|BBI|Interchange/i.test(stop.zh) || /Interchange|BBI|Toll Plaza/i.test(stop.en);
+    // 「轉乘路線頁面只適用於 轉乘站」
+    if (isTransferStation && stop.interchanges && stop.interchanges.length > 0) {
       if (titleZh) titleZh.textContent = "轉乘路線";
       if (titleEn) titleEn.textContent = "Interchange routes";
       if (pageNum) pageNum.textContent = "1/1";
@@ -1325,7 +1328,7 @@ class Mon2Display {
         let minsHtml = "";
 
         if (idx === curIdx && isArrived) {
-          minsHtml = `<span class="tag-current">此站</span>`;
+          minsHtml = `<span class="eta-mins">&lt;1</span><small class="eta-min-text">分</small>`;
         } else if (idx > curIdx) {
           minsHtml = `<span class="eta-mins">${minsDiff}</span><small class="eta-min-text">分</small>`;
         }
@@ -1333,7 +1336,7 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-iceblue'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-track-cell">
-              <div class="${(isCurrent && isArrived) ? 'track-circle-active' : 'track-circle-upcoming'}">
+              <div class="${isCurrent ? (isArrived ? 'track-circle-arrived-green' : 'track-circle-active') : 'track-circle-upcoming'}">
                 ${s.num}
               </div>
             </div>
@@ -1407,7 +1410,7 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-iceblue'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-track-cell">
-              <div class="${(isCurrent && isArrived) ? 'track-circle-active' : 'track-circle-upcoming'}">
+              <div class="${isCurrent ? (isArrived ? 'track-circle-arrived-green' : 'track-circle-active') : 'track-circle-upcoming'}">
                 ${s.num}
               </div>
             </div>

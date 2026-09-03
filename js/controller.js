@@ -399,7 +399,7 @@ class Mon2Controller {
         this.timeInPhase = 0;
         this.display.arriveStop();
         this.audio.playChime();
-        if (curStop) this.audio.speakAnnouncement(curStop, "arrived");
+        // TTS removed
       }
     } else if (this.tripStatus === "arriving") {
       if (this.timeInPhase >= 4) {
@@ -422,7 +422,7 @@ class Mon2Controller {
         const nextStopData = this.currentStops[this.currentStopIndex];
         this.display.nextStop();
         this.audio.playChime();
-        if (nextStopData) this.audio.speakAnnouncement(nextStopData, "next");
+        // TTS removed
       }
     }
 
@@ -625,7 +625,7 @@ class Mon2Controller {
           const nextStopData = this.currentStops[this.currentStopIndex];
           this.display.nextStop();
           this.audio.playChime();
-          if (nextStopData) this.audio.speakAnnouncement(nextStopData, "next");
+          // TTS removed
         }
       }
     }
