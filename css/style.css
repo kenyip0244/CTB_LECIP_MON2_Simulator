@@ -401,6 +401,11 @@ body {
   font-family: "Segoe UI", Roboto, monospace;
 }
 
+/* Universal Hidden */
+.hidden {
+  display: none !important;
+}
+
 /* 2. Main Content Area */
 .mon2-main {
   flex: 1;
@@ -408,14 +413,23 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 8px 10px;
+  min-height: 0;
 }
 
+/* Mon2 Content Pages (Strictly One Active at a Time - 輪流轉頁，絕不堆疊) */
 .content-page {
+  display: none !important;
   flex: 1;
-  display: flex;
   flex-direction: column;
-  animation: fadeIn 0.4s ease-out;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.content-page.active {
+  display: flex !important;
+  animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
@@ -2565,4 +2579,157 @@ body {
   clip-path: polygon(18px 0%, 100% 0%, 100% 100%, 0% 100%) !important;
   padding-left: 12px !important;
   height: 100% !important;
+}
+
+
+/* ==========================================================================
+   STRICT ADHERENCE TO OFFICIAL PHOTOSHOP TEMPLATES (All.psd, Chinese.psd,
+   English.psd, Fare.psd, Interchange.psd, Route.psd, Font Download.txt)
+   ========================================================================== */
+:root {
+  --font-chinese: "Noto Sans HK", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-english: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--font-english);
+}
+
+/* 1. Route.psd Specifications (Character-length condensed font scaling) */
+.header-route-badge .route-num {
+  font-family: var(--font-english);
+  font-weight: 900;
+  display: inline-block;
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+}
+
+/* Route.psd Layer: Four String (e.g. 930X, E73C) */
+.route-num.scale-four {
+  transform: scaleX(0.64) !important;
+}
+
+/* Route.psd Layer: Three String (e.g. 780, 905, A12, 702) */
+.route-num.scale-three {
+  transform: scaleX(0.77) !important;
+}
+
+/* Route.psd Layer: One or Two String (e.g. 20, 8P, H1) */
+.route-num.scale-normal {
+  transform: scaleX(1.0) !important;
+}
+
+/* Route.psd Destination CHT & ENG */
+.dest-zh {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.01em;
+}
+
+.dest-en {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Chinese.psd & English.psd Specifications */
+#panel-mode-1 .trio-main-name {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.008em; /* Tracking -8 in Chinese.psd */
+}
+
+#panel-mode-1 .trio-sub-text {
+  font-family: var(--font-chinese) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Chinese.psd */
+}
+
+#panel-mode-2 .trio-main-name {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  line-height: 1.15;
+}
+
+#panel-mode-2 .trio-sub-text {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+}
+
+/* 3. Fare.psd Specifications */
+.stage-name-col .stage-zh {
+  font-family: var(--font-chinese) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em; /* Tracking 60 in Fare.psd */
+}
+
+.stage-name-col .stage-en {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+}
+
+.stage-price-col .price-val {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0;
+}
+
+/* 4. Interchange.psd Specifications */
+.ic-route-badge {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Interchange.psd */
+}
+
+.ic-dest-zh {
+  font-family: var(--font-chinese) !important;
+  letter-spacing: 0.06em; /* Tracking 60 in Interchange.psd */
+  font-weight: 700;
+}
+
+.ic-dest-en {
+  font-family: var(--font-english) !important;
+  font-weight: 700;
+}
+
+.ic-eta-val {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Interchange.psd */
+}
+
+/* 5. All.psd (Mode 5 - 13Stop Ladder) Specifications */
+.ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.06em; /* Tracking 60 in All.psd */
+}
+
+.ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em; /* Tracking -40 in All.psd */
+}
+
+/* 6. LECIP_Mon2_Driver_ID.psd Specifications */
+.v-id-label .zh, .v-id-label .en {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.v-id-num {
+  font-family: var(--font-english) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Driver_ID.psd */
+}
+
+.v-motto-zh, .v-motto-en {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Driver_ID.psd */
+}
+
+.time-value {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
 }

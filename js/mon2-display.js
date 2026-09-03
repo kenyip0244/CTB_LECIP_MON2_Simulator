@@ -154,7 +154,7 @@ class Mon2Display {
           <!-- Main Content Area containing Modes 1, 2, 3, 4, 5 -->
           <main class="mon2-main" id="mon2-main">
             <!-- MODE 1: 中文停靠三站 (LECIP_Mon2_Mode1 / Chinese) -->
-            <section id="panel-mode-1" class="content-page active">
+            <section id="panel-mode-1" class="content-page active" style="display: flex;">
               <div class="page-top-strip">
                 <div class="status-callout zh-callout" id="zh-status-callout">
                   <span class="status-indicator-arrow">▼</span>
@@ -166,7 +166,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 2: 英文停靠三站 (LECIP_Mon2_Mode1 / English) -->
-            <section id="panel-mode-2" class="content-page hidden">
+            <section id="panel-mode-2" class="content-page hidden" style="display: none;">
               <div class="page-top-strip">
                 <div class="status-callout en-callout" id="en-status-callout">
                   <span class="status-indicator-arrow">▼</span>
@@ -178,7 +178,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 3: 分段收費 / 轉乘路線 (LECIP_Mon2_Mode3) -->
-            <section id="panel-mode-3" class="content-page hidden">
+            <section id="panel-mode-3" class="content-page hidden" style="display: none;">
               <div class="section-title-bar interchange-header">
                 <span class="bar-zh" id="mode3-title-zh">轉乘路線</span>
                 <span class="bar-en" id="mode3-title-en">Interchange routes</span>
@@ -193,7 +193,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 4: 電子海報輪播 (LECIP_Mon2_Mode4) -->
-            <section id="panel-mode-4" class="content-page hidden">
+            <section id="panel-mode-4" class="content-page hidden" style="display: none;">
               <div class="poster-container" id="poster-container">
                 <div class="poster-tag" id="poster-tag">零排放 綠色運輸 Mission Zero</div>
                 <div class="poster-visual" id="poster-visual">
@@ -208,7 +208,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 5: 隨後十三站全覽總表 (LECIP_Mon2_Mode5 / AllStop) -->
-            <section id="panel-mode-5" class="content-page hidden">
+            <section id="panel-mode-5" class="content-page hidden" style="display: none;">
               <div class="page-top-strip">
                 <div class="status-callout bi-callout" id="bi-status-callout">
                   <span class="status-indicator-arrow">▼</span>
@@ -253,7 +253,7 @@ class Mon2Display {
               </div>
 
               <!-- When Driver Hidden: LECIP_Mon2_No_Driver_ID.png -->
-              <div class="v-driver-no-id-content hidden" id="v-driver-app">
+              <div class="v-driver-no-id-content hidden" id="v-driver-app" style="display: none;">
                 <div class="no-id-text-wrap">
                   <div class="no-id-zh">請即下載新巴城巴App</div>
                   <div class="no-id-en">Download Citybus NWFB App</div>
@@ -341,9 +341,13 @@ class Mon2Display {
     // 1. Vertical bottom bar update
     if (vContent && vApp) {
       if (!isShowingID) {
+        vContent.style.setProperty("display", "none", "important");
+        vApp.style.setProperty("display", "flex", "important");
         vContent.classList.add("hidden");
         vApp.classList.remove("hidden");
       } else {
+        vContent.style.setProperty("display", "flex", "important");
+        vApp.style.setProperty("display", "none", "important");
         vContent.classList.remove("hidden");
         vApp.classList.add("hidden");
         if (vZh) vZh.textContent = titleZh;
@@ -355,9 +359,13 @@ class Mon2Display {
     // 2. Horizontal header bar update
     if (hWrap && hApp) {
       if (!isShowingID) {
+        hWrap.style.setProperty("display", "none", "important");
+        hApp.style.setProperty("display", "flex", "important");
         hWrap.classList.add("hidden");
         hApp.classList.remove("hidden");
       } else {
+        hWrap.style.setProperty("display", "flex", "important");
+        hApp.style.setProperty("display", "none", "important");
         hWrap.classList.remove("hidden");
         hApp.classList.add("hidden");
         if (hZh) hZh.textContent = titleZh;
@@ -534,10 +542,13 @@ class Mon2Display {
 
     for (const [m, el] of Object.entries(panels)) {
       if (!el) continue;
-      if (parseInt(m, 10) === this.Mon2_Mode) {
+      const isActive = (parseInt(m, 10) === this.Mon2_Mode);
+      if (isActive) {
+        el.style.setProperty("display", "flex", "important");
         el.classList.remove("hidden");
         el.classList.add("active");
       } else {
+        el.style.setProperty("display", "none", "important");
         el.classList.add("hidden");
         el.classList.remove("active");
       }
@@ -764,7 +775,17 @@ class Mon2Display {
     const badgeNum = document.getElementById("badge-route-num");
     const destZh = document.getElementById("dest-zh");
     const destEn = document.getElementById("dest-en");
-    if (badgeNum) badgeNum.textContent = r.code;
+    if (badgeNum) {
+      badgeNum.textContent = r.code;
+      badgeNum.classList.remove("scale-four", "scale-three", "scale-normal");
+      if (r.code.length >= 4) {
+        badgeNum.classList.add("scale-four");
+      } else if (r.code.length === 3) {
+        badgeNum.classList.add("scale-three");
+      } else {
+        badgeNum.classList.add("scale-normal");
+      }
+    }
     if (destZh) destZh.textContent = r.dest.zh;
     if (destEn) destEn.textContent = `to ${r.dest.en}`;
 
@@ -802,6 +823,7 @@ class Mon2Display {
     }
 
     this.updateDriverDisplay();
+    this.updateActivePanel();
   }
 
   renderChineseTrioStops(curIdx) {

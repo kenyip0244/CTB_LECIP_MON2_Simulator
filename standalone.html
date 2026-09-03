@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CTB LECIP MON2 SIMULATOR | 城巴旅客資訊系統模擬器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,700&display=swap" rel="stylesheet">
   <style>
 /* ==========================================================================
    CTB LECIP MON2 SIMULATOR - STYLESHEET
@@ -408,6 +411,11 @@ body {
   font-family: "Segoe UI", Roboto, monospace;
 }
 
+/* Universal Hidden */
+.hidden {
+  display: none !important;
+}
+
 /* 2. Main Content Area */
 .mon2-main {
   flex: 1;
@@ -415,14 +423,23 @@ body {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 12px;
+  padding: 8px 10px;
+  min-height: 0;
 }
 
+/* Mon2 Content Pages (Strictly One Active at a Time - 輪流轉頁，絕不堆疊) */
 .content-page {
+  display: none !important;
   flex: 1;
-  display: flex;
   flex-direction: column;
-  animation: fadeIn 0.4s ease-out;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+.content-page.active {
+  display: flex !important;
+  animation: fadeIn 0.3s ease-out;
 }
 
 @keyframes fadeIn {
@@ -2572,6 +2589,159 @@ body {
   clip-path: polygon(18px 0%, 100% 0%, 100% 100%, 0% 100%) !important;
   padding-left: 12px !important;
   height: 100% !important;
+}
+
+
+/* ==========================================================================
+   STRICT ADHERENCE TO OFFICIAL PHOTOSHOP TEMPLATES (All.psd, Chinese.psd,
+   English.psd, Fare.psd, Interchange.psd, Route.psd, Font Download.txt)
+   ========================================================================== */
+:root {
+  --font-chinese: "Noto Sans HK", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-english: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--font-english);
+}
+
+/* 1. Route.psd Specifications (Character-length condensed font scaling) */
+.header-route-badge .route-num {
+  font-family: var(--font-english);
+  font-weight: 900;
+  display: inline-block;
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+}
+
+/* Route.psd Layer: Four String (e.g. 930X, E73C) */
+.route-num.scale-four {
+  transform: scaleX(0.64) !important;
+}
+
+/* Route.psd Layer: Three String (e.g. 780, 905, A12, 702) */
+.route-num.scale-three {
+  transform: scaleX(0.77) !important;
+}
+
+/* Route.psd Layer: One or Two String (e.g. 20, 8P, H1) */
+.route-num.scale-normal {
+  transform: scaleX(1.0) !important;
+}
+
+/* Route.psd Destination CHT & ENG */
+.dest-zh {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.01em;
+}
+
+.dest-en {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Chinese.psd & English.psd Specifications */
+#panel-mode-1 .trio-main-name {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.008em; /* Tracking -8 in Chinese.psd */
+}
+
+#panel-mode-1 .trio-sub-text {
+  font-family: var(--font-chinese) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Chinese.psd */
+}
+
+#panel-mode-2 .trio-main-name {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  line-height: 1.15;
+}
+
+#panel-mode-2 .trio-sub-text {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+}
+
+/* 3. Fare.psd Specifications */
+.stage-name-col .stage-zh {
+  font-family: var(--font-chinese) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em; /* Tracking 60 in Fare.psd */
+}
+
+.stage-name-col .stage-en {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+}
+
+.stage-price-col .price-val {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0;
+}
+
+/* 4. Interchange.psd Specifications */
+.ic-route-badge {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Interchange.psd */
+}
+
+.ic-dest-zh {
+  font-family: var(--font-chinese) !important;
+  letter-spacing: 0.06em; /* Tracking 60 in Interchange.psd */
+  font-weight: 700;
+}
+
+.ic-dest-en {
+  font-family: var(--font-english) !important;
+  font-weight: 700;
+}
+
+.ic-eta-val {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Interchange.psd */
+}
+
+/* 5. All.psd (Mode 5 - 13Stop Ladder) Specifications */
+.ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.06em; /* Tracking 60 in All.psd */
+}
+
+.ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em; /* Tracking -40 in All.psd */
+}
+
+/* 6. LECIP_Mon2_Driver_ID.psd Specifications */
+.v-id-label .zh, .v-id-label .en {
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.v-id-num {
+  font-family: var(--font-english) !important;
+  font-size: 24px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Driver_ID.psd */
+}
+
+.v-motto-zh, .v-motto-en {
+  font-family: var(--font-chinese) !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.02em; /* Tracking 20 in Driver_ID.psd */
+}
+
+.time-value {
+  font-family: var(--font-english) !important;
+  font-weight: 900 !important;
 }
 
 </style>
@@ -4792,7 +4962,7 @@ class Mon2Display {
           <!-- Main Content Area containing Modes 1, 2, 3, 4, 5 -->
           <main class="mon2-main" id="mon2-main">
             <!-- MODE 1: 中文停靠三站 (LECIP_Mon2_Mode1 / Chinese) -->
-            <section id="panel-mode-1" class="content-page active">
+            <section id="panel-mode-1" class="content-page active" style="display: flex;">
               <div class="page-top-strip">
                 <div class="status-callout zh-callout" id="zh-status-callout">
                   <span class="status-indicator-arrow">▼</span>
@@ -4804,7 +4974,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 2: 英文停靠三站 (LECIP_Mon2_Mode1 / English) -->
-            <section id="panel-mode-2" class="content-page hidden">
+            <section id="panel-mode-2" class="content-page hidden" style="display: none;">
               <div class="page-top-strip">
                 <div class="status-callout en-callout" id="en-status-callout">
                   <span class="status-indicator-arrow">▼</span>
@@ -4816,7 +4986,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 3: 分段收費 / 轉乘路線 (LECIP_Mon2_Mode3) -->
-            <section id="panel-mode-3" class="content-page hidden">
+            <section id="panel-mode-3" class="content-page hidden" style="display: none;">
               <div class="section-title-bar interchange-header">
                 <span class="bar-zh" id="mode3-title-zh">轉乘路線</span>
                 <span class="bar-en" id="mode3-title-en">Interchange routes</span>
@@ -4831,7 +5001,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 4: 電子海報輪播 (LECIP_Mon2_Mode4) -->
-            <section id="panel-mode-4" class="content-page hidden">
+            <section id="panel-mode-4" class="content-page hidden" style="display: none;">
               <div class="poster-container" id="poster-container">
                 <div class="poster-tag" id="poster-tag">零排放 綠色運輸 Mission Zero</div>
                 <div class="poster-visual" id="poster-visual">
@@ -4846,7 +5016,7 @@ class Mon2Display {
             </section>
 
             <!-- MODE 5: 隨後十三站全覽總表 (LECIP_Mon2_Mode5 / AllStop) -->
-            <section id="panel-mode-5" class="content-page hidden">
+            <section id="panel-mode-5" class="content-page hidden" style="display: none;">
               <div class="page-top-strip">
                 <div class="status-callout bi-callout" id="bi-status-callout">
                   <span class="status-indicator-arrow">▼</span>
@@ -4891,7 +5061,7 @@ class Mon2Display {
               </div>
 
               <!-- When Driver Hidden: LECIP_Mon2_No_Driver_ID.png -->
-              <div class="v-driver-no-id-content hidden" id="v-driver-app">
+              <div class="v-driver-no-id-content hidden" id="v-driver-app" style="display: none;">
                 <div class="no-id-text-wrap">
                   <div class="no-id-zh">請即下載新巴城巴App</div>
                   <div class="no-id-en">Download Citybus NWFB App</div>
@@ -4979,9 +5149,13 @@ class Mon2Display {
     // 1. Vertical bottom bar update
     if (vContent && vApp) {
       if (!isShowingID) {
+        vContent.style.setProperty("display", "none", "important");
+        vApp.style.setProperty("display", "flex", "important");
         vContent.classList.add("hidden");
         vApp.classList.remove("hidden");
       } else {
+        vContent.style.setProperty("display", "flex", "important");
+        vApp.style.setProperty("display", "none", "important");
         vContent.classList.remove("hidden");
         vApp.classList.add("hidden");
         if (vZh) vZh.textContent = titleZh;
@@ -4993,9 +5167,13 @@ class Mon2Display {
     // 2. Horizontal header bar update
     if (hWrap && hApp) {
       if (!isShowingID) {
+        hWrap.style.setProperty("display", "none", "important");
+        hApp.style.setProperty("display", "flex", "important");
         hWrap.classList.add("hidden");
         hApp.classList.remove("hidden");
       } else {
+        hWrap.style.setProperty("display", "flex", "important");
+        hApp.style.setProperty("display", "none", "important");
         hWrap.classList.remove("hidden");
         hApp.classList.add("hidden");
         if (hZh) hZh.textContent = titleZh;
@@ -5172,10 +5350,13 @@ class Mon2Display {
 
     for (const [m, el] of Object.entries(panels)) {
       if (!el) continue;
-      if (parseInt(m, 10) === this.Mon2_Mode) {
+      const isActive = (parseInt(m, 10) === this.Mon2_Mode);
+      if (isActive) {
+        el.style.setProperty("display", "flex", "important");
         el.classList.remove("hidden");
         el.classList.add("active");
       } else {
+        el.style.setProperty("display", "none", "important");
         el.classList.add("hidden");
         el.classList.remove("active");
       }
@@ -5402,7 +5583,17 @@ class Mon2Display {
     const badgeNum = document.getElementById("badge-route-num");
     const destZh = document.getElementById("dest-zh");
     const destEn = document.getElementById("dest-en");
-    if (badgeNum) badgeNum.textContent = r.code;
+    if (badgeNum) {
+      badgeNum.textContent = r.code;
+      badgeNum.classList.remove("scale-four", "scale-three", "scale-normal");
+      if (r.code.length >= 4) {
+        badgeNum.classList.add("scale-four");
+      } else if (r.code.length === 3) {
+        badgeNum.classList.add("scale-three");
+      } else {
+        badgeNum.classList.add("scale-normal");
+      }
+    }
     if (destZh) destZh.textContent = r.dest.zh;
     if (destEn) destEn.textContent = `to ${r.dest.en}`;
 
@@ -5440,6 +5631,7 @@ class Mon2Display {
     }
 
     this.updateDriverDisplay();
+    this.updateActivePanel();
   }
 
   renderChineseTrioStops(curIdx) {
