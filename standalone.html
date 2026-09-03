@@ -2744,6 +2744,641 @@ body {
   font-weight: 900 !important;
 }
 
+
+/* ==========================================================================
+   OFFICIAL CITYFLYER BASE THEME (LECIP_Mon2_Main_Panel.png, Fare_11/12/22,
+   Interchange_11/12/22, Driver_ID, No_Driver_ID)
+   ========================================================================== */
+:root {
+  --cityflyer-crimson: #B70028;
+  --cityflyer-gold: #C5A059;
+}
+
+/* 1. Main Frame & Header for Cityflyer (LECIP_Mon2_Main_Panel.png) */
+.mode-cityflyer .mon2-header {
+  background: var(--cityflyer-crimson) !important;
+  border-bottom: 3.5px solid var(--cityflyer-gold) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-cityflyer .header-route-badge {
+  background: #FFFFFF !important;
+  color: var(--cityflyer-crimson) !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.35) !important;
+  border: 1px solid var(--cityflyer-gold);
+}
+
+.mode-cityflyer .dest-prefix {
+  color: #FEE2E2 !important;
+  font-weight: 800;
+}
+
+.mode-cityflyer .dest-zh {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.mode-cityflyer .dest-en {
+  color: #FDE047 !important; /* Gold English destination */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.mode-cityflyer .header-time-box {
+  background: #E5E7EB !important;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #CBD5E1;
+}
+
+.mode-cityflyer .header-time-box .time-label {
+  color: #4B5563 !important;
+}
+
+.mode-cityflyer .header-time-box .time-value {
+  color: #111827 !important;
+}
+
+/* 2. Mode 3 Base for Cityflyer (LECIP_Mon2_Fare_11/12/22 & Interchange_11/12/22) */
+.mode-cityflyer #panel-mode-3 .section-title-bar {
+  background: var(--cityflyer-crimson) !important;
+  color: #FFFFFF !important;
+  border-bottom: 1px solid var(--cityflyer-gold);
+}
+
+.mode-cityflyer .mode3-fare-base {
+  border: 3.5px solid var(--cityflyer-crimson) !important;
+  box-shadow: 0 2px 8px rgba(183,0,40,0.2);
+}
+
+.mode-cityflyer .stage-price-col .price-val {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .ic-route-badge {
+  background: var(--cityflyer-crimson) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-cityflyer .ic-eta-val {
+  color: var(--cityflyer-crimson) !important;
+}
+
+/* 3. Driver Bar for Cityflyer (71ead4de.png & bc5de250.png) */
+.mode-cityflyer .v-driver-card {
+  border-top: 3px solid var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .v-col-motto {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .v-col-route-info {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .header-driver-box {
+  background: var(--cityflyer-crimson) !important;
+  border: 1.5px solid var(--cityflyer-gold) !important;
+}
+
+/* 4. Stop Callouts & Circles for Cityflyer */
+.mode-cityflyer .zh-callout, 
+.mode-cityflyer .en-callout, 
+.mode-cityflyer .bi-callout {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .circle-active {
+  background: var(--cityflyer-crimson) !important;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 2px 4px rgba(183,0,40,0.4) !important;
+}
+
+.mode-cityflyer .trio-arrow-line {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .trio-arrow-line::after {
+  border-top-color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .circle-upcoming {
+  color: var(--cityflyer-crimson) !important;
+  border-color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .eta-big {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .tag-active-stop {
+  background: var(--cityflyer-crimson) !important;
+}
+
+
+/* ==========================================================================
+   AUTHENTIC ROUTE ARROW TRACK BAR (1.png to 10.png)
+   ========================================================================== */
+.trio-layout-wrapper,
+.ladder-layout-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #CBD5E1;
+}
+
+.route-nav-track-col {
+  width: 42px;
+  background: #0022AA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
+  margin-left: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+  box-shadow: 1px 0 3px rgba(0,0,0,0.1);
+}
+
+.mode-cityflyer .route-nav-track-col {
+  background: var(--cityflyer-crimson) !important; /* #B70028 matching 1.png - 10.png */
+}
+
+/* Orange Top Chevron Arrow from 1.png - 10.png */
+.track-bar-chevron {
+  width: 32px;
+  height: 22px;
+  background: #EA580C;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 65%, 50% 100%, 0% 65%);
+  margin-top: 4px;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+/* Red Active Circle with White Inner Stroke */
+.track-circle-active {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FF0000;
+  border: 2.5px solid #FFFFFF;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-english);
+  flex-shrink: 0;
+  margin: 6px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+
+/* White Subsequent Circles with Grey Inner Stroke */
+.track-circle-upcoming {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #94A3B8;
+  color: #0F172A;
+  font-size: 14px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-english);
+  flex-shrink: 0;
+  margin: 6px 0;
+}
+
+.mode-cityflyer .track-circle-upcoming {
+  color: var(--cityflyer-crimson);
+}
+
+/* Ladder Track specific adjustments */
+.ladder-track {
+  margin-left: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.ladder-track .track-circle-active,
+.ladder-track .track-circle-upcoming {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  margin: 3px 0;
+}
+
+.ladder-track .track-bar-chevron {
+  width: 26px;
+  height: 18px;
+  margin-bottom: 2px;
+}
+
+.trio-content-col,
+.ladder-content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.trio-row-item {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.trio-row-item:last-child {
+  border-bottom: none;
+}
+
+
+/* ==========================================================================
+   OFFICIAL ARROW STYLES (LECIP_Mon2_Arrow_1, 2, 3, 4, 11)
+   ========================================================================== */
+.track-white-chevron {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px 0;
+  flex-shrink: 0;
+}
+
+.route-nav-track-col.arrow-rounded {
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
+}
+
+.route-nav-track-col.arrow-pointed {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.track-bar-point-bottom {
+  width: 100%;
+  height: 22px;
+  background: inherit;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* Mode 3 Layout with Left Arrow Track */
+.fare-main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 4px 0;
+}
+
+.mode3-track {
+  margin-left: 6px;
+  margin-right: 6px;
+  height: calc(100% - 12px);
+}
+
+.mode3-solid-bar {
+  flex: 1;
+  width: 100%;
+  background: inherit;
+}
+
+
+/* ==========================================================================
+   OFFICIAL 城巴市區線 BASE THEME (LECIP_Mon2_Main_Panel_G.png, Main_Panel_P.png,
+   Fare_11/12/22.png, Interchange_11/12/22.png, Driver_ID.png, No_Driver_ID.png)
+   ========================================================================== */
+:root {
+  --ctb-royal-blue: #0022AA;
+  --ctb-bright-yellow: #FFD100;
+  --ctb-divider-red: #D92525;
+}
+
+/* 1. Main Header for CTB Normal (LECIP_Mon2_Main_Panel_G/P) */
+.mode-ctb .mon2-header {
+  background: #FFFFFF !important;
+  border-bottom: 3.5px solid var(--ctb-divider-red) !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+  min-height: 68px !important;
+}
+
+/* Left Blue Square Route Number Badge */
+.mode-ctb .header-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  border-radius: 0 !important;
+  width: 95px !important;
+  min-width: 95px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Center Vibrant Yellow Destination Box */
+.mode-ctb .header-dest-box {
+  background: var(--ctb-bright-yellow) !important;
+  padding: 8px 14px !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mode-ctb .dest-prefix {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+.mode-ctb .dest-zh {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.mode-ctb .dest-en {
+  color: #1F2937 !important;
+  font-weight: 700 !important;
+}
+
+/* Right Time Box (Grey in Main_Panel_G / Purple in Main_Panel_P) */
+.mode-ctb.theme-grey .header-time-box {
+  background: #E5E7EB !important;
+  color: #111827 !important;
+  padding: 8px 14px !important;
+  min-width: 90px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.mode-ctb.theme-purple .header-time-box {
+  background: #EDE7F6 !important;
+  color: #111827 !important;
+  padding: 8px 14px !important;
+  min-width: 90px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.mode-ctb .header-time-box .time-label {
+  color: #4B5563 !important;
+  font-size: 10px !important;
+}
+
+.mode-ctb .header-time-box .time-value {
+  color: #0F172A !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+
+/* 2. Mode 3 Fare Base for CTB Normal (LECIP_Mon2_Fare_11/12/22.png) */
+.mode-ctb #panel-mode-3 .section-title-bar {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  border-bottom: none !important;
+}
+
+.mode-ctb .mode3-fare-base {
+  border: 3.5px solid var(--ctb-royal-blue) !important;
+  box-shadow: 0 2px 8px rgba(0,34,170,0.2) !important;
+}
+
+.mode-ctb .stage-price-col .price-val {
+  color: var(--ctb-royal-blue) !important;
+}
+
+/* 3. Mode 3 Interchange Base for CTB Normal (LECIP_Mon2_Interchange_11/12/22.png) */
+.mode-ctb #panel-mode-3 .interchange-header {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-ctb .ic-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-ctb .ic-eta-val {
+  color: var(--ctb-royal-blue) !important;
+}
+
+/* 4. Driver Bar for CTB Normal (LECIP_Mon2_Driver_ID.png & No_Driver_ID.png) */
+.mode-ctb .v-driver-card {
+  border-top: 3.5px solid var(--ctb-divider-red) !important;
+  background: #FFFFFF !important;
+}
+
+.mode-ctb .v-captain-zh, 
+.mode-ctb .v-captain-en,
+.mode-ctb .v-id-label .zh, 
+.mode-ctb .v-id-label .en,
+.mode-ctb .v-id-num {
+  color: var(--ctb-royal-blue) !important;
+}
+
+.mode-ctb .v-col-motto {
+  background: var(--ctb-royal-blue) !important;
+}
+
+.mode-ctb .v-col-route-info {
+  background: var(--ctb-royal-blue) !important;
+}
+
+/* 5. Navigation Track Bar for CTB Normal */
+.mode-ctb .route-nav-track-col {
+  background: var(--ctb-royal-blue) !important;
+}
+
+.mode-ctb .track-circle-upcoming {
+  color: var(--ctb-royal-blue) !important;
+}
+
+
+/* ==========================================================================
+   EXTRA PAGE 3 VERTICAL WHITE DOTS (13Stop\L\ as in d4b085ba.png - 3ed0c32a.png)
+   ========================================================================== */
+.track-dots-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+  flex-shrink: 0;
+}
+
+.track-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.row-ellipsis {
+  font-size: 11px;
+  font-style: italic;
+}
+
+
+/* ==========================================================================
+   ROUTE SEARCH, REAL GPS HUD & FULLSCREEN POMO POSTER
+   ========================================================================== */
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.route-search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #1E293B;
+  border: 1.5px solid #0284C7;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.route-search-dropdown.hidden {
+  display: none !important;
+}
+
+.route-search-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #334155;
+  color: #F8FAFC;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s ease;
+}
+
+.route-search-item:hover {
+  background: #2563EB;
+}
+
+.route-badge-mini {
+  background: #0022AA;
+  color: #FFF;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* GPS Telemetry HUD */
+.gps-telemetry-card {
+  background: #0F172A;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.telemetry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.telemetry-row:last-child {
+  border-bottom: none;
+}
+
+.telemetry-label {
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.telemetry-val {
+  color: #F8FAFC;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.highlight-dist {
+  color: #38BDF8 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+/* Target Distance Badge on MON2 Screen */
+.target-dist-badge {
+  background: rgba(0,0,0,0.3);
+  color: #FDE047;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+  font-weight: 800;
+  font-family: var(--font-english);
+}
+
+/* Mode 4 Full Screen Poster ("讀取專案中 pomo folder 的圖片 隨機播放其中一張 全屏播放") */
+.in-mode-4-fullscreen .mon2-header,
+.in-mode-4-fullscreen .mon2-footer,
+.in-mode-4-fullscreen .page-top-strip {
+  display: none !important;
+}
+
+.in-mode-4-fullscreen #panel-mode-4 {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 9999 !important;
+  background: #000000 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.poster-fullscreen-layer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  overflow: hidden;
+}
+
+.pomo-fullscreen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000000;
+}
+
 </style>
 </head>
 <body>
@@ -2797,13 +3432,22 @@ body {
         </div>
       </div>
 
-      <!-- 1. Citybus API: Route, Direction & Trip (路線、方向、班次選擇) -->
+      <!-- 1. Citybus API: Route, Direction & Trip (路線搜尋、方向、班次選擇) -->
       <div class="console-section">
-        <div class="section-label">城巴 API 路線與班次選擇 (Route & Trip)</div>
+        <div class="section-label">城巴 API 所有路線搜尋 (Route Search & Selection)</div>
         
+        <div class="form-row">
+          <label for="route-search-input">🔍 搜尋路線 (Search Route)：</label>
+          <div class="search-input-wrapper">
+            <input type="text" id="route-search-input" class="form-input" placeholder="輸入路線編號或關鍵字 (如 914, A12, 780, 102)..." autocomplete="off">
+            <div id="route-search-dropdown" class="route-search-dropdown hidden"></div>
+          </div>
+        </div>
+
         <div class="form-row">
           <label for="api-route-select">選擇路線 (Route)：</label>
           <select id="api-route-select" class="form-select">
+            <option value="914" selected>【城巴】914 (海麗邨 ➔ 銅鑼灣(天后))</option>
             <option value="780">【城巴】780 (柴灣(東) ➔ 中環碼頭)</option>
             <option value="905">【城巴】905 (會展站 ➔ 荔枝角(盈暉臺))</option>
             <option value="A12">【機場快線】A12 (機場 ➔ 小西灣(藍灣半島))</option>
@@ -2851,6 +3495,33 @@ body {
           </div>
         </div>
 
+        <!-- Real GPS & Target Distance ("Use real GPS" & "目標站距：實時動態顯示距離下一個目標站點的剩餘米數。是時間計算的") -->
+        <div class="form-row" style="margin-top: 8px;">
+          <label style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+            <input type="checkbox" id="ctrl-real-gps-toggle" style="width: 18px; height: 18px; cursor: pointer;">
+            <span style="font-weight: 900; color: #38BDF8;">🛰️ 啟用真實 GPS 追蹤 (Use Real GPS)</span>
+          </label>
+        </div>
+
+        <div class="gps-telemetry-card" id="gps-telemetry-card">
+          <div class="telemetry-row">
+            <span class="telemetry-label">定位狀態：</span>
+            <span class="telemetry-val" id="gps-status-indicator"><span style="color:#EAB308">●</span> 模擬行駛時間計算模式 (Time-Based Calculation)</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-label">目標站距 (剩餘米數)：</span>
+            <span class="telemetry-val highlight-dist" id="gps-target-distance-meters">距離下一站: 142m</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-label">即時車速：</span>
+            <span class="telemetry-val" id="gps-speed-kmh">36 km/h</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-label">GPS 座標：</span>
+            <span class="telemetry-val" id="gps-coords-display">22.27950° N, 114.18350° E</span>
+          </div>
+        </div>
+
         <!-- Speed Controls -->
         <div class="form-row" style="margin-top: 8px;">
           <label>巡航速度：</label>
@@ -2887,6 +3558,16 @@ body {
       <!-- 4. Mon2 Hardware Parameters -->
       <div class="console-section">
         <div class="section-label">MON2 車載硬體參數 (Mon2_constfile.txt)</div>
+        <div class="form-row">
+          <label for="ctrl-theme-base">車載主題基底 (Base Theme)：</label>
+          <select id="ctrl-theme-base" class="form-select">
+            <option value="auto" selected>自動 (依路線判定 Auto)</option>
+            <option value="cityflyer">Cityflyer 機場快線紅金基底 (Cityflyer Base)</option>
+            <option value="ctb">城巴市區藍黃基底 (Citybus Normal Base)</option>
+            <option value="nwfb">新巴市區橙綠基底 (NWFB Normal Base)</option>
+            <option value="rickshaw">人力車觀光紅金基底 (Rickshaw Base)</option>
+          </select>
+        </div>
         <div class="form-row">
           <label for="ctrl-orient-select">顯示方向 (DirectionV)：</label>
           <select id="ctrl-orient-select" class="form-select">
@@ -2949,6 +3630,39 @@ const MON2_DATA = {
   // Preset Routes
   routes: [
     {
+      code: "914",
+      company: "CTB",
+      name: "914",
+      origin: { zh: "銅鑼灣 (天后)", en: "Causeway Bay (Tin Hau)" },
+      dest: { zh: "海麗邨", en: "Hoi Lai Estate" },
+      colorHex: "#0022AA",
+      textColor: "#FFFFFF",
+      isAirport: false,
+      isRickshaw: false,
+      stops: [
+        { num: 1, zh: "銅鑼灣 (天后)", en: "Causeway Bay (Tin Hau)", lat: 22.2825, long: 114.1925, fare: "$11.4" },
+        { num: 2, zh: "香港中央圖書館", en: "Hong Kong Central Library", lat: 22.2801, long: 114.1895, fare: "$11.4" },
+        { num: 3, zh: "維多利亞公園", en: "Victoria Park", lat: 22.2805, long: 114.1870, fare: "$11.4" },
+        { num: 4, zh: "怡和街", en: "Yee Wo Street", lat: 22.2798, long: 114.1852, fare: "$11.4" },
+        { num: 5, zh: "銅鑼灣 - 怡和街", en: "Causeway Bay - Yee Wo Street", subZh: "銅鑼灣站", subEn: "Causeway Bay Station", lat: 22.2795, long: 114.1835, fare: "$11.4", landmarks: ["銅鑼灣站", "崇光百貨"] },
+        { num: 6, zh: "堅拿道東", en: "Canal Road East", subZh: "時代廣場", subEn: "Times Square", lat: 22.2785, long: 114.1818, fare: "$11.4", landmarks: ["時代廣場"] },
+        { num: 7, zh: "北海中心", en: "CNT Tower", subZh: "CNT Tower", subEn: "CNT Tower", lat: 22.2778, long: 114.1785, fare: "$11.4" },
+        { num: 8, zh: "軒尼詩道官立小學", en: "Hennessy Road Gov Primary School", lat: 22.2772, long: 114.1755, fare: "$11.4" },
+        { num: 9, zh: "修頓球場", en: "Southorn Playground", subZh: "灣仔站", subEn: "Wan Chai Station", lat: 22.2770, long: 114.1725, fare: "$11.4" },
+        { num: 10, zh: "金鐘 - 高等法院", en: "Admiralty - High Court", lat: 22.2785, long: 114.1645, fare: "$11.4" },
+        { num: 11, zh: "匯豐總行大廈", en: "HSBC Main Building", lat: 22.2802, long: 114.1595, fare: "$11.4" },
+        { num: 12, zh: "皇后街", en: "Queen Street", lat: 22.2882, long: 114.1465, fare: "$11.4" },
+        { num: 13, zh: "西區海底隧道收費廣場", en: "Western Harbour Crossing Toll Plaza", subZh: "西隧轉乘站", subEn: "WHC BBI", lat: 22.3025, long: 114.1585, fare: "$6.0" },
+        { num: 14, zh: "柯士甸道西", en: "Austin Road West", subZh: "西九文化區", subEn: "West Kowloon Cultural District", lat: 22.3045, long: 114.1635, fare: "$6.0" },
+        { num: 15, zh: "富榮花園", en: "Charming Garden", lat: 22.3160, long: 114.1630, fare: "$6.0" },
+        { num: 16, zh: "柏景灣", en: "Park Avenue", subZh: "奧海城二期", subEn: "Olympian City 2", lat: 22.3180, long: 114.1615, fare: "$6.0" },
+        { num: 17, zh: "海富苑", en: "Hoi Fu Court", lat: 22.3205, long: 114.1605, fare: "$6.0" },
+        { num: 18, zh: "富昌邨", en: "Fu Cheong Estate", lat: 22.3295, long: 114.1545, fare: "$6.0" },
+        { num: 19, zh: "東京街西", en: "Tonkin Street West", lat: 22.3325, long: 114.1525, fare: "$6.0" },
+        { num: 20, zh: "海麗邨", en: "Hoi Lai Estate", lat: 22.3355, long: 114.1510, fare: "$6.0", isTerminus: true }
+      ]
+    },
+    {
       id: "780",
       company: "CTB",
       isAirport: false,
@@ -2964,6 +3678,7 @@ const MON2_DATA = {
           num: 1,
           zh: "柴灣 (東)",
           en: "Chai Wan (East)",
+          lat: 22.2685, long: 114.2468,
           subZh: "總站",
           subEn: "Terminus",
           fare: "$7.7",
@@ -2974,6 +3689,7 @@ const MON2_DATA = {
           num: 2,
           zh: "樂軒臺",
           en: "Lok Hin Terrace",
+          lat: 22.2642, long: 114.2384,
           subZh: "柴灣道",
           subEn: "Chai Wan Road",
           fare: "$7.7",
@@ -2983,6 +3699,7 @@ const MON2_DATA = {
           num: 3,
           zh: "環翠商場",
           en: "Wan Tsui Shopping Centre",
+          lat: 22.2618, long: 114.2361,
           subZh: "華廈街",
           subEn: "Wah Haa Street",
           fare: "$7.7",
@@ -2992,6 +3709,7 @@ const MON2_DATA = {
           num: 4,
           zh: "環翠邨澤翠樓",
           en: "Chak Tsui House Wan Tsui Estate",
+          lat: 22.2605, long: 114.2355,
           subZh: "翡翠道",
           subEn: "Fei Tsui Road",
           fare: "$7.7",
@@ -3001,6 +3719,7 @@ const MON2_DATA = {
           num: 5,
           zh: "興華邨卓華樓",
           en: "Cheuk Wah House Hing Wah Estate",
+          lat: 22.2625, long: 114.2335,
           subZh: "環翠道",
           subEn: "Wan Tsui Road",
           fare: "$7.7",
@@ -3010,6 +3729,7 @@ const MON2_DATA = {
           num: 6,
           zh: "興華邨豐興樓",
           en: "Fung Hing House Hing Wah Estate",
+          lat: 22.2638, long: 114.2325,
           subZh: "環翠道",
           subEn: "Wan Tsui Road",
           fare: "$7.7",
@@ -3019,6 +3739,7 @@ const MON2_DATA = {
           num: 7,
           zh: "興華邨裕興樓",
           en: "Yu Hing House Hing Wah Estate",
+          lat: 22.2652, long: 114.2312,
           subZh: "柴灣道",
           subEn: "Chai Wan Road",
           fare: "$7.7",
@@ -3028,6 +3749,7 @@ const MON2_DATA = {
           num: 8,
           zh: "天主教海星堂",
           en: "Star of the Sea Catholic Church",
+          lat: 22.268, long: 114.2295,
           subZh: "柴灣道",
           subEn: "Chai Wan Road",
           fare: "$7.7",
@@ -3037,6 +3759,7 @@ const MON2_DATA = {
           num: 9,
           zh: "興民邨",
           en: "Hing Man Estate",
+          lat: 22.271, long: 114.227,
           subZh: "柴灣道",
           subEn: "Chai Wan Road",
           fare: "$7.7",
@@ -3046,6 +3769,7 @@ const MON2_DATA = {
           num: 10,
           zh: "山翠苑",
           en: "Shan Tsui Court",
+          lat: 22.2745, long: 114.2255,
           subZh: "東區醫院",
           subEn: "Eastern Hospital",
           fare: "$7.7",
@@ -3055,6 +3779,7 @@ const MON2_DATA = {
           num: 11,
           zh: "筲箕灣東官立中學",
           en: "Shau Kei Wan East Govt Secondary School",
+          lat: 22.2778, long: 114.224,
           subZh: "柴灣道",
           subEn: "Chai Wan Road",
           fare: "$7.7",
@@ -3064,6 +3789,7 @@ const MON2_DATA = {
           num: 12,
           zh: "阿公岩道",
           en: "A Kung Ngam Road",
+          lat: 22.2815, long: 114.223,
           subZh: "柴灣道",
           subEn: "Chai Wan Road",
           fare: "$7.7",
@@ -3073,6 +3799,7 @@ const MON2_DATA = {
           num: 13,
           zh: "舊灣仔警署",
           en: "Old Wan Chai Police Station",
+          lat: 22.2798, long: 114.1745,
           subZh: "香港會議展覽中心",
           subEn: "HK Convention and Exhibition Centre",
           fare: "$7.7",
@@ -3087,6 +3814,7 @@ const MON2_DATA = {
           num: 14,
           zh: "分域街",
           en: "Fenwick Street",
+          lat: 22.2785, long: 114.1702,
           subZh: "香港演藝學院",
           subEn: "Hong Kong Academy for Performing Arts",
           fare: "$7.7",
@@ -3096,6 +3824,7 @@ const MON2_DATA = {
           num: 15,
           zh: "海富中心",
           en: "Admiralty Centre",
+          lat: 22.2795, long: 114.165,
           subZh: "金鐘站",
           subEn: "Admiralty Station",
           fare: "$7.7",
@@ -3110,6 +3839,7 @@ const MON2_DATA = {
           num: 16,
           zh: "中環碼頭",
           en: "Central (Ferry Piers)",
+          lat: 22.2868, long: 114.1595,
           subZh: "終點站",
           subEn: "Terminus",
           fare: "$7.7",
@@ -4526,33 +5256,64 @@ class CitybusAPIService {
     this.apiOnline = true;
   }
 
-  // 1. Fetch All Citybus Routes
+  // 1. Fetch All Citybus Routes (with local cache and robust search support)
   async getRoutes() {
-    if (this.routeCache) return this.routeCache;
+    if (this.routeCache && this.routeCache.length > 0) return this.routeCache;
 
     try {
       const resp = await fetch(`${this.baseUrl}/route/ctb`, { cache: "default" });
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const json = await resp.json();
-      if (json && json.data) {
+      if (json && json.data && json.data.length > 0) {
         this.apiOnline = true;
-        this.routeCache = json.data;
-        return json.data;
+        // Merge preset routes if any are missing
+        const apiRoutes = json.data;
+        MON2_DATA.routes.forEach(pr => {
+          if (!apiRoutes.some(ar => ar.route === pr.code)) {
+            apiRoutes.push({
+              co: pr.company || "CTB",
+              route: pr.code,
+              orig_tc: pr.origin.zh,
+              orig_en: pr.origin.en,
+              dest_tc: pr.dest.zh,
+              dest_en: pr.dest.en
+            });
+          }
+        });
+        this.routeCache = apiRoutes;
+        return apiRoutes;
       }
     } catch (err) {
       console.warn("Citybus API /route/ctb unreachable, using fallback database:", err);
       this.apiOnline = false;
-      // Convert preset routes in data.js to route list format
-      return MON2_DATA.routes.map(r => ({
-        co: r.company || "CTB",
-        route: r.code,
-        orig_tc: r.origin.zh,
-        orig_en: r.origin.en,
-        dest_tc: r.dest.zh,
-        dest_en: r.dest.en,
-        isFallback: true
-      }));
     }
+
+    // Comprehensive fallback route database
+    const fallbackList = MON2_DATA.routes.map(r => ({
+      co: r.company || "CTB",
+      route: r.code,
+      orig_tc: r.origin.zh,
+      orig_en: r.origin.en,
+      dest_tc: r.dest.zh,
+      dest_en: r.dest.en,
+      isFallback: true
+    }));
+    this.routeCache = fallbackList;
+    return fallbackList;
+  }
+
+  // Search routes by keyword (e.g. "914", "A12", "780", "海麗", "銅鑼灣")
+  async searchRoutes(query) {
+    const all = await this.getRoutes();
+    if (!query || !query.trim()) return all.slice(0, 30);
+    const q = query.trim().toUpperCase();
+    return all.filter(r => 
+      (r.route && r.route.toUpperCase().includes(q)) ||
+      (r.orig_tc && r.orig_tc.includes(q)) ||
+      (r.dest_tc && r.dest_tc.includes(q)) ||
+      (r.orig_en && r.orig_en.toUpperCase().includes(q)) ||
+      (r.dest_en && r.dest_en.toUpperCase().includes(q))
+    ).slice(0, 50);
   }
 
   // 2. Fetch Route Stops for Direction (outbound / inbound)
@@ -4572,6 +5333,8 @@ class CitybusAPIService {
             stopId: item.stop,
             zh: stopInfo.name_tc || `車站 ${item.seq}`,
             en: stopInfo.name_en || `Stop ${item.seq}`,
+            lat: parseFloat(stopInfo.lat) || 0,
+            long: parseFloat(stopInfo.long) || 0,
             subZh: "",
             subEn: "",
             fare: "$7.7",
@@ -4880,6 +5643,7 @@ class Mon2Display {
 
     // Posters (Real Citybus logic: Random Poster Selection 這是隨機放的)
     this.randomPosterMode = true; // 預設為隨機播放
+    this.themeOverride = "auto"; // auto, cityflyer, ctb, nwfb, rickshaw
     this.currentPosterIndex = Math.floor(Math.random() * (MON2_DATA.posters ? MON2_DATA.posters.length : 21));
     this.Mon2_Now_Poster = (MON2_DATA.posters && MON2_DATA.posters[this.currentPosterIndex]) ? MON2_DATA.posters[this.currentPosterIndex].id : 1;
 
@@ -4967,6 +5731,7 @@ class Mon2Display {
                 <div class="status-callout zh-callout" id="zh-status-callout">
                   <span class="status-indicator-arrow">▼</span>
                   <span class="status-text" id="zh-status-text">下一站</span>
+                  <span class="target-dist-badge" id="hud-target-dist-zh">距 142m</span>
                 </div>
                 <div class="page-cycle-tag">Mode 1: 中文停靠三站</div>
               </div>
@@ -4979,6 +5744,7 @@ class Mon2Display {
                 <div class="status-callout en-callout" id="en-status-callout">
                   <span class="status-indicator-arrow">▼</span>
                   <span class="status-text" id="en-status-text">Next stop</span>
+                  <span class="target-dist-badge" id="hud-target-dist-en">142m</span>
                 </div>
                 <div class="page-cycle-tag">Mode 2: English 3-Stop</div>
               </div>
@@ -5252,6 +6018,8 @@ class Mon2Display {
           this.Mon2_Mode = 5;
           this.Mon2_Page_Timer = 0;
           this.Mon2_Page_Now = 1;
+          const curIdx = Math.max(0, this.telargo_busstop - 1);
+          this.renderMode5(curIdx);
         }
       } else if (this.Mon2_Mode === 4) {
         // Mode 4: Poster Mode (LECIP_Mon2_Mode4)
@@ -5301,9 +6069,11 @@ class Mon2Display {
           }
         }
       } else {
-        // Advance to next page of AllStop
+        // Advance to next page of AllStop (如果多於13站 就再開一頁)
         this.Mon2_Page_Now += 1;
         this.Mon2_Page_Timer = 0;
+        const curIdx = Math.max(0, this.telargo_busstop - 1);
+        this.renderMode5(curIdx);
       }
     }
 
@@ -5347,6 +6117,15 @@ class Mon2Display {
       4: document.getElementById("panel-mode-4"),
       5: document.getElementById("panel-mode-5")
     };
+
+    const frame = document.getElementById("mon2-frame");
+    if (frame) {
+      if (this.Mon2_Mode === 4) {
+        frame.classList.add("in-mode-4-fullscreen");
+      } else {
+        frame.classList.remove("in-mode-4-fullscreen");
+      }
+    }
 
     for (const [m, el] of Object.entries(panels)) {
       if (!el) continue;
@@ -5431,49 +6210,58 @@ class Mon2Display {
     this.renderAllPanels();
   }
 
+  setThemeBase(theme) {
+    this.themeOverride = theme;
+    this.detectRouteTexMode();
+  }
+
   // --- Route & Texture Mode Detection as in Mon2.osc lines 53-85 ---
   detectRouteTexMode() {
     if (!this.currentRoute) return;
     const r = this.currentRoute;
     const frame = document.getElementById("mon2-frame");
     const badge = document.getElementById("route-badge");
+    if (!frame) return;
 
-    if (r.code.startsWith("H") || r.isRickshaw) {
-      this.Mon2_Tex_Mode = 2; // NWFB RSB
-      if (frame) {
-        frame.classList.remove("mode-cityflyer", "mode-ctb", "mode-nwfb");
-        frame.classList.add("mode-rickshaw");
+    frame.classList.remove("mode-cityflyer", "mode-ctb", "mode-nwfb", "mode-rickshaw");
+
+    let targetTheme = this.themeOverride;
+    if (targetTheme === "auto") {
+      if (r.code.startsWith("H") || r.isRickshaw) {
+        targetTheme = "rickshaw";
+      } else if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
+        targetTheme = "cityflyer";
+      } else if (r.company === "NWFB") {
+        targetTheme = "nwfb";
+      } else {
+        targetTheme = "ctb";
       }
+    }
+
+    if (targetTheme === "cityflyer") {
+      this.Mon2_Tex_Mode = 1; // CTB CityFlyer
+      frame.classList.add("mode-cityflyer");
+      if (badge) {
+        badge.style.backgroundColor = "#FFFFFF";
+        badge.style.color = "#B70028";
+      }
+    } else if (targetTheme === "rickshaw") {
+      this.Mon2_Tex_Mode = 2; // NWFB RSB
+      frame.classList.add("mode-rickshaw");
       if (badge) {
         badge.style.backgroundColor = "#8B1E1E";
         badge.style.color = "#FFD700";
       }
-    } else if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
-      this.Mon2_Tex_Mode = 1; // CTB CityFlyer
-      if (frame) {
-        frame.classList.remove("mode-rickshaw", "mode-ctb", "mode-nwfb");
-        frame.classList.add("mode-cityflyer");
-      }
-      if (badge) {
-        badge.style.backgroundColor = r.colorHex || "#E6007E";
-        badge.style.color = "#FFFFFF";
-      }
-    } else if (r.company === "NWFB") {
+    } else if (targetTheme === "nwfb") {
       this.Mon2_Tex_Mode = 0; // NWFB Normal
-      if (frame) {
-        frame.classList.remove("mode-rickshaw", "mode-cityflyer", "mode-ctb");
-        frame.classList.add("mode-nwfb");
-      }
+      frame.classList.add("mode-nwfb");
       if (badge) {
         badge.style.backgroundColor = "#FF6600";
         badge.style.color = "#FFFFFF";
       }
     } else {
       this.Mon2_Tex_Mode = 0; // CTB Normal
-      if (frame) {
-        frame.classList.remove("mode-rickshaw", "mode-cityflyer", "mode-nwfb");
-        frame.classList.add("mode-ctb");
-      }
+      frame.classList.add("mode-ctb");
       if (badge) {
         badge.style.backgroundColor = r.colorHex || "#004B87";
         badge.style.color = r.textColor || "#FFFFFF";
@@ -5638,66 +6426,147 @@ class Mon2Display {
     const container = document.getElementById("zh-trio-stops");
     if (!container || !this.currentRoute) return;
 
-    container.innerHTML = "";
     const stops = this.currentRoute.stops;
-    const trio = stops.slice(curIdx, curIdx + 3);
+    const leftStop = Math.max(1, stops.length - curIdx);
+    const nCircles = Math.min(3, leftStop);
+    const trio = stops.slice(curIdx, curIdx + nCircles);
+    const isArrow4 = (leftStop >= 4);
 
-    trio.forEach((s, idx) => {
-      const isFirst = idx === 0;
+    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    let rowsHtml = "";
+
+    for (let idx = 0; idx < nCircles; idx++) {
+      const s = trio[idx];
+      const isFirst = (idx === 0);
       let etaMins = (idx * 2) + (isFirst ? 0 : 2);
 
-      const row = document.createElement("div");
-      row.className = `trio-row ${isFirst ? "row-active" : ""}`;
-      row.innerHTML = `
-        <div class="trio-seq-col">
-          <div class="trio-circle ${isFirst ? "circle-active" : "circle-upcoming"}">
-            ${s.num}
+      // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
+      if (idx > 0) {
+        circlesHtml += `
+          <div class="track-white-chevron">
+            <svg viewBox="0 0 24 14" width="22" height="12">
+              <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
-          ${idx < trio.length - 1 ? '<div class="trio-arrow-line"></div>' : ''}
-        </div>
-        <div class="trio-name-col">
-          <div class="trio-main-name">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
-          ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
-        </div>
-        <div class="trio-eta-col">
-          ${isFirst ? '<span class="tag-active-stop">此站</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`}
+        `;
+      }
+
+      circlesHtml += `
+        <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+          ${s.num}
         </div>
       `;
-      container.appendChild(row);
-    });
+
+      rowsHtml += `
+        <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
+          <div class="trio-name-col">
+            <div class="trio-main-name">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+            ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
+          </div>
+          <div class="trio-eta-col">
+            ${isFirst ? '<span class="tag-active-stop">此站</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`}
+          </div>
+        </div>
+      `;
+    }
+
+    // If leftStop >= 4 -> add white chevron and pointed downward arrow tip (Arrow_4.png)
+    if (isArrow4) {
+      circlesHtml += `
+        <div class="track-white-chevron">
+          <svg viewBox="0 0 24 14" width="22" height="12">
+            <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="track-bar-point-bottom"></div>
+      `;
+    }
+
+    const arrowClass = isArrow4 ? "arrow-pointed" : "arrow-rounded";
+
+    container.innerHTML = `
+      <div class="trio-layout-wrapper">
+        <div class="route-nav-track-col ${arrowClass}">
+          ${circlesHtml}
+        </div>
+        <div class="trio-content-col">
+          ${rowsHtml}
+        </div>
+      </div>
+    `;
   }
 
   renderEnglishTrioStops(curIdx) {
     const container = document.getElementById("en-trio-stops");
     if (!container || !this.currentRoute) return;
 
-    container.innerHTML = "";
     const stops = this.currentRoute.stops;
-    const trio = stops.slice(curIdx, curIdx + 3);
+    const leftStop = Math.max(1, stops.length - curIdx);
+    const nCircles = Math.min(3, leftStop);
+    const trio = stops.slice(curIdx, curIdx + nCircles);
+    const isArrow4 = (leftStop >= 4);
 
-    trio.forEach((s, idx) => {
-      const isFirst = idx === 0;
+    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    let rowsHtml = "";
+
+    for (let idx = 0; idx < nCircles; idx++) {
+      const s = trio[idx];
+      const isFirst = (idx === 0);
       let etaMins = (idx * 2) + (isFirst ? 0 : 2);
 
-      const row = document.createElement("div");
-      row.className = `trio-row ${isFirst ? "row-active" : ""}`;
-      row.innerHTML = `
-        <div class="trio-seq-col">
-          <div class="trio-circle ${isFirst ? "circle-active" : "circle-upcoming"}">
-            ${s.num}
+      // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
+      if (idx > 0) {
+        circlesHtml += `
+          <div class="track-white-chevron">
+            <svg viewBox="0 0 24 14" width="22" height="12">
+              <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
-          ${idx < trio.length - 1 ? '<div class="trio-arrow-line"></div>' : ''}
-        </div>
-        <div class="trio-name-col">
-          <div class="trio-main-name">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
-          ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
-        </div>
-        <div class="trio-eta-col">
-          ${isFirst ? '<span class="tag-active-stop">Now</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`}
+        `;
+      }
+
+      circlesHtml += `
+        <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+          ${s.num}
         </div>
       `;
-      container.appendChild(row);
-    });
+
+      rowsHtml += `
+        <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
+          <div class="trio-name-col">
+            <div class="trio-main-name">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
+            ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
+          </div>
+          <div class="trio-eta-col">
+            ${isFirst ? '<span class="tag-active-stop">Now</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`}
+          </div>
+        </div>
+      `;
+    }
+
+    if (isArrow4) {
+      circlesHtml += `
+        <div class="track-white-chevron">
+          <svg viewBox="0 0 24 14" width="22" height="12">
+            <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="track-bar-point-bottom"></div>
+      `;
+    }
+
+    const arrowClass = isArrow4 ? "arrow-pointed" : "arrow-rounded";
+
+    container.innerHTML = `
+      <div class="trio-layout-wrapper">
+        <div class="route-nav-track-col ${arrowClass}">
+          ${circlesHtml}
+        </div>
+        <div class="trio-content-col">
+          ${rowsHtml}
+        </div>
+      </div>
+    `;
   }
 
   renderMode3(stop) {
@@ -5708,6 +6577,7 @@ class Mon2Display {
     if (!wrap) return;
 
     wrap.innerHTML = "";
+    const leftStop = Math.max(1, (this.currentRoute ? this.currentRoute.stops.length : 1) - (this.telargo_busstop - 1));
 
     // If stop has interchange routes -> Render LECIP_Mon2_Interchange_11.png
     if (stop.interchanges && stop.interchanges.length > 0) {
@@ -5774,8 +6644,14 @@ class Mon2Display {
             </div>
           </div>
 
-          <!-- Section Fare Rows -->
-          <div class="fare-stage-list">
+          <!-- Section Fare Body with Arrow_11 / Arrow_1 Track -->
+          <div class="fare-main-layout">
+            <div class="route-nav-track-col mode3-track ${leftStop >= 2 ? 'arrow-pointed' : 'arrow-rounded'}">
+              <div class="track-bar-chevron"></div>
+              <div class="track-circle-active">${stop.num}</div>
+              ${leftStop >= 2 ? '<div class="mode3-solid-bar"></div><div class="track-bar-point-bottom"></div>' : ''}
+            </div>
+            <div class="fare-stage-list">
       `;
 
       fareStages.forEach((stage, idx) => {
@@ -5793,6 +6669,7 @@ class Mon2Display {
       });
 
       tableHtml += `
+            </div>
           </div>
 
           <!-- Bottom Notice with QR code as in LECIP_Mon2_Fare_12.png -->
@@ -5850,46 +6727,182 @@ class Mon2Display {
     const listEl = document.getElementById("allstop-stops-list");
     if (!listEl || !this.currentRoute) return;
 
-    listEl.innerHTML = "";
     const stops = this.currentRoute.stops;
+    const remainingStops = stops.slice(curIdx);
+    const totalRemaining = remainingStops.length;
 
-    // In Mon2.osc lines 270-420: Page 1 shows up to 13 stops. Page 2 shows next 11 stops.
-    const startIdx = (this.Mon2_Page_Now === 1) ? curIdx : (curIdx + 12 + (this.Mon2_Page_Now - 2) * 11);
-    const displayList = stops.slice(startIdx, startIdx + 13);
+    // 「如果多於13站 就再開一頁」：
+    // 第 1 頁顯示當前站及隨後最多 13 站。
+    // 若剩餘站數多於 13 站，每超過 10 站再自動開一頁 (Page 2, Page 3...)
+    if (totalRemaining <= 13) {
+      this.Mon2_Page_Totel = 1;
+    } else {
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalRemaining - 13) / 10);
+    }
 
-    displayList.forEach((s, idx) => {
-      const isFirst = (idx === 0 && this.Mon2_Page_Now === 1);
-      const isYellowRow = idx % 2 === 0; // Alternating row color as in Mon2.osc
-      const row = document.createElement("div");
-      row.className = `ladder-row ${isYellowRow ? "row-yellow" : "row-white"} ${isFirst ? "row-current" : ""}`;
+    if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
+      this.Mon2_Page_Now = this.Mon2_Page_Totel;
+    }
 
-      row.innerHTML = `
-        <div class="ladder-circle-col">
-          <div class="ladder-circle ${isFirst ? "circle-green" : "circle-blue"}">
+    // 更新分頁數字標籤 (例如 1/2, 2/2, 1/3, 2/3, 3/3, 1/4...)
+    const pageEl = document.getElementById("allstop-page-indicator");
+    if (pageEl) {
+      pageEl.textContent = `${this.Mon2_Page_Now}/${this.Mon2_Page_Totel}`;
+    }
+
+    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    let rowsHtml = "";
+
+    if (this.Mon2_Page_Now === 1) {
+      // 第 1 頁：顯示當前站至隨後最多 13 站 (13Stop\S\ 原裝連續圓圈格式)
+      const displayList = remainingStops.slice(0, 13);
+
+      displayList.forEach((s, idx) => {
+        const isFirst = (idx === 0);
+        const isYellowRow = (idx % 2 === 0);
+
+        circlesHtml += `
+          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
             ${s.num}
           </div>
-          ${idx < displayList.length - 1 ? '<div class="ladder-line"></div>' : ''}
-        </div>
-        <div class="ladder-names-bilingual">
-          <span class="ladder-zh-col">${s.zh}</span>
-          <span class="ladder-en-col">${s.en}</span>
-        </div>
-        <div class="ladder-eta-col">
-          ${isFirst ? '<span class="tag-current">此站</span>' : `<span class="eta-mins">${(idx * 2) + 1}</span><small class="eta-min-text">分</small>`}
+        `;
+
+        rowsHtml += `
+          <div class="ladder-row ${isYellowRow ? 'row-yellow' : 'row-white'} ${isFirst ? 'row-current' : ''}">
+            <div class="ladder-names-bilingual">
+              <span class="ladder-zh-col">${s.zh}</span>
+              <span class="ladder-en-col">${s.en}</span>
+            </div>
+            <div class="ladder-eta-col">
+              ${isFirst ? '<span class="tag-current">此站</span>' : `<span class="eta-mins">${(idx * 2) + 1}</span><small class="eta-min-text">分</small>`}
+            </div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = `
+        <div class="ladder-layout-wrapper">
+          <div class="route-nav-track-col ladder-track arrow-rounded">
+            ${circlesHtml}
+          </div>
+          <div class="ladder-content-col">
+            ${rowsHtml}
+          </div>
         </div>
       `;
-      listEl.appendChild(row);
-    });
+    } else {
+      // 第 2 頁及之後 (多於13站再開一頁)：13Stop\L\ 格式 (起點站 + 3 顆白點省略號 + 該頁隨後車站)
+      const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
+      const pageOffset = (this.Mon2_Page_Now - 2) * 10;
+      const startInRemaining = 13 + pageOffset;
+      const displayList = remainingStops.slice(startInRemaining, startInRemaining + 10);
+
+      // 1. 頂部起點站圓圈與站名
+      circlesHtml += `
+        <div class="track-circle-upcoming">
+          ${firstStop.num}
+        </div>
+      `;
+
+      rowsHtml += `
+        <div class="ladder-row row-yellow">
+          <div class="ladder-names-bilingual">
+            <span class="ladder-zh-col">${firstStop.zh}</span>
+            <span class="ladder-en-col">${firstStop.en}</span>
+          </div>
+          <div class="ladder-eta-col">
+            <span class="eta-mins">--</span>
+          </div>
+        </div>
+      `;
+
+      // 2. 3 顆縱向白點省略號 (13Stop\L\ 原裝貼圖特徵)
+      circlesHtml += `
+        <div class="track-dots-group">
+          <span class="track-dot"></span>
+          <span class="track-dot"></span>
+          <span class="track-dot"></span>
+        </div>
+      `;
+
+      rowsHtml += `
+        <div class="ladder-row row-white row-ellipsis">
+          <div class="ladder-names-bilingual" style="justify-content: center; color: #94A3B8;">
+            <span>• • • (已略過第 ${this.Mon2_Page_Now - 1} 頁車站) • • •</span>
+          </div>
+          <div class="ladder-eta-col"></div>
+        </div>
+      `;
+
+      // 3. 該頁之隨後車站列表
+      displayList.forEach((s, idx) => {
+        const isYellowRow = ((idx + 2) % 2 === 0);
+
+        circlesHtml += `
+          <div class="track-circle-upcoming">
+            ${s.num}
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-row ${isYellowRow ? 'row-yellow' : 'row-white'}">
+            <div class="ladder-names-bilingual">
+              <span class="ladder-zh-col">${s.zh}</span>
+              <span class="ladder-en-col">${s.en}</span>
+            </div>
+            <div class="ladder-eta-col">
+              <span class="eta-mins">${(startInRemaining + idx) * 2 + 1}</span><small class="eta-min-text">分</small>
+            </div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = `
+        <div class="ladder-layout-wrapper">
+          <div class="route-nav-track-col ladder-track arrow-rounded">
+            ${circlesHtml}
+          </div>
+          <div class="ladder-content-col">
+            ${rowsHtml}
+          </div>
+        </div>
+      `;
+    }
   }
 
-  renderPoster() {
-    const p = MON2_DATA.posters[this.currentPosterIndex] || MON2_DATA.posters[0];
-    if (!p) return;
+  setTargetDistance(meters) {
+    this.targetDistanceMeters = meters;
+    const badgeZh = document.getElementById("hud-target-dist-zh");
+    if (badgeZh) badgeZh.textContent = `距 ${meters}m`;
+    const badgeEn = document.getElementById("hud-target-dist-en");
+    if (badgeEn) badgeEn.textContent = `${meters}m`;
+  }
 
+  // --- Mode 4: 讀取專案中“pomo” folder 的圖片 隨機播放其中一張 全屏播放 ---
+  renderPoster() {
     const container = document.getElementById("poster-container");
     if (!container) return;
 
-    container.innerHTML = this.getPosterHTML(p);
+    const pomoImages = [
+      "pomo/pomo1.png",
+      "pomo/pomo2.png",
+      "pomo/pomo3.png",
+      "pomo/pomo4.png",
+      "pomo/pomo5.png"
+    ];
+
+    if (this.customPomoList && this.customPomoList.length > 0) {
+      pomoImages.push(...this.customPomoList);
+    }
+
+    const rndIdx = Math.floor(Math.random() * pomoImages.length);
+    const chosenPomo = pomoImages[rndIdx];
+
+    container.innerHTML = `
+      <div class="poster-fullscreen-layer">
+        <img class="pomo-fullscreen-img" src="${chosenPomo}" alt="Citybus Promo Poster">
+      </div>
+    `;
   }
 
   getPosterHTML(p) {
@@ -6075,6 +7088,14 @@ class Mon2Controller {
     this.tripStepTimer = null;
     this.isTripPaused = false;
     this.timeInPhase = 0;
+
+    // Real GPS & Dynamic Target Distance ("目標站距：實時動態顯示距離下一個目標站點的剩餘米數。是時間計算的")
+    this.useRealGPS = false;
+    this.gpsWatchId = null;
+    this.targetDistanceMeters = 850;
+    this.legTotalDistance = 850;
+    this.currentSpeedKmh = 36;
+    this.currentGPSCoords = null;
   }
 
   async init() {
@@ -6083,6 +7104,17 @@ class Mon2Controller {
   }
 
   bindDOM() {
+    // 0. Route Search Input & Dropdown ("Api獲取所有路線資料 然後選擇路線可以搜尋")
+    this.setupRouteSearch();
+
+    // 0.1 Real GPS Toggle ("Use real GPS")
+    const gpsToggle = document.getElementById("ctrl-real-gps-toggle");
+    if (gpsToggle) {
+      gpsToggle.addEventListener("change", (e) => {
+        this.toggleRealGPS(e.target.checked);
+      });
+    }
+
     // 1. Route Selector
     const routeSelect = document.getElementById("api-route-select");
     if (routeSelect) {
@@ -6147,6 +7179,13 @@ class Mon2Controller {
     }
 
     // 5. System Configurations (Mon2_constfile)
+    const themeSelect = document.getElementById("ctrl-theme-base");
+    if (themeSelect) {
+      themeSelect.addEventListener("change", (e) => {
+        this.display.setThemeBase(e.target.value);
+      });
+    }
+
     const orientSelect = document.getElementById("ctrl-orient-select");
     if (orientSelect) {
       orientSelect.addEventListener("change", (e) => {
@@ -6378,19 +7417,42 @@ class Mon2Controller {
   stepTripProgression() {
     this.timeInPhase += this.speedMultiplier;
 
-    // Phase timings (in seconds):
-    // 1. 'departing': 8s (showing Next stop, cycling through Mon2 modes)
-    // 2. 'arriving': 6s (switches to 'This stop', chimes, approaches)
-    // 3. 'dwelling': 5s (bus stopped at station, doors open)
-    const transitDuration = 18; // Transit time between stops
-    const dwellDuration = 6;    // Dwell time at station
-
+    const transitDuration = 22; // Transit duration between stops
+    const dwellDuration = 6;    // Dwell time at stop
     const curStop = this.currentStops[this.currentStopIndex];
+    const prevStop = this.currentStops[Math.max(0, this.currentStopIndex - 1)];
     const isTerminus = (this.currentStopIndex >= this.currentStops.length - 1);
 
+    // Dynamic Target Distance Calculation: 「目標站距：實時動態顯示距離下一個目標站點的剩餘米數（例如 距離下一站: 142m）。 是時間計算的」
+    if (!this.useRealGPS) {
+      // Calculate leg distance from real GPS coordinates of stops, fallback to ~850m
+      if (curStop && prevStop && curStop.lat && prevStop.lat && curStop !== prevStop) {
+        this.legTotalDistance = Math.round(this.getHaversineDistance(prevStop.lat, prevStop.long, curStop.lat, curStop.long));
+      } else {
+        this.legTotalDistance = 850;
+      }
+
+      if (this.tripStatus === "departing") {
+        const progress = Math.min(1.0, this.timeInPhase / transitDuration);
+        this.targetDistanceMeters = Math.max(0, Math.round(this.legTotalDistance * (1.0 - progress)));
+      } else if (this.tripStatus === "arriving") {
+        this.targetDistanceMeters = Math.max(0, Math.round(90 * (1.0 - (this.timeInPhase / 4))));
+      } else {
+        this.targetDistanceMeters = 0;
+      }
+
+      // Push real-time distance to Mon2Display (HUD badge: 距 142m)
+      this.display.setTargetDistance(this.targetDistanceMeters);
+
+      const targetDistEl = document.getElementById("gps-target-distance-meters");
+      if (targetDistEl) {
+        targetDistEl.textContent = `距離下一站: ${this.targetDistanceMeters}m`;
+      }
+    }
+
     if (this.tripStatus === "departing") {
-      if (this.timeInPhase >= transitDuration) {
-        // Switch to arriving / This Stop
+      // When approaching stop (under 100 meters or time threshold) -> trigger 'arriving'
+      if (this.timeInPhase >= transitDuration || (!this.useRealGPS && this.targetDistanceMeters <= 100 && this.timeInPhase >= 8)) {
         this.tripStatus = "arriving";
         this.timeInPhase = 0;
         this.display.arriveStop();
@@ -6410,7 +7472,7 @@ class Mon2Controller {
           return;
         }
 
-        // Advance to next stop automatically!
+        // Advance to next stop
         this.currentStopIndex++;
         this.tripStatus = "departing";
         this.timeInPhase = 0;
@@ -6471,10 +7533,188 @@ class Mon2Controller {
   updateModePills(modeNum) {
     // Keep internal state updated
   }
+
+  // --- Searchable Route System: Api獲取所有路線資料 然後選擇路線可以搜尋 ---
+  setupRouteSearch() {
+    const searchInput = document.getElementById("route-search-input");
+    const dropdown = document.getElementById("route-search-dropdown");
+    if (!searchInput || !dropdown) return;
+
+    searchInput.addEventListener("input", async (e) => {
+      const q = e.target.value.trim();
+      if (!q) {
+        dropdown.classList.add("hidden");
+        return;
+      }
+
+      const results = await this.api.searchRoutes(q);
+      if (!results || results.length === 0) {
+        dropdown.innerHTML = `<div class="route-search-item" style="color: #94A3B8;">查無相關路線</div>`;
+        dropdown.classList.remove("hidden");
+        return;
+      }
+
+      dropdown.innerHTML = "";
+      results.forEach(r => {
+        const item = document.createElement("div");
+        item.className = "route-search-item";
+        item.innerHTML = `
+          <div>
+            <span class="route-badge-mini">${r.route}</span>
+            <strong style="margin-left: 6px;">${r.orig_tc || ''} ➔ ${r.dest_tc || ''}</strong>
+          </div>
+          <small style="color: #94A3B8;">${r.orig_en || ''} ➔ ${r.dest_en || ''}</small>
+        `;
+        item.addEventListener("click", async () => {
+          this.selectedRouteCode = r.route;
+          searchInput.value = `${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
+          dropdown.classList.add("hidden");
+
+          // Update select box if exists
+          const select = document.getElementById("api-route-select");
+          if (select) {
+            let opt = Array.from(select.options).find(o => o.value === r.route);
+            if (!opt) {
+              opt = document.createElement("option");
+              opt.value = r.route;
+              opt.textContent = `【城巴】${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
+              select.appendChild(opt);
+            }
+            select.value = r.route;
+          }
+
+          await this.loadRouteDirectionAndStops();
+        });
+        dropdown.appendChild(item);
+      });
+
+      dropdown.classList.remove("hidden");
+    });
+
+    // Close dropdown on click outside
+    document.addEventListener("click", (e) => {
+      if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+  }
+
+  // --- Real GPS Tracking Engine ("Use real GPS") ---
+  toggleRealGPS(enable) {
+    this.useRealGPS = enable;
+    const statusEl = document.getElementById("gps-status-indicator");
+
+    if (enable) {
+      if (!navigator.geolocation) {
+        alert("您的裝置或瀏覽器不支援 HTML5 Geolocation GPS 定位功能");
+        const toggle = document.getElementById("ctrl-real-gps-toggle");
+        if (toggle) toggle.checked = false;
+        this.useRealGPS = false;
+        return;
+      }
+
+      if (statusEl) {
+        statusEl.innerHTML = `<span style="color:#38BDF8">●</span> 正在搜尋 GPS 衛星訊號 (High Accuracy)...`;
+      }
+
+      this.gpsWatchId = navigator.geolocation.watchPosition(
+        (pos) => this.onGPSUpdate(pos),
+        (err) => this.onGPSError(err),
+        { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 }
+      );
+    } else {
+      if (this.gpsWatchId) {
+        navigator.geolocation.clearWatch(this.gpsWatchId);
+        this.gpsWatchId = null;
+      }
+      if (statusEl) {
+        statusEl.innerHTML = `<span style="color:#EAB308">●</span> 模擬行駛時間計算模式 (Time-Based Calculation)`;
+      }
+    }
+  }
+
+  onGPSUpdate(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const acc = Math.round(pos.coords.accuracy || 10);
+    const speedKmh = Math.round((pos.coords.speed || 0) * 3.6);
+
+    this.currentGPSCoords = { lat, lon, acc, speedKmh };
+    this.currentSpeedKmh = speedKmh;
+
+    const statusEl = document.getElementById("gps-status-indicator");
+    const coordsEl = document.getElementById("gps-coords-display");
+    const speedEl = document.getElementById("gps-speed-kmh");
+
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#22C55E">●</span> GPS 實時定位追蹤中 (High Accuracy)`;
+    }
+    if (coordsEl) {
+      coordsEl.textContent = `${lat.toFixed(5)}° N, ${lon.toFixed(5)}° E (±${acc}m)`;
+    }
+    if (speedEl) {
+      speedEl.textContent = `${speedKmh} km/h`;
+    }
+
+    const curStop = this.currentStops[this.currentStopIndex];
+    if (curStop && curStop.lat && curStop.long) {
+      const dist = this.getHaversineDistance(lat, lon, curStop.lat, curStop.long);
+      this.targetDistanceMeters = Math.max(0, Math.round(dist));
+
+      // Update screen target distance
+      this.display.setTargetDistance(this.targetDistanceMeters);
+
+      const targetDistEl = document.getElementById("gps-target-distance-meters");
+      if (targetDistEl) {
+        targetDistEl.textContent = `距離下一站: ${this.targetDistanceMeters}m`;
+      }
+
+      // Real-life auto arrival detection
+      if (this.targetDistanceMeters <= 100 && this.tripStatus === "departing") {
+        this.tripStatus = "arriving";
+        this.display.arriveStop();
+        this.audio.playChime();
+        this.audio.speakAnnouncement(curStop, "arrived");
+      } else if (this.tripStatus === "arriving" && this.targetDistanceMeters > 130 && speedKmh > 6) {
+        // Bus departed stop in real life
+        if (this.currentStopIndex < this.currentStops.length - 1) {
+          this.currentStopIndex++;
+          this.tripStatus = "departing";
+          const nextStopData = this.currentStops[this.currentStopIndex];
+          this.display.nextStop();
+          this.audio.playChime();
+          if (nextStopData) this.audio.speakAnnouncement(nextStopData, "next");
+        }
+      }
+    }
+  }
+
+  onGPSError(err) {
+    console.warn("GPS Geolocation error:", err);
+    const statusEl = document.getElementById("gps-status-indicator");
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#EF4444">●</span> GPS 定位失敗 (${err.message})，自動切換至時間計算模式`;
+    }
+  }
+
+  getHaversineDistance(lat1, lon1, lat2, lon2) {
+    if (!lat1 || !lon1 || !lat2 || !lon2) return 750;
+    const R = 6371e3; // metres
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
 }
 
 window.Mon2Controller = Mon2Controller;
-
 /* --- app.js --- */
 /**
  * CTB LECIP MON2 SIMULATOR - MAIN APP INITIALIZER
