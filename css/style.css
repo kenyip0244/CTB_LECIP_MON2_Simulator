@@ -3771,3 +3771,254 @@ body {
   color: #64748B;
   margin-left: 2px;
 }
+
+
+/* ==========================================================================
+   AUTHENTIC REAL-BUS PROPORTIONS & COLORS (Based on real bus photo image.png)
+   ========================================================================== */
+.ladder-header-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 14px;
+  background: #F1F5F9;
+  border-bottom: 2px solid #CBD5E1;
+  min-height: 34px;
+}
+
+.ladder-header-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: #0022AA;
+  font-family: var(--font-chinese);
+}
+
+.mode-cityflyer .ladder-header-title {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.ladder-page-indicator {
+  font-size: 15px;
+  font-weight: 900;
+  color: #475569;
+  font-family: var(--font-english);
+}
+
+.ladder-unified-row {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: 36px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+/* Alternating Row Colors from real photo image.png: Vibrant Yellow & Ice Blue */
+.ladder-unified-row.row-yellow {
+  background-color: #FFF04D !important;
+  color: #000000 !important;
+}
+
+.ladder-unified-row.row-iceblue {
+  background-color: #CEE7FE !important;
+  color: #000000 !important;
+}
+
+.ladder-unified-row.row-current {
+  box-shadow: inset 0 0 0 2px #16A34A !important;
+}
+
+/* Track Cell sitting seamlessly on the row background */
+.ladder-track-cell {
+  width: 48px;
+  min-width: 48px;
+  background: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  flex-shrink: 0;
+}
+
+.ladder-track-cell .track-circle-active {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FF0000 !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.ladder-track-cell .track-circle-upcoming {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #FFFFFF !important;
+  border: 2px solid #0022AA !important;
+  color: #0022AA !important;
+  font-size: 12.5px !important;
+  font-weight: 900 !important;
+}
+
+.mode-cityflyer .ladder-track-cell .track-circle-upcoming {
+  border-color: var(--cityflyer-crimson) !important;
+  color: var(--cityflyer-crimson) !important;
+}
+
+/* 2-line station names: Chinese line 1, English line 2 */
+.ladder-names-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2px 8px;
+  overflow: hidden;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.15;
+  margin-top: 1px;
+}
+
+
+/* ==========================================================================
+   AUTHENTIC SPLIT-SCREEN MODE 3 (Based on real photo 6ff992a6.png)
+   ========================================================================== */
+.mode3-split-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.mode3-top-stop-banner {
+  display: flex;
+  height: 140px;
+  min-height: 140px;
+  background: #FFFFFF;
+  border-bottom: 3.5px solid #0022AA;
+}
+
+.mode-cityflyer .mode3-top-stop-banner {
+  border-bottom-color: var(--cityflyer-crimson) !important;
+}
+
+.mode3-stop-track {
+  width: 50px;
+  background: #0022AA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 8px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.mode-cityflyer .mode3-stop-track {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode3-stop-track .track-circle-active {
+  margin: auto 0;
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+}
+
+.mode3-stop-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 14px;
+}
+
+.mode3-stop-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid #CBD5E1;
+}
+
+.mode3-status-label {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0022AA;
+  font-family: var(--font-chinese);
+}
+
+.mode-cityflyer .mode3-status-label {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.mode3-eta-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  text-align: center;
+}
+
+.eta-icon-title {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748B;
+  line-height: 1.1;
+}
+
+.eta-value-box {
+  font-size: 24px;
+  font-weight: 900;
+  color: #0F172A;
+  font-family: var(--font-english);
+}
+
+.eta-unit-box {
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748B;
+  line-height: 1.1;
+}
+
+.mode3-station-name-row {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: 26px;
+  font-weight: 900;
+  color: #0F172A;
+  font-family: var(--font-chinese);
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: 17px;
+  font-weight: 700;
+  color: #334155;
+  font-family: var(--font-english);
+  margin-top: 2px;
+}
+
+.mode3-split-card .mode3-fare-base {
+  flex: 1;
+  border-top: none !important;
+}

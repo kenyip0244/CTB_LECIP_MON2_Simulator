@@ -1017,8 +1017,9 @@ class Mon2Display {
 
     wrap.innerHTML = "";
     const leftStop = Math.max(1, (this.currentRoute ? this.currentRoute.stops.length : 1) - (this.telargo_busstop - 1));
+    const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // If stop has interchange routes -> Render LECIP_Mon2_Interchange_11.png
+    // If stop has interchange routes -> Render Interchange Table
     if (stop.interchanges && stop.interchanges.length > 0) {
       if (titleZh) titleZh.textContent = "轉乘路線";
       if (titleEn) titleEn.textContent = "Interchange routes";
@@ -1062,7 +1063,9 @@ class Mon2Display {
       `;
       wrap.innerHTML = tableHtml;
     } else {
-      // BASE CASE: Mode 3 is FARE TABLE BASE (LECIP_Mon2_Fare_11.png / Fare_12.png)
+      // BASE CASE: Authentic Split Screen Mode 3 as in real photo 6ff992a6.png!
+      // Top Half: Next stop indicator with track and ETA (<1 min)
+      // Bottom Half: Fare Information table with section fares
       if (titleZh) titleZh.textContent = "車費資料";
       if (titleEn) titleEn.textContent = "Fare information";
       if (pageNum) pageNum.textContent = "1/1";
@@ -1070,26 +1073,53 @@ class Mon2Display {
       const fareStages = this.getSectionFareStages();
 
       let tableHtml = `
-        <div class="mode3-fare-base">
-          <!-- Black Table Header (由下列巴士站起 / 成人車費) -->
-          <div class="fare-black-header">
-            <div class="header-left">
-              <div class="zh">由下列巴士站起</div>
-              <div class="en">Beginning from bus stop below</div>
+        <div class="mode3-split-card">
+          <!-- Top Next Stop Box (as in photo 6ff992a6.png) -->
+          <div class="mode3-top-stop-banner">
+            <div class="mode3-stop-track">
+              <div class="track-bar-chevron"></div>
+              <div class="${isArrived ? 'track-circle-active' : 'track-circle-active'}">
+                ${stop.num}
+              </div>
+              <div class="track-bar-point-bottom"></div>
             </div>
-            <div class="header-right">
-              <div class="zh">成人車費</div>
-              <div class="en">Adult Fare</div>
+            <div class="mode3-stop-content">
+              <div class="mode3-stop-header-row">
+                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
+                <div class="mode3-eta-label">
+                  <div class="eta-icon-title">預計<br>ETA</div>
+                  <div class="eta-value-box">&lt;1</div>
+                  <div class="eta-unit-box">分鐘<br>min</div>
+                </div>
+              </div>
+              <div class="mode3-station-name-row">
+                <div class="m3-zh">${stop.zh}</div>
+                <div class="m3-en">${stop.en}</div>
+              </div>
             </div>
           </div>
 
-          <!-- Section Fare Body with Arrow_11 / Arrow_1 Track -->
-          <div class="fare-main-layout">
-            <div class="route-nav-track-col mode3-track ${leftStop >= 2 ? 'arrow-pointed' : 'arrow-rounded'}">
-              <div class="track-bar-chevron"></div>
-              <div class="track-circle-active">${stop.num}</div>
-              ${leftStop >= 2 ? '<div class="mode3-solid-bar"></div><div class="track-bar-point-bottom"></div>' : ''}
+          <!-- Bottom Fare Information Box (as in photo 6ff992a6.png) -->
+          <div class="mode3-fare-base">
+            <div class="section-title-bar">
+              <span class="bar-zh">車費資料</span>
+              <span class="bar-en">Fare information</span>
+              <span class="page-indicator">1/1</span>
             </div>
+
+            <!-- Black Header (由下列巴士站起 / 成人車費) -->
+            <div class="fare-black-header">
+              <div class="header-left">
+                <div class="zh">由下列巴士站起</div>
+                <div class="en">Beginning from bus stop below</div>
+              </div>
+              <div class="header-right">
+                <div class="zh">成人車費</div>
+                <div class="en">Adult Fare</div>
+              </div>
+            </div>
+
+            <!-- Stage List -->
             <div class="fare-stage-list">
       `;
 
@@ -1109,16 +1139,16 @@ class Mon2Display {
 
       tableHtml += `
             </div>
-          </div>
 
-          <!-- Bottom Notice with QR code as in LECIP_Mon2_Fare_12.png -->
-          <div class="fare-bottom-notice">
-            <div class="notice-text">
-              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
-              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
-            </div>
-            <div class="notice-qr">
-              <div class="qr-code-box"></div>
+            <!-- Bottom Notice with QR code as in photo 6ff992a6.png -->
+            <div class="fare-bottom-notice">
+              <div class="notice-text">
+                車費優惠與巴士轉乘計劃詳情，請參閱城巴網頁<br>
+                <small>Please refer to Citybus website for fare concession and Bus-Bus Interchange details.</small>
+              </div>
+              <div class="notice-qr">
+                <div class="qr-code-box"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -1127,8 +1157,6 @@ class Mon2Display {
       wrap.innerHTML = tableHtml;
     }
   }
-
-  // --- Helper to calculate accurate real-world Citybus fares ---
   getSectionFareStages() {
     if (!this.currentRoute) return [{ zh: "由起點站起", en: "From First Stop", fare: "$7.7" }];
 
@@ -1227,21 +1255,25 @@ class Mon2Display {
 
     const stops = this.currentRoute.stops;
     const totalStops = stops.length;
+    const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // Total Pages calculation: 13 stops per page
-    // Page 1: stops 0..12 (13 stops)
-    // Page 2+: stops 0 (origin) + 11 stops
-    if (totalStops <= 13) {
+    // Total Pages calculation: 12 stops per page matching image.png reference
+    if (totalStops <= 12) {
       this.Mon2_Page_Totel = 1;
     } else {
-      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - 13) / 11);
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - 12) / 11);
     }
 
     if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
       this.Mon2_Page_Now = this.Mon2_Page_Totel;
     }
 
-    // Update page indicator: 1/5, 2/5, etc.
+    // Update Subheader strip (此站 This stop / 隨後車站 Next stops + 1/1)
+    const headerTitleEl = document.querySelector(".ladder-header-title");
+    if (headerTitleEl) {
+      headerTitleEl.textContent = isArrived ? "此站 This stop" : "隨後車站 Next stops";
+    }
+
     const pageEl = document.getElementById("allstop-page-indicator");
     if (pageEl) {
       pageEl.textContent = `${this.Mon2_Page_Now}/${this.Mon2_Page_Totel}`;
@@ -1251,8 +1283,8 @@ class Mon2Display {
     let rowsHtml = "";
 
     if (isPageOne) {
-      // PAGE 1: Stops 1 to 13 (continuous circles)
-      const pageList = stops.slice(0, 13);
+      // PAGE 1: Up to 12 stops, alternating Yellow and Ice-Blue rows as in image.png
+      const pageList = stops.slice(0, 12);
 
       pageList.forEach((s, idx) => {
         const isCurrent = (idx === curIdx);
@@ -1260,24 +1292,22 @@ class Mon2Display {
         let minsDiff = (idx - curIdx) * 2;
         let minsHtml = "";
 
-        if (idx < curIdx) {
-          minsHtml = `<span style="color:#94A3B8;">已過</span>`;
-        } else if (idx === curIdx) {
+        if (idx === curIdx && isArrived) {
           minsHtml = `<span class="tag-current">此站</span>`;
-        } else {
+        } else if (idx > curIdx) {
           minsHtml = `<span class="eta-mins">${minsDiff}</span><small class="eta-min-text">分</small>`;
         }
 
         rowsHtml += `
-          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-iceblue'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-track-cell">
-              <div class="${isCurrent ? 'track-circle-active' : 'track-circle-upcoming'}">
+              <div class="${(isCurrent && isArrived) ? 'track-circle-active' : 'track-circle-upcoming'}">
                 ${s.num}
               </div>
             </div>
             <div class="ladder-names-cell">
-              <span class="ladder-zh-col">${s.zh}</span>
-              <span class="ladder-en-col">${s.en}</span>
+              <div class="ladder-zh-col">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-en-col">${s.en}</div>
             </div>
             <div class="ladder-eta-cell">
               ${minsHtml}
@@ -1287,15 +1317,14 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-unified-wrapper arrow-rounded">
+        <div class="ladder-unified-wrapper">
           ${rowsHtml}
         </div>
       `;
     } else {
-      // PAGE 2+: Origin Stop + 3 Dots in Track + Subsequent stops
-      // "no need show alr skiped X stations" -> NO text row!
+      // PAGE 2+: Origin Stop + 3 White Dots in Track + Page stops (NO "已略過" text row!)
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
-      const startIdx = 13 + (this.Mon2_Page_Now - 2) * 11;
+      const startIdx = 12 + (this.Mon2_Page_Now - 2) * 11;
       const pageList = stops.slice(startIdx, startIdx + 11);
 
       // Row 1: Origin Stop
@@ -1307,16 +1336,14 @@ class Mon2Display {
             </div>
           </div>
           <div class="ladder-names-cell">
-            <span class="ladder-zh-col">${firstStop.zh}</span>
-            <span class="ladder-en-col">${firstStop.en}</span>
+            <div class="ladder-zh-col">${firstStop.zh}</div>
+            <div class="ladder-en-col">${firstStop.en}</div>
           </div>
-          <div class="ladder-eta-cell">
-            <span class="eta-mins" style="color:#94A3B8;">--</span>
-          </div>
+          <div class="ladder-eta-cell"></div>
         </div>
       `;
 
-      // Spacer row with 3 Dots ONLY in the track cell (NO TEXT on the right!)
+      // Dots spacer row (dots only in track cell!)
       rowsHtml += `
         <div class="ladder-unified-row ladder-dots-row">
           <div class="ladder-track-cell">
@@ -1331,7 +1358,7 @@ class Mon2Display {
         </div>
       `;
 
-      // Page stops: 11 stops
+      // Page stops
       pageList.forEach((s, idx) => {
         const globalIdx = startIdx + idx;
         const isCurrent = (globalIdx === curIdx);
@@ -1339,24 +1366,22 @@ class Mon2Display {
         let minsDiff = (globalIdx - curIdx) * 2;
         let minsHtml = "";
 
-        if (globalIdx < curIdx) {
-          minsHtml = `<span style="color:#94A3B8;">已過</span>`;
-        } else if (globalIdx === curIdx) {
+        if (globalIdx === curIdx && isArrived) {
           minsHtml = `<span class="tag-current">此站</span>`;
-        } else {
+        } else if (globalIdx > curIdx) {
           minsHtml = `<span class="eta-mins">${minsDiff}</span><small class="eta-min-text">分</small>`;
         }
 
         rowsHtml += `
-          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-iceblue'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-track-cell">
-              <div class="${isCurrent ? 'track-circle-active' : 'track-circle-upcoming'}">
+              <div class="${(isCurrent && isArrived) ? 'track-circle-active' : 'track-circle-upcoming'}">
                 ${s.num}
               </div>
             </div>
             <div class="ladder-names-cell">
-              <span class="ladder-zh-col">${s.zh}</span>
-              <span class="ladder-en-col">${s.en}</span>
+              <div class="ladder-zh-col">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-en-col">${s.en}</div>
             </div>
             <div class="ladder-eta-cell">
               ${minsHtml}
@@ -1366,7 +1391,7 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-unified-wrapper arrow-rounded">
+        <div class="ladder-unified-wrapper">
           ${rowsHtml}
         </div>
       `;
