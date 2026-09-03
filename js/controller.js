@@ -281,8 +281,11 @@ class Mon2Controller {
     this.currentStops = stops || [];
 
     // Construct route object for Mon2Display
-    const destZh = direction === "outbound" ? routeMeta.dest_tc : routeMeta.orig_tc;
-    const destEn = direction === "outbound" ? routeMeta.dest_en : routeMeta.orig_en;
+    let rawDestZh = direction === "outbound" ? routeMeta.dest_tc : routeMeta.orig_tc;
+    let rawDestEn = direction === "outbound" ? routeMeta.dest_en : routeMeta.orig_en;
+    const destZh = (rawDestZh || "").replace(/[\(（]經港珠澳大橋.*?[\)）]/g, "").trim();
+    const destEn = (rawDestEn || "").replace(/[\(（]via HZMB.*?[\)）]/gi, "").trim();
+    
     const origZh = direction === "outbound" ? routeMeta.orig_tc : routeMeta.dest_tc;
     const origEn = direction === "outbound" ? routeMeta.orig_en : routeMeta.dest_en;
 

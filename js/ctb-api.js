@@ -95,8 +95,8 @@ class CitybusAPIService {
           return {
             num: item.seq,
             stopId: item.stop,
-            zh: stopInfo.name_tc || `車站 ${item.seq}`,
-            en: stopInfo.name_en || `Stop ${item.seq}`,
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",

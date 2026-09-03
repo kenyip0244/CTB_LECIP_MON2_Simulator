@@ -19,6 +19,12 @@
  */
 
 class Mon2Display {
+  // Helper: 車站名 “,” 或之後的文字不用顯示 (Strip street suffix after comma)
+  cleanStopName(name) {
+    if (!name) return "";
+    return name.split(/[,，]/)[0].trim();
+  }
+
   constructor(containerEl) {
     this.container = containerEl;
 
@@ -787,13 +793,17 @@ class Mon2Display {
         badgeNum.classList.add("scale-normal");
       }
     }
+        // Clean up "(經港珠澳大橋香港口岸)" per user request ("no need show (經港珠澳大橋香港口岸)")
+    const cleanDestZh = (r.dest.zh || "").replace(/[\(（]經港珠澳大橋.*?[\)）]/g, "").trim();
+    const cleanDestEn = (r.dest.en || "").replace(/[\(（]via HZMB.*?[\)）]/gi, "").trim();
+
     if (destZh) {
-      destZh.textContent = r.dest.zh;
+      destZh.textContent = cleanDestZh;
       // Auto scale font size based on destination text length so it NEVER truncates with ...
-      if (r.dest.zh.length > 12) {
+      if (cleanDestZh.length > 12) {
         destZh.style.fontSize = "15px";
         destZh.style.letterSpacing = "-0.02em";
-      } else if (r.dest.zh.length > 8) {
+      } else if (cleanDestZh.length > 8) {
         destZh.style.fontSize = "18px";
         destZh.style.letterSpacing = "-0.01em";
       } else {
@@ -802,8 +812,8 @@ class Mon2Display {
       }
     }
     if (destEn) {
-      destEn.textContent = `to ${r.dest.en}`;
-      if (r.dest.en.length > 25) {
+      destEn.textContent = `to ${cleanDestEn}`;
+      if (cleanDestEn.length > 25) {
         destEn.style.fontSize = "11px";
         destEn.style.lineHeight = "1.1";
       } else {
@@ -915,7 +925,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
             ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -1007,7 +1017,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${this.cleanStopName(s.en)} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
             ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -1115,8 +1125,8 @@ class Mon2Display {
                 </div>
               </div>
               <div class="mode3-station-name-row">
-                <div class="m3-zh">${stop.zh}</div>
-                <div class="m3-en">${stop.en}</div>
+                <div class="m3-zh">${this.cleanStopName(stop.zh)}</div>
+                <div class="m3-en">${this.cleanStopName(stop.en)}</div>
               </div>
             </div>
           </div>
@@ -1149,8 +1159,8 @@ class Mon2Display {
         tableHtml += `
           <div class="fare-stage-row ${idx % 2 === 0 ? 'fare-row-even' : 'fare-row-odd'}">
             <div class="stage-name-col">
-              <div class="stage-zh">${stage.zh}</div>
-              <div class="stage-en">${stage.en}</div>
+              <div class="stage-zh">${this.cleanStopName(stage.zh)}</div>
+              <div class="stage-en">${this.cleanStopName(stage.en)}</div>
             </div>
             <div class="stage-price-col">
               <span class="price-val">${stage.fare}</span>
@@ -1328,8 +1338,8 @@ class Mon2Display {
               </div>
             </div>
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
-              <div class="ladder-en-col">${s.en}</div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-cell">
               ${minsHtml}
@@ -1358,8 +1368,8 @@ class Mon2Display {
             </div>
           </div>
           <div class="ladder-names-cell">
-            <div class="ladder-zh-col">${firstStop.zh}</div>
-            <div class="ladder-en-col">${firstStop.en}</div>
+            <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
+            <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
           </div>
           <div class="ladder-eta-cell"></div>
         </div>
@@ -1402,8 +1412,8 @@ class Mon2Display {
               </div>
             </div>
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
-              <div class="ladder-en-col">${s.en}</div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-cell">
               ${minsHtml}
