@@ -4022,3 +4022,48 @@ body {
   flex: 1;
   border-top: none !important;
 }
+
+
+/* ==========================================================================
+   NO ELLIPSIS IN DESTINATION & SHARP BOTTOM ARROW FOR TRACK
+   ========================================================================== */
+.header-dest-box {
+  overflow: visible !important;
+}
+
+.dest-zh-wrap {
+  overflow: visible !important;
+  white-space: nowrap !important;
+}
+
+.dest-zh {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+.dest-en {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-break: break-word !important;
+  line-height: 1.15 !important;
+}
+
+/* Sharp Pointed Arrow at bottom of track column */
+.route-nav-track-col.arrow-pointed {
+  clip-path: polygon(0% 0%, 100% 0%, 100% calc(100% - 16px), 50% 100%, 0% calc(100% - 16px)) !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.track-row-cell .track-white-chevron {
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

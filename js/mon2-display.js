@@ -787,8 +787,30 @@ class Mon2Display {
         badgeNum.classList.add("scale-normal");
       }
     }
-    if (destZh) destZh.textContent = r.dest.zh;
-    if (destEn) destEn.textContent = `to ${r.dest.en}`;
+    if (destZh) {
+      destZh.textContent = r.dest.zh;
+      // Auto scale font size based on destination text length so it NEVER truncates with ...
+      if (r.dest.zh.length > 12) {
+        destZh.style.fontSize = "15px";
+        destZh.style.letterSpacing = "-0.02em";
+      } else if (r.dest.zh.length > 8) {
+        destZh.style.fontSize = "18px";
+        destZh.style.letterSpacing = "-0.01em";
+      } else {
+        destZh.style.fontSize = "22px";
+        destZh.style.letterSpacing = "normal";
+      }
+    }
+    if (destEn) {
+      destEn.textContent = `to ${r.dest.en}`;
+      if (r.dest.en.length > 25) {
+        destEn.style.fontSize = "11px";
+        destEn.style.lineHeight = "1.1";
+      } else {
+        destEn.style.fontSize = "12.5px";
+        destEn.style.lineHeight = "1.15";
+      }
+    }
 
     // Subheader Callout updates
     const isArrived = this.telargo_busarrivingstop === 1;
