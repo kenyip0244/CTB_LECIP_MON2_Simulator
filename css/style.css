@@ -2733,3 +2733,638 @@ body {
   font-family: var(--font-english) !important;
   font-weight: 900 !important;
 }
+
+
+/* ==========================================================================
+   OFFICIAL CITYFLYER BASE THEME (LECIP_Mon2_Main_Panel.png, Fare_11/12/22,
+   Interchange_11/12/22, Driver_ID, No_Driver_ID)
+   ========================================================================== */
+:root {
+  --cityflyer-crimson: #B70028;
+  --cityflyer-gold: #C5A059;
+}
+
+/* 1. Main Frame & Header for Cityflyer (LECIP_Mon2_Main_Panel.png) */
+.mode-cityflyer .mon2-header {
+  background: var(--cityflyer-crimson) !important;
+  border-bottom: 3.5px solid var(--cityflyer-gold) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-cityflyer .header-route-badge {
+  background: #FFFFFF !important;
+  color: var(--cityflyer-crimson) !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.35) !important;
+  border: 1px solid var(--cityflyer-gold);
+}
+
+.mode-cityflyer .dest-prefix {
+  color: #FEE2E2 !important;
+  font-weight: 800;
+}
+
+.mode-cityflyer .dest-zh {
+  color: #FFFFFF !important;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.mode-cityflyer .dest-en {
+  color: #FDE047 !important; /* Gold English destination */
+  text-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.mode-cityflyer .header-time-box {
+  background: #E5E7EB !important;
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid #CBD5E1;
+}
+
+.mode-cityflyer .header-time-box .time-label {
+  color: #4B5563 !important;
+}
+
+.mode-cityflyer .header-time-box .time-value {
+  color: #111827 !important;
+}
+
+/* 2. Mode 3 Base for Cityflyer (LECIP_Mon2_Fare_11/12/22 & Interchange_11/12/22) */
+.mode-cityflyer #panel-mode-3 .section-title-bar {
+  background: var(--cityflyer-crimson) !important;
+  color: #FFFFFF !important;
+  border-bottom: 1px solid var(--cityflyer-gold);
+}
+
+.mode-cityflyer .mode3-fare-base {
+  border: 3.5px solid var(--cityflyer-crimson) !important;
+  box-shadow: 0 2px 8px rgba(183,0,40,0.2);
+}
+
+.mode-cityflyer .stage-price-col .price-val {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .ic-route-badge {
+  background: var(--cityflyer-crimson) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-cityflyer .ic-eta-val {
+  color: var(--cityflyer-crimson) !important;
+}
+
+/* 3. Driver Bar for Cityflyer (71ead4de.png & bc5de250.png) */
+.mode-cityflyer .v-driver-card {
+  border-top: 3px solid var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .v-col-motto {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .v-col-route-info {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .header-driver-box {
+  background: var(--cityflyer-crimson) !important;
+  border: 1.5px solid var(--cityflyer-gold) !important;
+}
+
+/* 4. Stop Callouts & Circles for Cityflyer */
+.mode-cityflyer .zh-callout, 
+.mode-cityflyer .en-callout, 
+.mode-cityflyer .bi-callout {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .circle-active {
+  background: var(--cityflyer-crimson) !important;
+  box-shadow: 0 0 0 2px #FFFFFF, 0 2px 4px rgba(183,0,40,0.4) !important;
+}
+
+.mode-cityflyer .trio-arrow-line {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .trio-arrow-line::after {
+  border-top-color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .circle-upcoming {
+  color: var(--cityflyer-crimson) !important;
+  border-color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .eta-big {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.mode-cityflyer .tag-active-stop {
+  background: var(--cityflyer-crimson) !important;
+}
+
+
+/* ==========================================================================
+   AUTHENTIC ROUTE ARROW TRACK BAR (1.png to 10.png)
+   ========================================================================== */
+.trio-layout-wrapper,
+.ladder-layout-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #CBD5E1;
+}
+
+.route-nav-track-col {
+  width: 42px;
+  background: #0022AA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
+  margin-left: 8px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+  box-shadow: 1px 0 3px rgba(0,0,0,0.1);
+}
+
+.mode-cityflyer .route-nav-track-col {
+  background: var(--cityflyer-crimson) !important; /* #B70028 matching 1.png - 10.png */
+}
+
+/* Orange Top Chevron Arrow from 1.png - 10.png */
+.track-bar-chevron {
+  width: 32px;
+  height: 22px;
+  background: #EA580C;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 65%, 50% 100%, 0% 65%);
+  margin-top: 4px;
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+/* Red Active Circle with White Inner Stroke */
+.track-circle-active {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FF0000;
+  border: 2.5px solid #FFFFFF;
+  color: #FFFFFF;
+  font-size: 14px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-english);
+  flex-shrink: 0;
+  margin: 6px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+}
+
+/* White Subsequent Circles with Grey Inner Stroke */
+.track-circle-upcoming {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 2.5px solid #94A3B8;
+  color: #0F172A;
+  font-size: 14px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-english);
+  flex-shrink: 0;
+  margin: 6px 0;
+}
+
+.mode-cityflyer .track-circle-upcoming {
+  color: var(--cityflyer-crimson);
+}
+
+/* Ladder Track specific adjustments */
+.ladder-track {
+  margin-left: 6px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+.ladder-track .track-circle-active,
+.ladder-track .track-circle-upcoming {
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  margin: 3px 0;
+}
+
+.ladder-track .track-bar-chevron {
+  width: 26px;
+  height: 18px;
+  margin-bottom: 2px;
+}
+
+.trio-content-col,
+.ladder-content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.trio-row-item {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.trio-row-item:last-child {
+  border-bottom: none;
+}
+
+
+/* ==========================================================================
+   OFFICIAL ARROW STYLES (LECIP_Mon2_Arrow_1, 2, 3, 4, 11)
+   ========================================================================== */
+.track-white-chevron {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3px 0;
+  flex-shrink: 0;
+}
+
+.route-nav-track-col.arrow-rounded {
+  border-bottom-left-radius: 21px;
+  border-bottom-right-radius: 21px;
+}
+
+.route-nav-track-col.arrow-pointed {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.track-bar-point-bottom {
+  width: 100%;
+  height: 22px;
+  background: inherit;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+/* Mode 3 Layout with Left Arrow Track */
+.fare-main-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  padding: 4px 0;
+}
+
+.mode3-track {
+  margin-left: 6px;
+  margin-right: 6px;
+  height: calc(100% - 12px);
+}
+
+.mode3-solid-bar {
+  flex: 1;
+  width: 100%;
+  background: inherit;
+}
+
+
+/* ==========================================================================
+   OFFICIAL 城巴市區線 BASE THEME (LECIP_Mon2_Main_Panel_G.png, Main_Panel_P.png,
+   Fare_11/12/22.png, Interchange_11/12/22.png, Driver_ID.png, No_Driver_ID.png)
+   ========================================================================== */
+:root {
+  --ctb-royal-blue: #0022AA;
+  --ctb-bright-yellow: #FFD100;
+  --ctb-divider-red: #D92525;
+}
+
+/* 1. Main Header for CTB Normal (LECIP_Mon2_Main_Panel_G/P) */
+.mode-ctb .mon2-header {
+  background: #FFFFFF !important;
+  border-bottom: 3.5px solid var(--ctb-divider-red) !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+  min-height: 68px !important;
+}
+
+/* Left Blue Square Route Number Badge */
+.mode-ctb .header-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  border-radius: 0 !important;
+  width: 95px !important;
+  min-width: 95px !important;
+  box-shadow: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Center Vibrant Yellow Destination Box */
+.mode-ctb .header-dest-box {
+  background: var(--ctb-bright-yellow) !important;
+  padding: 8px 14px !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mode-ctb .dest-prefix {
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+.mode-ctb .dest-zh {
+  color: #000000 !important;
+  font-weight: 900 !important;
+}
+
+.mode-ctb .dest-en {
+  color: #1F2937 !important;
+  font-weight: 700 !important;
+}
+
+/* Right Time Box (Grey in Main_Panel_G / Purple in Main_Panel_P) */
+.mode-ctb.theme-grey .header-time-box {
+  background: #E5E7EB !important;
+  color: #111827 !important;
+  padding: 8px 14px !important;
+  min-width: 90px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.mode-ctb.theme-purple .header-time-box {
+  background: #EDE7F6 !important;
+  color: #111827 !important;
+  padding: 8px 14px !important;
+  min-width: 90px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.mode-ctb .header-time-box .time-label {
+  color: #4B5563 !important;
+  font-size: 10px !important;
+}
+
+.mode-ctb .header-time-box .time-value {
+  color: #0F172A !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+
+/* 2. Mode 3 Fare Base for CTB Normal (LECIP_Mon2_Fare_11/12/22.png) */
+.mode-ctb #panel-mode-3 .section-title-bar {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  border-bottom: none !important;
+}
+
+.mode-ctb .mode3-fare-base {
+  border: 3.5px solid var(--ctb-royal-blue) !important;
+  box-shadow: 0 2px 8px rgba(0,34,170,0.2) !important;
+}
+
+.mode-ctb .stage-price-col .price-val {
+  color: var(--ctb-royal-blue) !important;
+}
+
+/* 3. Mode 3 Interchange Base for CTB Normal (LECIP_Mon2_Interchange_11/12/22.png) */
+.mode-ctb #panel-mode-3 .interchange-header {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-ctb .ic-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+}
+
+.mode-ctb .ic-eta-val {
+  color: var(--ctb-royal-blue) !important;
+}
+
+/* 4. Driver Bar for CTB Normal (LECIP_Mon2_Driver_ID.png & No_Driver_ID.png) */
+.mode-ctb .v-driver-card {
+  border-top: 3.5px solid var(--ctb-divider-red) !important;
+  background: #FFFFFF !important;
+}
+
+.mode-ctb .v-captain-zh, 
+.mode-ctb .v-captain-en,
+.mode-ctb .v-id-label .zh, 
+.mode-ctb .v-id-label .en,
+.mode-ctb .v-id-num {
+  color: var(--ctb-royal-blue) !important;
+}
+
+.mode-ctb .v-col-motto {
+  background: var(--ctb-royal-blue) !important;
+}
+
+.mode-ctb .v-col-route-info {
+  background: var(--ctb-royal-blue) !important;
+}
+
+/* 5. Navigation Track Bar for CTB Normal */
+.mode-ctb .route-nav-track-col {
+  background: var(--ctb-royal-blue) !important;
+}
+
+.mode-ctb .track-circle-upcoming {
+  color: var(--ctb-royal-blue) !important;
+}
+
+
+/* ==========================================================================
+   EXTRA PAGE 3 VERTICAL WHITE DOTS (13Stop\L\ as in d4b085ba.png - 3ed0c32a.png)
+   ========================================================================== */
+.track-dots-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 8px 0;
+  flex-shrink: 0;
+}
+
+.track-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.row-ellipsis {
+  font-size: 11px;
+  font-style: italic;
+}
+
+
+/* ==========================================================================
+   ROUTE SEARCH, REAL GPS HUD & FULLSCREEN POMO POSTER
+   ========================================================================== */
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.route-search-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 240px;
+  overflow-y: auto;
+  background: #1E293B;
+  border: 1.5px solid #0284C7;
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.route-search-dropdown.hidden {
+  display: none !important;
+}
+
+.route-search-item {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #334155;
+  color: #F8FAFC;
+  font-size: 13px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background 0.15s ease;
+}
+
+.route-search-item:hover {
+  background: #2563EB;
+}
+
+.route-badge-mini {
+  background: #0022AA;
+  color: #FFF;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* GPS Telemetry HUD */
+.gps-telemetry-card {
+  background: #0F172A;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.telemetry-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+.telemetry-row:last-child {
+  border-bottom: none;
+}
+
+.telemetry-label {
+  color: #94A3B8;
+  font-weight: 500;
+}
+
+.telemetry-val {
+  color: #F8FAFC;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+.highlight-dist {
+  color: #38BDF8 !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+/* Target Distance Badge on MON2 Screen */
+.target-dist-badge {
+  background: rgba(0,0,0,0.3);
+  color: #FDE047;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-left: 8px;
+  font-weight: 800;
+  font-family: var(--font-english);
+}
+
+/* Mode 4 Full Screen Poster ("讀取專案中 pomo folder 的圖片 隨機播放其中一張 全屏播放") */
+.in-mode-4-fullscreen .mon2-header,
+.in-mode-4-fullscreen .mon2-footer,
+.in-mode-4-fullscreen .page-top-strip {
+  display: none !important;
+}
+
+.in-mode-4-fullscreen #panel-mode-4 {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 9999 !important;
+  background: #000000 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.poster-fullscreen-layer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  overflow: hidden;
+}
+
+.pomo-fullscreen-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000000;
+}

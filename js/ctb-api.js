@@ -20,33 +20,64 @@ class CitybusAPIService {
     this.apiOnline = true;
   }
 
-  // 1. Fetch All Citybus Routes
+  // 1. Fetch All Citybus Routes (with local cache and robust search support)
   async getRoutes() {
-    if (this.routeCache) return this.routeCache;
+    if (this.routeCache && this.routeCache.length > 0) return this.routeCache;
 
     try {
       const resp = await fetch(`${this.baseUrl}/route/ctb`, { cache: "default" });
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const json = await resp.json();
-      if (json && json.data) {
+      if (json && json.data && json.data.length > 0) {
         this.apiOnline = true;
-        this.routeCache = json.data;
-        return json.data;
+        // Merge preset routes if any are missing
+        const apiRoutes = json.data;
+        MON2_DATA.routes.forEach(pr => {
+          if (!apiRoutes.some(ar => ar.route === pr.code)) {
+            apiRoutes.push({
+              co: pr.company || "CTB",
+              route: pr.code,
+              orig_tc: pr.origin.zh,
+              orig_en: pr.origin.en,
+              dest_tc: pr.dest.zh,
+              dest_en: pr.dest.en
+            });
+          }
+        });
+        this.routeCache = apiRoutes;
+        return apiRoutes;
       }
     } catch (err) {
       console.warn("Citybus API /route/ctb unreachable, using fallback database:", err);
       this.apiOnline = false;
-      // Convert preset routes in data.js to route list format
-      return MON2_DATA.routes.map(r => ({
-        co: r.company || "CTB",
-        route: r.code,
-        orig_tc: r.origin.zh,
-        orig_en: r.origin.en,
-        dest_tc: r.dest.zh,
-        dest_en: r.dest.en,
-        isFallback: true
-      }));
     }
+
+    // Comprehensive fallback route database
+    const fallbackList = MON2_DATA.routes.map(r => ({
+      co: r.company || "CTB",
+      route: r.code,
+      orig_tc: r.origin.zh,
+      orig_en: r.origin.en,
+      dest_tc: r.dest.zh,
+      dest_en: r.dest.en,
+      isFallback: true
+    }));
+    this.routeCache = fallbackList;
+    return fallbackList;
+  }
+
+  // Search routes by keyword (e.g. "914", "A12", "780", "海麗", "銅鑼灣")
+  async searchRoutes(query) {
+    const all = await this.getRoutes();
+    if (!query || !query.trim()) return all.slice(0, 30);
+    const q = query.trim().toUpperCase();
+    return all.filter(r => 
+      (r.route && r.route.toUpperCase().includes(q)) ||
+      (r.orig_tc && r.orig_tc.includes(q)) ||
+      (r.dest_tc && r.dest_tc.includes(q)) ||
+      (r.orig_en && r.orig_en.toUpperCase().includes(q)) ||
+      (r.dest_en && r.dest_en.toUpperCase().includes(q))
+    ).slice(0, 50);
   }
 
   // 2. Fetch Route Stops for Direction (outbound / inbound)
@@ -66,6 +97,8 @@ class CitybusAPIService {
             stopId: item.stop,
             zh: stopInfo.name_tc || `車站 ${item.seq}`,
             en: stopInfo.name_en || `Stop ${item.seq}`,
+            lat: parseFloat(stopInfo.lat) || 0,
+            long: parseFloat(stopInfo.long) || 0,
             subZh: "",
             subEn: "",
             fare: "$7.7",

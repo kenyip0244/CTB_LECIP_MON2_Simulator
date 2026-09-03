@@ -27,6 +27,14 @@ class Mon2Controller {
     this.tripStepTimer = null;
     this.isTripPaused = false;
     this.timeInPhase = 0;
+
+    // Real GPS & Dynamic Target Distance ("目標站距：實時動態顯示距離下一個目標站點的剩餘米數。是時間計算的")
+    this.useRealGPS = false;
+    this.gpsWatchId = null;
+    this.targetDistanceMeters = 850;
+    this.legTotalDistance = 850;
+    this.currentSpeedKmh = 36;
+    this.currentGPSCoords = null;
   }
 
   async init() {
@@ -35,6 +43,17 @@ class Mon2Controller {
   }
 
   bindDOM() {
+    // 0. Route Search Input & Dropdown ("Api獲取所有路線資料 然後選擇路線可以搜尋")
+    this.setupRouteSearch();
+
+    // 0.1 Real GPS Toggle ("Use real GPS")
+    const gpsToggle = document.getElementById("ctrl-real-gps-toggle");
+    if (gpsToggle) {
+      gpsToggle.addEventListener("change", (e) => {
+        this.toggleRealGPS(e.target.checked);
+      });
+    }
+
     // 1. Route Selector
     const routeSelect = document.getElementById("api-route-select");
     if (routeSelect) {
@@ -99,6 +118,13 @@ class Mon2Controller {
     }
 
     // 5. System Configurations (Mon2_constfile)
+    const themeSelect = document.getElementById("ctrl-theme-base");
+    if (themeSelect) {
+      themeSelect.addEventListener("change", (e) => {
+        this.display.setThemeBase(e.target.value);
+      });
+    }
+
     const orientSelect = document.getElementById("ctrl-orient-select");
     if (orientSelect) {
       orientSelect.addEventListener("change", (e) => {
@@ -330,19 +356,42 @@ class Mon2Controller {
   stepTripProgression() {
     this.timeInPhase += this.speedMultiplier;
 
-    // Phase timings (in seconds):
-    // 1. 'departing': 8s (showing Next stop, cycling through Mon2 modes)
-    // 2. 'arriving': 6s (switches to 'This stop', chimes, approaches)
-    // 3. 'dwelling': 5s (bus stopped at station, doors open)
-    const transitDuration = 18; // Transit time between stops
-    const dwellDuration = 6;    // Dwell time at station
-
+    const transitDuration = 22; // Transit duration between stops
+    const dwellDuration = 6;    // Dwell time at stop
     const curStop = this.currentStops[this.currentStopIndex];
+    const prevStop = this.currentStops[Math.max(0, this.currentStopIndex - 1)];
     const isTerminus = (this.currentStopIndex >= this.currentStops.length - 1);
 
+    // Dynamic Target Distance Calculation: 「目標站距：實時動態顯示距離下一個目標站點的剩餘米數（例如 距離下一站: 142m）。 是時間計算的」
+    if (!this.useRealGPS) {
+      // Calculate leg distance from real GPS coordinates of stops, fallback to ~850m
+      if (curStop && prevStop && curStop.lat && prevStop.lat && curStop !== prevStop) {
+        this.legTotalDistance = Math.round(this.getHaversineDistance(prevStop.lat, prevStop.long, curStop.lat, curStop.long));
+      } else {
+        this.legTotalDistance = 850;
+      }
+
+      if (this.tripStatus === "departing") {
+        const progress = Math.min(1.0, this.timeInPhase / transitDuration);
+        this.targetDistanceMeters = Math.max(0, Math.round(this.legTotalDistance * (1.0 - progress)));
+      } else if (this.tripStatus === "arriving") {
+        this.targetDistanceMeters = Math.max(0, Math.round(90 * (1.0 - (this.timeInPhase / 4))));
+      } else {
+        this.targetDistanceMeters = 0;
+      }
+
+      // Push real-time distance to Mon2Display (HUD badge: 距 142m)
+      this.display.setTargetDistance(this.targetDistanceMeters);
+
+      const targetDistEl = document.getElementById("gps-target-distance-meters");
+      if (targetDistEl) {
+        targetDistEl.textContent = `距離下一站: ${this.targetDistanceMeters}m`;
+      }
+    }
+
     if (this.tripStatus === "departing") {
-      if (this.timeInPhase >= transitDuration) {
-        // Switch to arriving / This Stop
+      // When approaching stop (under 100 meters or time threshold) -> trigger 'arriving'
+      if (this.timeInPhase >= transitDuration || (!this.useRealGPS && this.targetDistanceMeters <= 100 && this.timeInPhase >= 8)) {
         this.tripStatus = "arriving";
         this.timeInPhase = 0;
         this.display.arriveStop();
@@ -362,7 +411,7 @@ class Mon2Controller {
           return;
         }
 
-        // Advance to next stop automatically!
+        // Advance to next stop
         this.currentStopIndex++;
         this.tripStatus = "departing";
         this.timeInPhase = 0;
@@ -423,6 +472,185 @@ class Mon2Controller {
   updateModePills(modeNum) {
     // Keep internal state updated
   }
+
+  // --- Searchable Route System: Api獲取所有路線資料 然後選擇路線可以搜尋 ---
+  setupRouteSearch() {
+    const searchInput = document.getElementById("route-search-input");
+    const dropdown = document.getElementById("route-search-dropdown");
+    if (!searchInput || !dropdown) return;
+
+    searchInput.addEventListener("input", async (e) => {
+      const q = e.target.value.trim();
+      if (!q) {
+        dropdown.classList.add("hidden");
+        return;
+      }
+
+      const results = await this.api.searchRoutes(q);
+      if (!results || results.length === 0) {
+        dropdown.innerHTML = `<div class="route-search-item" style="color: #94A3B8;">查無相關路線</div>`;
+        dropdown.classList.remove("hidden");
+        return;
+      }
+
+      dropdown.innerHTML = "";
+      results.forEach(r => {
+        const item = document.createElement("div");
+        item.className = "route-search-item";
+        item.innerHTML = `
+          <div>
+            <span class="route-badge-mini">${r.route}</span>
+            <strong style="margin-left: 6px;">${r.orig_tc || ''} ➔ ${r.dest_tc || ''}</strong>
+          </div>
+          <small style="color: #94A3B8;">${r.orig_en || ''} ➔ ${r.dest_en || ''}</small>
+        `;
+        item.addEventListener("click", async () => {
+          this.selectedRouteCode = r.route;
+          searchInput.value = `${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
+          dropdown.classList.add("hidden");
+
+          // Update select box if exists
+          const select = document.getElementById("api-route-select");
+          if (select) {
+            let opt = Array.from(select.options).find(o => o.value === r.route);
+            if (!opt) {
+              opt = document.createElement("option");
+              opt.value = r.route;
+              opt.textContent = `【城巴】${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
+              select.appendChild(opt);
+            }
+            select.value = r.route;
+          }
+
+          await this.loadRouteDirectionAndStops();
+        });
+        dropdown.appendChild(item);
+      });
+
+      dropdown.classList.remove("hidden");
+    });
+
+    // Close dropdown on click outside
+    document.addEventListener("click", (e) => {
+      if (!searchInput.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+  }
+
+  // --- Real GPS Tracking Engine ("Use real GPS") ---
+  toggleRealGPS(enable) {
+    this.useRealGPS = enable;
+    const statusEl = document.getElementById("gps-status-indicator");
+
+    if (enable) {
+      if (!navigator.geolocation) {
+        alert("您的裝置或瀏覽器不支援 HTML5 Geolocation GPS 定位功能");
+        const toggle = document.getElementById("ctrl-real-gps-toggle");
+        if (toggle) toggle.checked = false;
+        this.useRealGPS = false;
+        return;
+      }
+
+      if (statusEl) {
+        statusEl.innerHTML = `<span style="color:#38BDF8">●</span> 正在搜尋 GPS 衛星訊號 (High Accuracy)...`;
+      }
+
+      this.gpsWatchId = navigator.geolocation.watchPosition(
+        (pos) => this.onGPSUpdate(pos),
+        (err) => this.onGPSError(err),
+        { enableHighAccuracy: true, maximumAge: 1000, timeout: 10000 }
+      );
+    } else {
+      if (this.gpsWatchId) {
+        navigator.geolocation.clearWatch(this.gpsWatchId);
+        this.gpsWatchId = null;
+      }
+      if (statusEl) {
+        statusEl.innerHTML = `<span style="color:#EAB308">●</span> 模擬行駛時間計算模式 (Time-Based Calculation)`;
+      }
+    }
+  }
+
+  onGPSUpdate(pos) {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const acc = Math.round(pos.coords.accuracy || 10);
+    const speedKmh = Math.round((pos.coords.speed || 0) * 3.6);
+
+    this.currentGPSCoords = { lat, lon, acc, speedKmh };
+    this.currentSpeedKmh = speedKmh;
+
+    const statusEl = document.getElementById("gps-status-indicator");
+    const coordsEl = document.getElementById("gps-coords-display");
+    const speedEl = document.getElementById("gps-speed-kmh");
+
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#22C55E">●</span> GPS 實時定位追蹤中 (High Accuracy)`;
+    }
+    if (coordsEl) {
+      coordsEl.textContent = `${lat.toFixed(5)}° N, ${lon.toFixed(5)}° E (±${acc}m)`;
+    }
+    if (speedEl) {
+      speedEl.textContent = `${speedKmh} km/h`;
+    }
+
+    const curStop = this.currentStops[this.currentStopIndex];
+    if (curStop && curStop.lat && curStop.long) {
+      const dist = this.getHaversineDistance(lat, lon, curStop.lat, curStop.long);
+      this.targetDistanceMeters = Math.max(0, Math.round(dist));
+
+      // Update screen target distance
+      this.display.setTargetDistance(this.targetDistanceMeters);
+
+      const targetDistEl = document.getElementById("gps-target-distance-meters");
+      if (targetDistEl) {
+        targetDistEl.textContent = `距離下一站: ${this.targetDistanceMeters}m`;
+      }
+
+      // Real-life auto arrival detection
+      if (this.targetDistanceMeters <= 100 && this.tripStatus === "departing") {
+        this.tripStatus = "arriving";
+        this.display.arriveStop();
+        this.audio.playChime();
+        this.audio.speakAnnouncement(curStop, "arrived");
+      } else if (this.tripStatus === "arriving" && this.targetDistanceMeters > 130 && speedKmh > 6) {
+        // Bus departed stop in real life
+        if (this.currentStopIndex < this.currentStops.length - 1) {
+          this.currentStopIndex++;
+          this.tripStatus = "departing";
+          const nextStopData = this.currentStops[this.currentStopIndex];
+          this.display.nextStop();
+          this.audio.playChime();
+          if (nextStopData) this.audio.speakAnnouncement(nextStopData, "next");
+        }
+      }
+    }
+  }
+
+  onGPSError(err) {
+    console.warn("GPS Geolocation error:", err);
+    const statusEl = document.getElementById("gps-status-indicator");
+    if (statusEl) {
+      statusEl.innerHTML = `<span style="color:#EF4444">●</span> GPS 定位失敗 (${err.message})，自動切換至時間計算模式`;
+    }
+  }
+
+  getHaversineDistance(lat1, lon1, lat2, lon2) {
+    if (!lat1 || !lon1 || !lat2 || !lon2) return 750;
+    const R = 6371e3; // metres
+    const φ1 = lat1 * Math.PI / 180;
+    const φ2 = lat2 * Math.PI / 180;
+    const Δφ = (lat2 - lat1) * Math.PI / 180;
+    const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+    const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+              Math.cos(φ1) * Math.cos(φ2) *
+              Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
 }
 
 window.Mon2Controller = Mon2Controller;

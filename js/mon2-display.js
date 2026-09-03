@@ -72,6 +72,7 @@ class Mon2Display {
 
     // Posters (Real Citybus logic: Random Poster Selection 這是隨機放的)
     this.randomPosterMode = true; // 預設為隨機播放
+    this.themeOverride = "auto"; // auto, cityflyer, ctb, nwfb, rickshaw
     this.currentPosterIndex = Math.floor(Math.random() * (MON2_DATA.posters ? MON2_DATA.posters.length : 21));
     this.Mon2_Now_Poster = (MON2_DATA.posters && MON2_DATA.posters[this.currentPosterIndex]) ? MON2_DATA.posters[this.currentPosterIndex].id : 1;
 
@@ -159,6 +160,7 @@ class Mon2Display {
                 <div class="status-callout zh-callout" id="zh-status-callout">
                   <span class="status-indicator-arrow">▼</span>
                   <span class="status-text" id="zh-status-text">下一站</span>
+                  <span class="target-dist-badge" id="hud-target-dist-zh">距 142m</span>
                 </div>
                 <div class="page-cycle-tag">Mode 1: 中文停靠三站</div>
               </div>
@@ -171,6 +173,7 @@ class Mon2Display {
                 <div class="status-callout en-callout" id="en-status-callout">
                   <span class="status-indicator-arrow">▼</span>
                   <span class="status-text" id="en-status-text">Next stop</span>
+                  <span class="target-dist-badge" id="hud-target-dist-en">142m</span>
                 </div>
                 <div class="page-cycle-tag">Mode 2: English 3-Stop</div>
               </div>
@@ -444,6 +447,8 @@ class Mon2Display {
           this.Mon2_Mode = 5;
           this.Mon2_Page_Timer = 0;
           this.Mon2_Page_Now = 1;
+          const curIdx = Math.max(0, this.telargo_busstop - 1);
+          this.renderMode5(curIdx);
         }
       } else if (this.Mon2_Mode === 4) {
         // Mode 4: Poster Mode (LECIP_Mon2_Mode4)
@@ -493,9 +498,11 @@ class Mon2Display {
           }
         }
       } else {
-        // Advance to next page of AllStop
+        // Advance to next page of AllStop (如果多於13站 就再開一頁)
         this.Mon2_Page_Now += 1;
         this.Mon2_Page_Timer = 0;
+        const curIdx = Math.max(0, this.telargo_busstop - 1);
+        this.renderMode5(curIdx);
       }
     }
 
@@ -539,6 +546,15 @@ class Mon2Display {
       4: document.getElementById("panel-mode-4"),
       5: document.getElementById("panel-mode-5")
     };
+
+    const frame = document.getElementById("mon2-frame");
+    if (frame) {
+      if (this.Mon2_Mode === 4) {
+        frame.classList.add("in-mode-4-fullscreen");
+      } else {
+        frame.classList.remove("in-mode-4-fullscreen");
+      }
+    }
 
     for (const [m, el] of Object.entries(panels)) {
       if (!el) continue;
@@ -623,49 +639,58 @@ class Mon2Display {
     this.renderAllPanels();
   }
 
+  setThemeBase(theme) {
+    this.themeOverride = theme;
+    this.detectRouteTexMode();
+  }
+
   // --- Route & Texture Mode Detection as in Mon2.osc lines 53-85 ---
   detectRouteTexMode() {
     if (!this.currentRoute) return;
     const r = this.currentRoute;
     const frame = document.getElementById("mon2-frame");
     const badge = document.getElementById("route-badge");
+    if (!frame) return;
 
-    if (r.code.startsWith("H") || r.isRickshaw) {
-      this.Mon2_Tex_Mode = 2; // NWFB RSB
-      if (frame) {
-        frame.classList.remove("mode-cityflyer", "mode-ctb", "mode-nwfb");
-        frame.classList.add("mode-rickshaw");
+    frame.classList.remove("mode-cityflyer", "mode-ctb", "mode-nwfb", "mode-rickshaw");
+
+    let targetTheme = this.themeOverride;
+    if (targetTheme === "auto") {
+      if (r.code.startsWith("H") || r.isRickshaw) {
+        targetTheme = "rickshaw";
+      } else if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
+        targetTheme = "cityflyer";
+      } else if (r.company === "NWFB") {
+        targetTheme = "nwfb";
+      } else {
+        targetTheme = "ctb";
       }
+    }
+
+    if (targetTheme === "cityflyer") {
+      this.Mon2_Tex_Mode = 1; // CTB CityFlyer
+      frame.classList.add("mode-cityflyer");
+      if (badge) {
+        badge.style.backgroundColor = "#FFFFFF";
+        badge.style.color = "#B70028";
+      }
+    } else if (targetTheme === "rickshaw") {
+      this.Mon2_Tex_Mode = 2; // NWFB RSB
+      frame.classList.add("mode-rickshaw");
       if (badge) {
         badge.style.backgroundColor = "#8B1E1E";
         badge.style.color = "#FFD700";
       }
-    } else if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
-      this.Mon2_Tex_Mode = 1; // CTB CityFlyer
-      if (frame) {
-        frame.classList.remove("mode-rickshaw", "mode-ctb", "mode-nwfb");
-        frame.classList.add("mode-cityflyer");
-      }
-      if (badge) {
-        badge.style.backgroundColor = r.colorHex || "#E6007E";
-        badge.style.color = "#FFFFFF";
-      }
-    } else if (r.company === "NWFB") {
+    } else if (targetTheme === "nwfb") {
       this.Mon2_Tex_Mode = 0; // NWFB Normal
-      if (frame) {
-        frame.classList.remove("mode-rickshaw", "mode-cityflyer", "mode-ctb");
-        frame.classList.add("mode-nwfb");
-      }
+      frame.classList.add("mode-nwfb");
       if (badge) {
         badge.style.backgroundColor = "#FF6600";
         badge.style.color = "#FFFFFF";
       }
     } else {
       this.Mon2_Tex_Mode = 0; // CTB Normal
-      if (frame) {
-        frame.classList.remove("mode-rickshaw", "mode-cityflyer", "mode-nwfb");
-        frame.classList.add("mode-ctb");
-      }
+      frame.classList.add("mode-ctb");
       if (badge) {
         badge.style.backgroundColor = r.colorHex || "#004B87";
         badge.style.color = r.textColor || "#FFFFFF";
@@ -830,66 +855,147 @@ class Mon2Display {
     const container = document.getElementById("zh-trio-stops");
     if (!container || !this.currentRoute) return;
 
-    container.innerHTML = "";
     const stops = this.currentRoute.stops;
-    const trio = stops.slice(curIdx, curIdx + 3);
+    const leftStop = Math.max(1, stops.length - curIdx);
+    const nCircles = Math.min(3, leftStop);
+    const trio = stops.slice(curIdx, curIdx + nCircles);
+    const isArrow4 = (leftStop >= 4);
 
-    trio.forEach((s, idx) => {
-      const isFirst = idx === 0;
+    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    let rowsHtml = "";
+
+    for (let idx = 0; idx < nCircles; idx++) {
+      const s = trio[idx];
+      const isFirst = (idx === 0);
       let etaMins = (idx * 2) + (isFirst ? 0 : 2);
 
-      const row = document.createElement("div");
-      row.className = `trio-row ${isFirst ? "row-active" : ""}`;
-      row.innerHTML = `
-        <div class="trio-seq-col">
-          <div class="trio-circle ${isFirst ? "circle-active" : "circle-upcoming"}">
-            ${s.num}
+      // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
+      if (idx > 0) {
+        circlesHtml += `
+          <div class="track-white-chevron">
+            <svg viewBox="0 0 24 14" width="22" height="12">
+              <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
-          ${idx < trio.length - 1 ? '<div class="trio-arrow-line"></div>' : ''}
-        </div>
-        <div class="trio-name-col">
-          <div class="trio-main-name">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
-          ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
-        </div>
-        <div class="trio-eta-col">
-          ${isFirst ? '<span class="tag-active-stop">此站</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`}
+        `;
+      }
+
+      circlesHtml += `
+        <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+          ${s.num}
         </div>
       `;
-      container.appendChild(row);
-    });
+
+      rowsHtml += `
+        <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
+          <div class="trio-name-col">
+            <div class="trio-main-name">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+            ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
+          </div>
+          <div class="trio-eta-col">
+            ${isFirst ? '<span class="tag-active-stop">此站</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`}
+          </div>
+        </div>
+      `;
+    }
+
+    // If leftStop >= 4 -> add white chevron and pointed downward arrow tip (Arrow_4.png)
+    if (isArrow4) {
+      circlesHtml += `
+        <div class="track-white-chevron">
+          <svg viewBox="0 0 24 14" width="22" height="12">
+            <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="track-bar-point-bottom"></div>
+      `;
+    }
+
+    const arrowClass = isArrow4 ? "arrow-pointed" : "arrow-rounded";
+
+    container.innerHTML = `
+      <div class="trio-layout-wrapper">
+        <div class="route-nav-track-col ${arrowClass}">
+          ${circlesHtml}
+        </div>
+        <div class="trio-content-col">
+          ${rowsHtml}
+        </div>
+      </div>
+    `;
   }
 
   renderEnglishTrioStops(curIdx) {
     const container = document.getElementById("en-trio-stops");
     if (!container || !this.currentRoute) return;
 
-    container.innerHTML = "";
     const stops = this.currentRoute.stops;
-    const trio = stops.slice(curIdx, curIdx + 3);
+    const leftStop = Math.max(1, stops.length - curIdx);
+    const nCircles = Math.min(3, leftStop);
+    const trio = stops.slice(curIdx, curIdx + nCircles);
+    const isArrow4 = (leftStop >= 4);
 
-    trio.forEach((s, idx) => {
-      const isFirst = idx === 0;
+    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    let rowsHtml = "";
+
+    for (let idx = 0; idx < nCircles; idx++) {
+      const s = trio[idx];
+      const isFirst = (idx === 0);
       let etaMins = (idx * 2) + (isFirst ? 0 : 2);
 
-      const row = document.createElement("div");
-      row.className = `trio-row ${isFirst ? "row-active" : ""}`;
-      row.innerHTML = `
-        <div class="trio-seq-col">
-          <div class="trio-circle ${isFirst ? "circle-active" : "circle-upcoming"}">
-            ${s.num}
+      // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
+      if (idx > 0) {
+        circlesHtml += `
+          <div class="track-white-chevron">
+            <svg viewBox="0 0 24 14" width="22" height="12">
+              <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
           </div>
-          ${idx < trio.length - 1 ? '<div class="trio-arrow-line"></div>' : ''}
-        </div>
-        <div class="trio-name-col">
-          <div class="trio-main-name">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
-          ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
-        </div>
-        <div class="trio-eta-col">
-          ${isFirst ? '<span class="tag-active-stop">Now</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`}
+        `;
+      }
+
+      circlesHtml += `
+        <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+          ${s.num}
         </div>
       `;
-      container.appendChild(row);
-    });
+
+      rowsHtml += `
+        <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
+          <div class="trio-name-col">
+            <div class="trio-main-name">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
+            ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
+          </div>
+          <div class="trio-eta-col">
+            ${isFirst ? '<span class="tag-active-stop">Now</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`}
+          </div>
+        </div>
+      `;
+    }
+
+    if (isArrow4) {
+      circlesHtml += `
+        <div class="track-white-chevron">
+          <svg viewBox="0 0 24 14" width="22" height="12">
+            <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="track-bar-point-bottom"></div>
+      `;
+    }
+
+    const arrowClass = isArrow4 ? "arrow-pointed" : "arrow-rounded";
+
+    container.innerHTML = `
+      <div class="trio-layout-wrapper">
+        <div class="route-nav-track-col ${arrowClass}">
+          ${circlesHtml}
+        </div>
+        <div class="trio-content-col">
+          ${rowsHtml}
+        </div>
+      </div>
+    `;
   }
 
   renderMode3(stop) {
@@ -900,6 +1006,7 @@ class Mon2Display {
     if (!wrap) return;
 
     wrap.innerHTML = "";
+    const leftStop = Math.max(1, (this.currentRoute ? this.currentRoute.stops.length : 1) - (this.telargo_busstop - 1));
 
     // If stop has interchange routes -> Render LECIP_Mon2_Interchange_11.png
     if (stop.interchanges && stop.interchanges.length > 0) {
@@ -966,8 +1073,14 @@ class Mon2Display {
             </div>
           </div>
 
-          <!-- Section Fare Rows -->
-          <div class="fare-stage-list">
+          <!-- Section Fare Body with Arrow_11 / Arrow_1 Track -->
+          <div class="fare-main-layout">
+            <div class="route-nav-track-col mode3-track ${leftStop >= 2 ? 'arrow-pointed' : 'arrow-rounded'}">
+              <div class="track-bar-chevron"></div>
+              <div class="track-circle-active">${stop.num}</div>
+              ${leftStop >= 2 ? '<div class="mode3-solid-bar"></div><div class="track-bar-point-bottom"></div>' : ''}
+            </div>
+            <div class="fare-stage-list">
       `;
 
       fareStages.forEach((stage, idx) => {
@@ -985,6 +1098,7 @@ class Mon2Display {
       });
 
       tableHtml += `
+            </div>
           </div>
 
           <!-- Bottom Notice with QR code as in LECIP_Mon2_Fare_12.png -->
@@ -1042,46 +1156,182 @@ class Mon2Display {
     const listEl = document.getElementById("allstop-stops-list");
     if (!listEl || !this.currentRoute) return;
 
-    listEl.innerHTML = "";
     const stops = this.currentRoute.stops;
+    const remainingStops = stops.slice(curIdx);
+    const totalRemaining = remainingStops.length;
 
-    // In Mon2.osc lines 270-420: Page 1 shows up to 13 stops. Page 2 shows next 11 stops.
-    const startIdx = (this.Mon2_Page_Now === 1) ? curIdx : (curIdx + 12 + (this.Mon2_Page_Now - 2) * 11);
-    const displayList = stops.slice(startIdx, startIdx + 13);
+    // 「如果多於13站 就再開一頁」：
+    // 第 1 頁顯示當前站及隨後最多 13 站。
+    // 若剩餘站數多於 13 站，每超過 10 站再自動開一頁 (Page 2, Page 3...)
+    if (totalRemaining <= 13) {
+      this.Mon2_Page_Totel = 1;
+    } else {
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalRemaining - 13) / 10);
+    }
 
-    displayList.forEach((s, idx) => {
-      const isFirst = (idx === 0 && this.Mon2_Page_Now === 1);
-      const isYellowRow = idx % 2 === 0; // Alternating row color as in Mon2.osc
-      const row = document.createElement("div");
-      row.className = `ladder-row ${isYellowRow ? "row-yellow" : "row-white"} ${isFirst ? "row-current" : ""}`;
+    if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
+      this.Mon2_Page_Now = this.Mon2_Page_Totel;
+    }
 
-      row.innerHTML = `
-        <div class="ladder-circle-col">
-          <div class="ladder-circle ${isFirst ? "circle-green" : "circle-blue"}">
+    // 更新分頁數字標籤 (例如 1/2, 2/2, 1/3, 2/3, 3/3, 1/4...)
+    const pageEl = document.getElementById("allstop-page-indicator");
+    if (pageEl) {
+      pageEl.textContent = `${this.Mon2_Page_Now}/${this.Mon2_Page_Totel}`;
+    }
+
+    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    let rowsHtml = "";
+
+    if (this.Mon2_Page_Now === 1) {
+      // 第 1 頁：顯示當前站至隨後最多 13 站 (13Stop\S\ 原裝連續圓圈格式)
+      const displayList = remainingStops.slice(0, 13);
+
+      displayList.forEach((s, idx) => {
+        const isFirst = (idx === 0);
+        const isYellowRow = (idx % 2 === 0);
+
+        circlesHtml += `
+          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
             ${s.num}
           </div>
-          ${idx < displayList.length - 1 ? '<div class="ladder-line"></div>' : ''}
-        </div>
-        <div class="ladder-names-bilingual">
-          <span class="ladder-zh-col">${s.zh}</span>
-          <span class="ladder-en-col">${s.en}</span>
-        </div>
-        <div class="ladder-eta-col">
-          ${isFirst ? '<span class="tag-current">此站</span>' : `<span class="eta-mins">${(idx * 2) + 1}</span><small class="eta-min-text">分</small>`}
+        `;
+
+        rowsHtml += `
+          <div class="ladder-row ${isYellowRow ? 'row-yellow' : 'row-white'} ${isFirst ? 'row-current' : ''}">
+            <div class="ladder-names-bilingual">
+              <span class="ladder-zh-col">${s.zh}</span>
+              <span class="ladder-en-col">${s.en}</span>
+            </div>
+            <div class="ladder-eta-col">
+              ${isFirst ? '<span class="tag-current">此站</span>' : `<span class="eta-mins">${(idx * 2) + 1}</span><small class="eta-min-text">分</small>`}
+            </div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = `
+        <div class="ladder-layout-wrapper">
+          <div class="route-nav-track-col ladder-track arrow-rounded">
+            ${circlesHtml}
+          </div>
+          <div class="ladder-content-col">
+            ${rowsHtml}
+          </div>
         </div>
       `;
-      listEl.appendChild(row);
-    });
+    } else {
+      // 第 2 頁及之後 (多於13站再開一頁)：13Stop\L\ 格式 (起點站 + 3 顆白點省略號 + 該頁隨後車站)
+      const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
+      const pageOffset = (this.Mon2_Page_Now - 2) * 10;
+      const startInRemaining = 13 + pageOffset;
+      const displayList = remainingStops.slice(startInRemaining, startInRemaining + 10);
+
+      // 1. 頂部起點站圓圈與站名
+      circlesHtml += `
+        <div class="track-circle-upcoming">
+          ${firstStop.num}
+        </div>
+      `;
+
+      rowsHtml += `
+        <div class="ladder-row row-yellow">
+          <div class="ladder-names-bilingual">
+            <span class="ladder-zh-col">${firstStop.zh}</span>
+            <span class="ladder-en-col">${firstStop.en}</span>
+          </div>
+          <div class="ladder-eta-col">
+            <span class="eta-mins">--</span>
+          </div>
+        </div>
+      `;
+
+      // 2. 3 顆縱向白點省略號 (13Stop\L\ 原裝貼圖特徵)
+      circlesHtml += `
+        <div class="track-dots-group">
+          <span class="track-dot"></span>
+          <span class="track-dot"></span>
+          <span class="track-dot"></span>
+        </div>
+      `;
+
+      rowsHtml += `
+        <div class="ladder-row row-white row-ellipsis">
+          <div class="ladder-names-bilingual" style="justify-content: center; color: #94A3B8;">
+            <span>• • • (已略過第 ${this.Mon2_Page_Now - 1} 頁車站) • • •</span>
+          </div>
+          <div class="ladder-eta-col"></div>
+        </div>
+      `;
+
+      // 3. 該頁之隨後車站列表
+      displayList.forEach((s, idx) => {
+        const isYellowRow = ((idx + 2) % 2 === 0);
+
+        circlesHtml += `
+          <div class="track-circle-upcoming">
+            ${s.num}
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-row ${isYellowRow ? 'row-yellow' : 'row-white'}">
+            <div class="ladder-names-bilingual">
+              <span class="ladder-zh-col">${s.zh}</span>
+              <span class="ladder-en-col">${s.en}</span>
+            </div>
+            <div class="ladder-eta-col">
+              <span class="eta-mins">${(startInRemaining + idx) * 2 + 1}</span><small class="eta-min-text">分</small>
+            </div>
+          </div>
+        `;
+      });
+
+      listEl.innerHTML = `
+        <div class="ladder-layout-wrapper">
+          <div class="route-nav-track-col ladder-track arrow-rounded">
+            ${circlesHtml}
+          </div>
+          <div class="ladder-content-col">
+            ${rowsHtml}
+          </div>
+        </div>
+      `;
+    }
   }
 
-  renderPoster() {
-    const p = MON2_DATA.posters[this.currentPosterIndex] || MON2_DATA.posters[0];
-    if (!p) return;
+  setTargetDistance(meters) {
+    this.targetDistanceMeters = meters;
+    const badgeZh = document.getElementById("hud-target-dist-zh");
+    if (badgeZh) badgeZh.textContent = `距 ${meters}m`;
+    const badgeEn = document.getElementById("hud-target-dist-en");
+    if (badgeEn) badgeEn.textContent = `${meters}m`;
+  }
 
+  // --- Mode 4: 讀取專案中“pomo” folder 的圖片 隨機播放其中一張 全屏播放 ---
+  renderPoster() {
     const container = document.getElementById("poster-container");
     if (!container) return;
 
-    container.innerHTML = this.getPosterHTML(p);
+    const pomoImages = [
+      "pomo/pomo1.png",
+      "pomo/pomo2.png",
+      "pomo/pomo3.png",
+      "pomo/pomo4.png",
+      "pomo/pomo5.png"
+    ];
+
+    if (this.customPomoList && this.customPomoList.length > 0) {
+      pomoImages.push(...this.customPomoList);
+    }
+
+    const rndIdx = Math.floor(Math.random() * pomoImages.length);
+    const chosenPomo = pomoImages[rndIdx];
+
+    container.innerHTML = `
+      <div class="poster-fullscreen-layer">
+        <img class="pomo-fullscreen-img" src="${chosenPomo}" alt="Citybus Promo Poster">
+      </div>
+    `;
   }
 
   getPosterHTML(p) {
