@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CTB LECIP MON2 SIMULATOR | 城巴旅客資訊系統模擬器</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="app-topbar">
+    <div class="brand-title">
+      <span class="ctb-badge">CTB / NWFB</span>
+      <h1 class="app-title-text">LECIP MON2 PIS SIMULATOR</h1>
+      <span class="app-subtitle">城巴 / 新巴電子報站系統模擬器</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-top" id="btn-fullscreen" title="全螢幕顯示報站屏幕">
+        <span>⛶</span> 全螢幕 Mon2
+      </button>
+      <button class="btn-top" id="btn-custom-route" title="檢視或匯入自訂路線 JSON">
+        <span>⚙️</span> 自訂路線
+      </button>
+      <a href="https://github.com" target="_blank" class="btn-top" title="GitHub 倉庫">
+        <span>🐙</span> GitHub
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="app-workspace">
+    <!-- Left: Mon2 Screen Viewport -->
+    <div class="display-viewport-container">
+      <div class="viewport-toolbar">
+        <span>🖥️ LECIP MON2 顯示單元 (PIS Display Unit)</span>
+      </div>
+
+      <div class="screen-housing">
+        <div class="housing-bolt bolt-tl"></div>
+        <div class="housing-bolt bolt-tr"></div>
+        <div class="housing-bolt bolt-bl"></div>
+        <div class="housing-bolt bolt-br"></div>
+
+        <!-- Render Target -->
+        <div id="mon2-display-container"></div>
+      </div>
+    </div>
+
+    <!-- Right: Driver / Simulator Control Console -->
+    <div class="control-console">
+      <div class="console-header">
+        <div class="console-title">
+          <span>🎛️ 車長控制台 (Driver Console)</span>
+        </div>
+        <div class="console-status-pill" id="console-status-pill">
+          正常運作 RUNNING
+        </div>
+      </div>
+
+      <!-- 1. Route & Trip Selector -->
+      <div class="console-section">
+        <div class="section-label">路線與行車資料 (Route & Trip)</div>
+        <div class="form-row">
+          <label for="ctrl-route-select">行駛路線：</label>
+          <select id="ctrl-route-select" class="form-select">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="ctrl-stop-select">快速跳站：</label>
+          <select id="ctrl-stop-select" class="form-select">
+            <!-- Dynamically populated -->
+          </select>
+        </div>
+      </div>
+
+      <!-- 2.5 版面輪替控制 (Page Rotation Controls) -->
+      <div class="console-section">
+        <div class="section-label">版面輪替控制 (Page Rotation)</div>
+        <div class="rotation-pills-bar">
+          <button class="btn-pill pill-active" data-mode="1" id="pill-m1">Mode 1: 中文三站</button>
+          <button class="btn-pill" data-mode="2" id="pill-m2">Mode 2: 英文三站</button>
+          <button class="btn-pill" data-mode="3" id="pill-m3">Mode 3: 分段/轉乘</button>
+          <button class="btn-pill" data-mode="4" id="pill-m4">Mode 4: 宣傳海報</button>
+          <button class="btn-pill" data-mode="5" id="pill-m5">Mode 5: 隨後十三站</button>
+        </div>
+        <div class="form-row" style="margin-top: 6px;">
+          <label for="ctrl-cycle-enable">自動輪替播放：</label>
+          <input type="checkbox" id="ctrl-cycle-enable" checked style="width: 18px; height: 18px;">
+          <span style="font-size: 11px; color: #94A3B8;">(7秒正常 / 3秒測試)</span>
+        </div>
+        <div class="form-row">
+          <label for="ctrl-random-poster">海報隨機放映 (Random)：</label>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <input type="checkbox" id="ctrl-random-poster" checked style="width: 18px; height: 18px;" title="實車邏輯：海報隨機抽取播放">
+            <button class="btn-top" id="btn-shuffle-poster" style="padding: 2px 8px; font-size: 11px;" title="立即隨機更換下一張海報">🎲 換一張</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Primary Navigation Controls -->
+      <div class="console-section">
+        <div class="section-label">報站操作 (Stop Navigation)</div>
+        <div class="controls-grid">
+          <button class="btn-ctrl" id="btn-prev-stop" title="回到上一站">
+            <span>⏮</span> 上一站 (Prev)
+          </button>
+          <button class="btn-ctrl btn-success" id="btn-arrive-stop" title="切換為「此站 This stop」狀態">
+            <span>🛑</span> 此站停靠 (Arrive)
+          </button>
+          <button class="btn-ctrl btn-primary" id="btn-next-stop" title="開車前往下一站">
+            <span>⏭</span> 下一站 (Next)
+          </button>
+          <button class="btn-ctrl" id="btn-auto-play" title="以定時器模擬自動行駛">
+            <span>▶</span> 自動巡航 (模擬行駛)
+          </button>
+        </div>
+
+        <div class="controls-grid" style="margin-top: 6px;">
+          <button class="btn-ctrl" id="btn-chime-only" title="播放經典叮噹提示音">
+            <span>🔔</span> 報站叮噹 (Chime)
+          </button>
+          <button class="btn-ctrl" id="btn-seatbelt-alert" title="觸發 !SeatBelt 安全帶警報">
+            <span>⚠️</span> 安全帶提示 (!SeatBelt)
+          </button>
+        </div>
+      </div>
+
+      <!-- 3. Mon2 Parameter Configurations (From OMSI 2 Mon2_constfile) -->
+      <div class="console-section">
+        <div class="section-label">MON2 運作參數 (Mon2_constfile.txt)</div>
+
+        <div class="form-row">
+          <label for="ctrl-power-select">系統電源狀態：</label>
+          <select id="ctrl-power-select" class="form-select">
+            <option value="RUN" selected>正常開機 (RUN)</option>
+            <option value="STANDBY">待機未入線 (STANDBY)</option>
+            <option value="OFF">關閉電源 (OFF)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="ctrl-dep-timer">剩餘開車時間：</label>
+          <input type="range" id="ctrl-dep-timer" min="1" max="20" value="5" style="flex:1;">
+          <span id="val-dep-timer" style="min-width: 80px; text-align: right; font-weight: bold;">5 分鐘 min</span>
+        </div>
+        <div style="font-size: 11px; color: #94A3B8; margin-top: -4px;">
+          * 超過 10 分鐘將自動切換為「系統未入線」待機畫面 (參考 Readme 規格)
+        </div>
+
+        <div class="form-row">
+          <label for="ctrl-orient-select">顯示方向 (DirectionV)：</label>
+          <select id="ctrl-orient-select" class="form-select">
+            <option value="1" selected>1: 直向版本 (Portrait Vertical)</option>
+            <option value="0">0: 橫向版本 (Landscape Horizontal)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="ctrl-color-select">背景配色 (ColorP)：</label>
+          <select id="ctrl-color-select" class="form-select">
+            <option value="0" selected>0: 淡灰色 (Light Grey)</option>
+            <option value="1">1: 淡紫色 (Light Purple)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="ctrl-mode-select">運行模式 (Display_Mode)：</label>
+          <select id="ctrl-mode-select" class="form-select">
+            <option value="0" selected>0: 正常模式 (7秒輪播 / 黑色待機)</option>
+            <option value="1">1: 測試模式 (3秒輪播 / 藍色待機)</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- 4. 車長資料與員工編號自訂 (Captain Profile & Driver ID) -->
+      <div class="console-section">
+        <div class="section-label">車長資料與員工編號設定 (Captain Profile)</div>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-zh">車長中文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-zh" value="李" class="form-input" placeholder="例如 李 或 黃">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-en">車長英文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-en" value="Li" class="form-input" placeholder="例如 Li 或 Huang">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-id">員工編號 (Staff No.)：</label>
+          <input type="text" id="ctrl-driver-id" value="34006" class="form-input" placeholder="例如 34006 或 62075">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-logged">在屏幕顯示車長資料：</label>
+          <input type="checkbox" id="ctrl-driver-logged" checked style="width: 18px; height: 18px;">
+        </div>
+        <div style="font-size: 11px; color: #94A3B8; margin-top: -4px; line-height: 1.5;">
+          * 遵循城巴標準格式：「X車長 / Bus Captain X」與「為您服務 is serving you」<br>
+          * <strong>直向螢幕</strong>：顯示於螢幕底部資訊列；<strong>橫向螢幕</strong>：顯示於頂部頂欄（點擊可切換顯示/隱藏）
+        </div>
+      </div>
+
+      <!-- 4. Audio & Bilingual TTS -->
+      <div class="console-section">
+        <div class="section-label">音效與語音播報 (Audio & Bilingual TTS)</div>
+        <div class="form-row">
+          <label>啟用報站音效：</label>
+          <input type="checkbox" id="ctrl-audio-enable" checked style="width: 18px; height: 18px;">
+        </div>
+        <div class="form-row">
+          <label>啟用粵英雙語語音 (TTS)：</label>
+          <input type="checkbox" id="ctrl-tts-enable" checked style="width: 18px; height: 18px;">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-volume">音量大小 (Volume)：</label>
+          <input type="range" id="ctrl-volume" min="0" max="1" step="0.05" value="0.7" style="flex:1;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom Route JSON Modal -->
+  <div id="custom-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-title">自訂路線編輯器 (Custom Route Editor)</div>
+      <p style="font-size: 13px; color: #94A3B8;">
+        您可以在此編輯或直接貼上符合格式的路線 JSON 結構（支援自訂轉乘路線、分段收費與重要地標提示）：
+      </p>
+      <textarea id="custom-json-input" class="json-textarea"></textarea>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn-ctrl" id="btn-close-modal">取消 (Cancel)</button>
+        <button class="btn-ctrl btn-primary" id="btn-save-custom">套用並載入路線 (Apply Route)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/mon2-display.js"></script>
+  <script src="js/controller.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
