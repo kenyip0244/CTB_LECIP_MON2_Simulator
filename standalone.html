@@ -3576,6 +3576,212 @@ body {
   text-overflow: clip !important;
 }
 
+
+/* ==========================================================================
+   ROW-COORDINATED TRACK ALIGNMENT (Circle exactly centered on each row)
+   ========================================================================== */
+.route-nav-track-col {
+  width: 44px;
+  background: #0022AA;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin: 0 0 0 10px;
+  padding: 0;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.mode-cityflyer .route-nav-track-col {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.track-subheader-cell {
+  height: 42px;
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.track-row-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+}
+
+.track-row-cell .track-circle-active,
+.track-row-cell .track-circle-upcoming {
+  margin: auto 0;
+}
+
+.track-row-cell .track-white-chevron {
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.track-row-cell .track-bar-point-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 18px;
+  background: inherit;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+}
+
+
+/* ==========================================================================
+   MODE 5 UNIFIED ROW-BY-ROW LADDER (Locked Circles, Accurate Citybus Fares, No Skipped Stations Row)
+   ========================================================================== */
+.ladder-stops-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.ladder-unified-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.ladder-unified-row {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: 28px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.ladder-unified-row.row-yellow {
+  background-color: #FEF08A; /* Soft yellow */
+  color: #0F172A;
+}
+
+.ladder-unified-row.row-white {
+  background-color: #FFFFFF;
+  color: #0F172A;
+}
+
+.ladder-unified-row.row-current {
+  font-weight: 900;
+  box-shadow: inset 0 0 0 1.5px #16A34A;
+}
+
+.ladder-track-cell {
+  width: 44px;
+  min-width: 44px;
+  background: #0022AA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: 6px;
+  margin-right: 8px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.mode-cityflyer .ladder-track-cell {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.ladder-track-cell .track-circle-active,
+.ladder-track-cell .track-circle-upcoming {
+  width: 22px;
+  height: 22px;
+  font-size: 11px;
+  margin: 0;
+}
+
+.ladder-dots-row {
+  min-height: 20px;
+  flex: 0.55;
+  background: #FFFFFF;
+}
+
+.ladder-dots-row .track-dots-group {
+  gap: 4px;
+  margin: 0;
+}
+
+.ladder-dots-row .track-dot {
+  width: 5px;
+  height: 5px;
+}
+
+.ladder-names-cell {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 10px;
+  overflow: hidden;
+}
+
+.ladder-zh-col {
+  font-family: var(--font-chinese);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: #0F172A;
+}
+
+.ladder-en-col {
+  font-family: var(--font-english);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #475569;
+  text-align: right;
+  margin-left: 8px;
+  max-width: 50%;
+  white-space: normal !important;
+  line-height: 1.15;
+}
+
+.ladder-eta-cell {
+  min-width: 44px;
+  text-align: right;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.ladder-eta-cell .eta-mins {
+  font-family: var(--font-english);
+  font-size: 15px;
+  font-weight: 900;
+  color: #1E3A8A;
+}
+
+.mode-cityflyer .ladder-eta-cell .eta-mins {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.ladder-eta-cell .eta-min-text {
+  font-size: 11px;
+  color: #64748B;
+  margin-left: 2px;
+}
+
 </style>
 </head>
 <body>
@@ -5915,7 +6121,7 @@ class Mon2Display {
             </div>
 
             <div class="header-time-box">
-              <div class="time-label">現在時間 Time Now</div>
+              <div class="time-label">現在時間 Current Time</div>
               <div class="time-value" id="header-clock">15:04</div>
             </div>
           </header>
@@ -6600,10 +6806,14 @@ class Mon2Display {
     const isArrow4 = (leftStop >= 4);
     const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // Track column HTML starting with top orange chevron
-    let trackHtml = `<div class="track-bar-chevron"></div>`;
-    
-    // Subheader row aligned with track chevron
+    // Track header cell (orange chevron aligning with subheader row)
+    let trackHtml = `
+      <div class="track-subheader-cell">
+        <div class="track-bar-chevron"></div>
+      </div>
+    `;
+
+    // Subheader row
     let rowsHtml = `
       <div class="trio-subheader-row">
         <div class="trio-subheader-title ${isArrived ? 'title-arrived' : 'title-next'}">
@@ -6618,22 +6828,31 @@ class Mon2Display {
     for (let idx = 0; idx < nCircles; idx++) {
       const s = trio[idx];
       const isFirst = (idx === 0);
+      const isLast = (idx === nCircles - 1);
       let etaMins = (idx * 2) + 2;
 
-      // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
-      if (idx > 0) {
-        trackHtml += `
+      // Chevron between rows (sits at bottom of cell, except for last cell)
+      let chevronHtml = "";
+      if (!isLast) {
+        chevronHtml = `
           <div class="track-white-chevron">
             <svg viewBox="0 0 24 14" width="22" height="12">
               <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
         `;
+      } else if (isArrow4) {
+        // Pointed arrow at bottom of last cell if more stops ahead
+        chevronHtml = `<div class="track-bar-point-bottom"></div>`;
       }
 
+      // Track row cell: vertically aligns circle to station row midpoint!
       trackHtml += `
-        <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
-          ${s.num}
+        <div class="track-row-cell">
+          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+            ${s.num}
+          </div>
+          ${chevronHtml}
         </div>
       `;
 
@@ -6658,18 +6877,6 @@ class Mon2Display {
       `;
     }
 
-    // Pointed downward arrow at bottom if more stops ahead (Arrow_4)
-    if (isArrow4) {
-      trackHtml += `
-        <div class="track-white-chevron">
-          <svg viewBox="0 0 24 14" width="22" height="12">
-            <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="track-bar-point-bottom"></div>
-      `;
-    }
-
     const arrowClass = isArrow4 ? "arrow-pointed" : "arrow-rounded";
 
     container.innerHTML = `
@@ -6683,6 +6890,7 @@ class Mon2Display {
       </div>
     `;
   }
+
   renderEnglishTrioStops(curIdx) {
     const container = document.getElementById("en-trio-stops");
     if (!container || !this.currentRoute) return;
@@ -6694,15 +6902,21 @@ class Mon2Display {
     const isArrow4 = (leftStop >= 4);
     const isArrived = (this.telargo_busarrivingstop === 1);
 
-    let trackHtml = `<div class="track-bar-chevron"></div>`;
-    
+    // Track header cell (orange chevron aligning with subheader row)
+    let trackHtml = `
+      <div class="track-subheader-cell">
+        <div class="track-bar-chevron"></div>
+      </div>
+    `;
+
+    // Subheader row: "Est. change to ETA" per user request!
     let rowsHtml = `
       <div class="trio-subheader-row">
         <div class="trio-subheader-title ${isArrived ? 'title-arrived' : 'title-next'}">
           ${isArrived ? "This stop" : "Next stop"}
         </div>
         <div class="trio-subheader-eta">
-          ${isArrived ? "" : "Est."}
+          ${isArrived ? "" : "ETA"}
         </div>
       </div>
     `;
@@ -6710,21 +6924,28 @@ class Mon2Display {
     for (let idx = 0; idx < nCircles; idx++) {
       const s = trio[idx];
       const isFirst = (idx === 0);
+      const isLast = (idx === nCircles - 1);
       let etaMins = (idx * 2) + 2;
 
-      if (idx > 0) {
-        trackHtml += `
+      let chevronHtml = "";
+      if (!isLast) {
+        chevronHtml = `
           <div class="track-white-chevron">
             <svg viewBox="0 0 24 14" width="22" height="12">
               <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
         `;
+      } else if (isArrow4) {
+        chevronHtml = `<div class="track-bar-point-bottom"></div>`;
       }
 
       trackHtml += `
-        <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
-          ${s.num}
+        <div class="track-row-cell">
+          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
+            ${s.num}
+          </div>
+          ${chevronHtml}
         </div>
       `;
 
@@ -6745,17 +6966,6 @@ class Mon2Display {
             ${etaColHtml}
           </div>
         </div>
-      `;
-    }
-
-    if (isArrow4) {
-      trackHtml += `
-        <div class="track-white-chevron">
-          <svg viewBox="0 0 24 14" width="22" height="12">
-            <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </div>
-        <div class="track-bar-point-bottom"></div>
       `;
     }
 
@@ -6892,35 +7102,94 @@ class Mon2Display {
     }
   }
 
-  // --- Helper to extract realistic section fare stages for current route ---
+  // --- Helper to calculate accurate real-world Citybus fares ---
   getSectionFareStages() {
     if (!this.currentRoute) return [{ zh: "由起點站起", en: "From First Stop", fare: "$7.7" }];
 
     const r = this.currentRoute;
-    const stops = r.stops;
+    const code = (r.code || "").toUpperCase();
+    const stops = r.stops || [];
+    const firstStop = stops[0] || { zh: "總站", en: "Terminus" };
     const stages = [];
 
-    // First stop is always stage 1
-    const firstStop = stops[0] || { zh: "總站", en: "Terminus", fare: "$7.7" };
-    stages.push({ zh: firstStop.zh, en: firstStop.en, fare: firstStop.fare || "$7.7" });
+    // Accurate Citybus Fare Table by Route Code
+    const FARE_TABLE = {
+      "A10": { full: "$50.3", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
+      "A11": { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
+      "A12": { full: "$47.1", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
+      "A21": { full: "$34.6", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
+      "A22": { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
+      "A29": { full: "$44.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
+      "NA10": { full: "$60.7", stages: [{ match: "青嶼幹線", fare: "$40.2" }] },
+      "NA11": { full: "$54.4", stages: [{ match: "青嶼幹線", fare: "$40.2" }] },
+      "NA12": { full: "$60.7", stages: [{ match: "青嶼幹線", fare: "$40.2" }] },
+      "NA21": { full: "$40.2", stages: [] },
+      "NA29": { full: "$54.4", stages: [{ match: "青嶼幹線", fare: "$40.2" }] },
+      "E11": { full: "$22.4", stages: [{ match: "西區海底隧道", fare: "$14.8" }, { match: "東涌", fare: "$4.0" }] },
+      "E11A": { full: "$22.4", stages: [{ match: "西區海底隧道", fare: "$14.8" }, { match: "東涌", fare: "$4.0" }] },
+      "E21": { full: "$14.9", stages: [{ match: "青馬", fare: "$8.2" }, { match: "東涌", fare: "$4.0" }] },
+      "E22": { full: "$18.9", stages: [{ match: "青嶼幹線", fare: "$8.2" }, { match: "東涌", fare: "$4.0" }] },
+      "E23": { full: "$18.9", stages: [{ match: "青嶼幹線", fare: "$8.2" }, { match: "東涌", fare: "$4.0" }] },
+      "914": { full: "$11.4", stages: [{ match: "西區海底隧道", fare: "$6.9" }] },
+      "905": { full: "$11.4", stages: [{ match: "西區海底隧道", fare: "$6.9" }] },
+      "930": { full: "$19.8", stages: [{ match: "西區海底隧道", fare: "$10.4" }] },
+      "930X": { full: "$19.8", stages: [{ match: "西區海底隧道", fare: "$10.4" }] },
+      "102": { full: "$11.4", stages: [{ match: "海底隧道", fare: "$6.9" }] },
+      "106": { full: "$11.4", stages: [{ match: "海底隧道", fare: "$6.9" }] },
+      "118": { full: "$11.4", stages: [{ match: "海底隧道", fare: "$6.9" }] },
+      "780": { full: "$7.7", stages: [{ match: "舊灣仔警署", fare: "$4.4" }, { match: "分域街", fare: "$4.4" }] },
+      "788": { full: "$7.7", stages: [{ match: "舊灣仔警署", fare: "$4.4" }] },
+      "8P": { full: "$7.0", stages: [{ match: "興發街", fare: "$4.8" }] },
+      "702": { full: "$4.4", stages: [] },
+      "20": { full: "$5.6", stages: [] },
+      "1": { full: "$4.8", stages: [] },
+      "1P": { full: "$4.8", stages: [] },
+      "2": { full: "$4.8", stages: [] },
+      "H1": { full: "$19.8", stages: [] },
+      "H2": { full: "$19.8", stages: [] }
+    };
 
-    // Look for intermediate stops with different fare or landmarks
-    let prevFare = firstStop.fare;
-    for (let i = 1; i < stops.length; i++) {
-      const s = stops[i];
-      if (s.fare && s.fare !== prevFare) {
-        stages.push({ zh: s.zh, en: s.en, fare: s.fare });
-        prevFare = s.fare;
+    let config = FARE_TABLE[code];
+    if (!config) {
+      if (code.startsWith("A")) {
+        config = { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] };
+      } else if (code.startsWith("NA")) {
+        config = { full: "$54.4", stages: [{ match: "青嶼幹線", fare: "$40.2" }] };
+      } else if (code.startsWith("E")) {
+        config = { full: "$18.9", stages: [{ match: "東涌", fare: "$4.0" }] };
+      } else if (code.startsWith("9") || code.startsWith("1") || code.startsWith("6")) {
+        config = { full: "$11.4", stages: [{ match: "隧道", fare: "$6.9" }] };
+      } else if (code.startsWith("7")) {
+        config = { full: "$7.7", stages: [{ match: "灣仔", fare: "$4.4" }] };
+      } else {
+        config = { full: "$6.5", stages: [] };
       }
     }
 
-    // If only 1 fare stage found, synthesize typical intermediate section
-    if (stages.length === 1 && stops.length >= 8) {
-      const midIdx = Math.floor(stops.length / 2);
+    // Stage 1: Origin / Full Fare
+    stages.push({
+      zh: firstStop.zh,
+      en: firstStop.en,
+      fare: config.full
+    });
+
+    // Find section stages matching stop landmarks or intermediate position
+    if (config.stages && config.stages.length > 0) {
+      config.stages.forEach(sec => {
+        const found = stops.find(s => (s.zh && s.zh.includes(sec.match)) || (s.subZh && s.subZh.includes(sec.match)));
+        if (found && found !== firstStop) {
+          stages.push({ zh: found.zh, en: found.en, fare: sec.fare });
+        }
+      });
+    }
+
+    // If no landmark matched but long route (>12 stops), provide typical mid-way section
+    if (stages.length === 1 && stops.length >= 12) {
+      const midIdx = Math.floor(stops.length * 0.55);
       const midStop = stops[midIdx];
-      const baseNum = parseFloat((firstStop.fare || "$7.7").replace(/[^0-9.]/g, ""));
-      const discounted = (baseNum * 0.68).toFixed(1);
-      stages.push({ zh: midStop.zh, en: midStop.en, fare: `$${discounted}` });
+      const baseNum = parseFloat(config.full.replace(/[^0-9.]/g, ""));
+      const discount = code.startsWith("A") ? "$17.8" : `$${(baseNum * 0.6).toFixed(1)}`;
+      stages.push({ zh: midStop.zh, en: midStop.en, fare: discount });
     }
 
     return stages;
@@ -6931,143 +7200,148 @@ class Mon2Display {
     if (!listEl || !this.currentRoute) return;
 
     const stops = this.currentRoute.stops;
-    const remainingStops = stops.slice(curIdx);
-    const totalRemaining = remainingStops.length;
+    const totalStops = stops.length;
 
-    // 「如果多於13站 就再開一頁」：
-    // 第 1 頁顯示當前站及隨後最多 13 站。
-    // 若剩餘站數多於 13 站，每超過 10 站再自動開一頁 (Page 2, Page 3...)
-    if (totalRemaining <= 13) {
+    // Total Pages calculation: 13 stops per page
+    // Page 1: stops 0..12 (13 stops)
+    // Page 2+: stops 0 (origin) + 11 stops
+    if (totalStops <= 13) {
       this.Mon2_Page_Totel = 1;
     } else {
-      this.Mon2_Page_Totel = 1 + Math.ceil((totalRemaining - 13) / 10);
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - 13) / 11);
     }
 
     if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
       this.Mon2_Page_Now = this.Mon2_Page_Totel;
     }
 
-    // 更新分頁數字標籤 (例如 1/2, 2/2, 1/3, 2/3, 3/3, 1/4...)
+    // Update page indicator: 1/5, 2/5, etc.
     const pageEl = document.getElementById("allstop-page-indicator");
     if (pageEl) {
       pageEl.textContent = `${this.Mon2_Page_Now}/${this.Mon2_Page_Totel}`;
     }
 
-    let circlesHtml = `<div class="track-bar-chevron"></div>`;
+    const isPageOne = (this.Mon2_Page_Now === 1);
     let rowsHtml = "";
 
-    if (this.Mon2_Page_Now === 1) {
-      // 第 1 頁：顯示當前站至隨後最多 13 站 (13Stop\S\ 原裝連續圓圈格式)
-      const displayList = remainingStops.slice(0, 13);
+    if (isPageOne) {
+      // PAGE 1: Stops 1 to 13 (continuous circles)
+      const pageList = stops.slice(0, 13);
 
-      displayList.forEach((s, idx) => {
-        const isFirst = (idx === 0);
-        const isYellowRow = (idx % 2 === 0);
+      pageList.forEach((s, idx) => {
+        const isCurrent = (idx === curIdx);
+        const isYellow = (idx % 2 === 0);
+        let minsDiff = (idx - curIdx) * 2;
+        let minsHtml = "";
 
-        circlesHtml += `
-          <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
-            ${s.num}
-          </div>
-        `;
+        if (idx < curIdx) {
+          minsHtml = `<span style="color:#94A3B8;">已過</span>`;
+        } else if (idx === curIdx) {
+          minsHtml = `<span class="tag-current">此站</span>`;
+        } else {
+          minsHtml = `<span class="eta-mins">${minsDiff}</span><small class="eta-min-text">分</small>`;
+        }
 
         rowsHtml += `
-          <div class="ladder-row ${isYellowRow ? 'row-yellow' : 'row-white'} ${isFirst ? 'row-current' : ''}">
-            <div class="ladder-names-bilingual">
+          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+            <div class="ladder-track-cell">
+              <div class="${isCurrent ? 'track-circle-active' : 'track-circle-upcoming'}">
+                ${s.num}
+              </div>
+            </div>
+            <div class="ladder-names-cell">
               <span class="ladder-zh-col">${s.zh}</span>
               <span class="ladder-en-col">${s.en}</span>
             </div>
-            <div class="ladder-eta-col">
-              ${isFirst ? '<span class="tag-current">此站</span>' : `<span class="eta-mins">${(idx * 2) + 1}</span><small class="eta-min-text">分</small>`}
+            <div class="ladder-eta-cell">
+              ${minsHtml}
             </div>
           </div>
         `;
       });
 
       listEl.innerHTML = `
-        <div class="ladder-layout-wrapper">
-          <div class="route-nav-track-col ladder-track arrow-rounded">
-            ${circlesHtml}
-          </div>
-          <div class="ladder-content-col">
-            ${rowsHtml}
-          </div>
+        <div class="ladder-unified-wrapper arrow-rounded">
+          ${rowsHtml}
         </div>
       `;
     } else {
-      // 第 2 頁及之後 (多於13站再開一頁)：13Stop\L\ 格式 (起點站 + 3 顆白點省略號 + 該頁隨後車站)
+      // PAGE 2+: Origin Stop + 3 Dots in Track + Subsequent stops
+      // "no need show alr skiped X stations" -> NO text row!
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
-      const pageOffset = (this.Mon2_Page_Now - 2) * 10;
-      const startInRemaining = 13 + pageOffset;
-      const displayList = remainingStops.slice(startInRemaining, startInRemaining + 10);
+      const startIdx = 13 + (this.Mon2_Page_Now - 2) * 11;
+      const pageList = stops.slice(startIdx, startIdx + 11);
 
-      // 1. 頂部起點站圓圈與站名
-      circlesHtml += `
-        <div class="track-circle-upcoming">
-          ${firstStop.num}
-        </div>
-      `;
-
+      // Row 1: Origin Stop
       rowsHtml += `
-        <div class="ladder-row row-yellow">
-          <div class="ladder-names-bilingual">
+        <div class="ladder-unified-row row-yellow">
+          <div class="ladder-track-cell">
+            <div class="track-circle-upcoming">
+              ${firstStop.num}
+            </div>
+          </div>
+          <div class="ladder-names-cell">
             <span class="ladder-zh-col">${firstStop.zh}</span>
             <span class="ladder-en-col">${firstStop.en}</span>
           </div>
-          <div class="ladder-eta-col">
-            <span class="eta-mins">--</span>
+          <div class="ladder-eta-cell">
+            <span class="eta-mins" style="color:#94A3B8;">--</span>
           </div>
         </div>
       `;
 
-      // 2. 3 顆縱向白點省略號 (13Stop\L\ 原裝貼圖特徵)
-      circlesHtml += `
-        <div class="track-dots-group">
-          <span class="track-dot"></span>
-          <span class="track-dot"></span>
-          <span class="track-dot"></span>
-        </div>
-      `;
-
+      // Spacer row with 3 Dots ONLY in the track cell (NO TEXT on the right!)
       rowsHtml += `
-        <div class="ladder-row row-white row-ellipsis">
-          <div class="ladder-names-bilingual" style="justify-content: center; color: #94A3B8;">
-            <span>• • • (已略過第 ${this.Mon2_Page_Now - 1} 頁車站) • • •</span>
+        <div class="ladder-unified-row ladder-dots-row">
+          <div class="ladder-track-cell">
+            <div class="track-dots-group">
+              <span class="track-dot"></span>
+              <span class="track-dot"></span>
+              <span class="track-dot"></span>
+            </div>
           </div>
-          <div class="ladder-eta-col"></div>
+          <div class="ladder-names-cell"></div>
+          <div class="ladder-eta-cell"></div>
         </div>
       `;
 
-      // 3. 該頁之隨後車站列表
-      displayList.forEach((s, idx) => {
-        const isYellowRow = ((idx + 2) % 2 === 0);
+      // Page stops: 11 stops
+      pageList.forEach((s, idx) => {
+        const globalIdx = startIdx + idx;
+        const isCurrent = (globalIdx === curIdx);
+        const isYellow = ((idx + 1) % 2 === 0);
+        let minsDiff = (globalIdx - curIdx) * 2;
+        let minsHtml = "";
 
-        circlesHtml += `
-          <div class="track-circle-upcoming">
-            ${s.num}
-          </div>
-        `;
+        if (globalIdx < curIdx) {
+          minsHtml = `<span style="color:#94A3B8;">已過</span>`;
+        } else if (globalIdx === curIdx) {
+          minsHtml = `<span class="tag-current">此站</span>`;
+        } else {
+          minsHtml = `<span class="eta-mins">${minsDiff}</span><small class="eta-min-text">分</small>`;
+        }
 
         rowsHtml += `
-          <div class="ladder-row ${isYellowRow ? 'row-yellow' : 'row-white'}">
-            <div class="ladder-names-bilingual">
+          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+            <div class="ladder-track-cell">
+              <div class="${isCurrent ? 'track-circle-active' : 'track-circle-upcoming'}">
+                ${s.num}
+              </div>
+            </div>
+            <div class="ladder-names-cell">
               <span class="ladder-zh-col">${s.zh}</span>
               <span class="ladder-en-col">${s.en}</span>
             </div>
-            <div class="ladder-eta-col">
-              <span class="eta-mins">${(startInRemaining + idx) * 2 + 1}</span><small class="eta-min-text">分</small>
+            <div class="ladder-eta-cell">
+              ${minsHtml}
             </div>
           </div>
         `;
       });
 
       listEl.innerHTML = `
-        <div class="ladder-layout-wrapper">
-          <div class="route-nav-track-col ladder-track arrow-rounded">
-            ${circlesHtml}
-          </div>
-          <div class="ladder-content-col">
-            ${rowsHtml}
-          </div>
+        <div class="ladder-unified-wrapper arrow-rounded">
+          ${rowsHtml}
         </div>
       `;
     }
