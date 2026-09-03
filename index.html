@@ -3,504 +3,255 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CTB LECIP MON2 SIMULATOR</title>
-  <style>
-    :root {
-      --ctb-yellow: #FFD100;
-      --ctb-dark-blue: #0A1931;
-      --ctb-blue: #004B87;
-      --ctb-red: #D71920;
-      --text-black: #111111;
-      --bg-panel: #EAEAEA;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans HK", sans-serif; }
-    body { background: #181818; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 15px; }
-    .layout-container { display: flex; gap: 20px; max-width: 1250px; width: 100%; flex-wrap: wrap; justify-content: center; }
-
-    /* 控制面板 */
-    .controls-panel { flex: 1; min-width: 320px; max-width: 420px; background: #242424; border-radius: 10px; padding: 15px; font-size: 13px; }
-    .controls-panel h2 { font-size: 16px; margin-bottom: 12px; border-bottom: 2px solid var(--ctb-yellow); padding-bottom: 5px; color: var(--ctb-yellow); }
-    .form-group { margin-bottom: 10px; position: relative; }
-    .form-group label { display: block; margin-bottom: 4px; color: #bbb; }
-    .form-control { width: 100%; padding: 7px 10px; background: #333; border: 1px solid #555; color: #fff; border-radius: 4px; font-size: 13px; }
-    .btn-row { display: flex; gap: 8px; margin-top: 10px; }
-    .btn { flex: 1; padding: 8px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; background: #444; color: #fff; }
-    .btn-gps.active { background: #107c41; }
-    .status-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; background: #555; margin-left: 5px; }
-    .status-badge.ok { background: #107c41; }
-
-    /* 路線搜尋下拉選單容器 */
-    .search-results { position: absolute; top: 100%; left: 0; right: 0; max-height: 180px; overflow-y: auto; background: #2f2f2f; border: 1px solid #555; border-radius: 4px; z-index: 100; display: none; }
-    .search-item { padding: 7px 10px; cursor: pointer; border-bottom: 1px solid #3d3d3d; }
-    .search-item:hover { background: #004B87; color: #fff; }
-
-    /* MON2 螢幕外框 */
-    .mon2-bezel { background: #4B2E83; border: 10px solid #2B1556; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.8); overflow: hidden; position: relative; }
-    .mon2-portrait { width: 420px; height: 746px; }
-    .mon2-landscape { width: 746px; height: 420px; }
-
-    /* MON2 內部 UI 佈局 */
-    .mon2-screen { width: 100%; height: 100%; background: var(--bg-panel); color: var(--text-black); display: flex; flex-direction: column; position: relative; }
-    
-    /* 頂欄 */
-    .mon2-header { display: flex; height: 75px; border-bottom: 3px solid var(--ctb-yellow); background: #fff; }
-    .header-route { width: 120px; background: var(--ctb-blue); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 38px; font-weight: 900; }
-    .header-dest { flex: 1; background: var(--ctb-yellow); padding: 5px 12px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-    .header-dest .dest-zh { font-size: 19px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-    .header-dest .dest-en { font-size: 12px; color: #333; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-    .header-time { width: 85px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .header-time .time-title { font-size: 10px; color: #666; }
-    .header-time .time-val { font-size: 18px; font-weight: bold; }
-
-    /* 中間顯示主區域 */
-    .mon2-body { flex: 1; position: relative; overflow: hidden; }
-    .mode-view { width: 100%; height: 100%; display: none; }
-    .mode-view.active { display: flex; flex-direction: column; }
-
-    .status-sub-bar { background: #fff; padding: 4px 15px; font-weight: bold; font-size: 13px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; }
-
-    /* 三站梯級式 (Mode 1 & 2) */
-    .ladder-container { flex: 1; display: flex; flex-direction: column; padding: 8px 0; }
-    .ladder-row { display: flex; align-items: center; flex: 1; padding: 0 15px; position: relative; }
-    .ladder-row:not(:last-child)::after { content: ""; position: absolute; left: 33px; top: 50%; width: 6px; height: 100%; background: #0078d4; z-index: 1; }
-    .stop-bubble { width: 36px; height: 36px; border-radius: 50%; background: #fff; border: 3px solid #0078d4; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 15px; z-index: 2; }
-    .ladder-row.current .stop-bubble { background: #8BC34A; border-color: #558B2F; color: #fff; }
-    .stop-info { margin-left: 14px; flex: 1; overflow: hidden; }
-    .stop-main { font-size: 20px; font-weight: bold; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-    .stop-sub { font-size: 12px; color: #666; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
-    .stop-eta-badge { text-align: right; min-width: 65px; font-weight: bold; color: var(--ctb-red); font-size: 15px; }
-
-    /* 全線黃白總表 (Mode 5) */
-    .overview-table { width: 100%; height: 100%; display: flex; flex-direction: column; font-size: 12px; }
-    .overview-row { display: flex; align-items: center; flex: 1; padding: 0 10px; }
-    .overview-row.yellow { background: #FFF9C4; }
-    .overview-row.white { background: #FFFFFF; }
-    .overview-seq { width: 28px; font-weight: bold; text-align: center; }
-    .overview-name-zh { flex: 1; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .overview-name-en { flex: 1; font-size: 11px; color: #555; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .overview-eta { width: 55px; text-align: right; color: var(--ctb-red); font-weight: bold; }
-
-    /* 電子海報 (Mode 4) */
-    .poster-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 25px; background: linear-gradient(135deg, #0A1931, #004B87); color: #fff; }
-    .poster-title { font-size: 24px; font-weight: 900; color: var(--ctb-yellow); margin-bottom: 15px; }
-    .poster-desc { font-size: 14px; line-height: 1.6; }
-
-    /* 底欄 */
-    .mon2-footer { height: 42px; border-top: 2px solid var(--ctb-red); background: #fff; display: flex; align-items: center; justify-content: space-between; padding: 0 10px; cursor: pointer; user-select: none; }
-    .driver-name { font-weight: bold; font-size: 13px; }
-    .driver-sub { font-size: 11px; color: #555; }
-    .driver-badge { background: var(--ctb-dark-blue); color: #fff; padding: 4px 8px; font-size: 11px; font-weight: bold; clip-path: polygon(10px 0, 100% 0, 100% 100%, 0 100%); }
-    .app-promo { font-size: 12px; font-weight: bold; color: var(--ctb-blue); text-align: center; width: 100%; }
-  </style>
+  <title>CTB LECIP MON2 SIMULATOR | 城巴旅客資訊系統模擬器</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK:wght@400;500;700;900&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Top Navigation Bar -->
+  <header class="app-topbar">
+    <div class="brand-title">
+      <span class="ctb-badge">CTB / NWFB</span>
+      <h1 class="app-title-text">LECIP MON2 PIS SIMULATOR</h1>
+      <span class="app-subtitle">城巴 / 新巴電子報站系統模擬器</span>
+    </div>
+    <div class="topbar-actions">
+      <button class="btn-top" id="btn-fullscreen" title="全螢幕顯示報站屏幕">
+        <span>⛶</span> 全螢幕 Mon2
+      </button>
+      <button class="btn-top" id="btn-custom-route" title="檢視或匯入自訂路線 JSON">
+        <span>⚙️</span> 自訂路線
+      </button>
+      <a href="https://github.com" target="_blank" class="btn-top" title="GitHub 倉庫">
+        <span>🐙</span> GitHub
+      </a>
+    </div>
+  </header>
 
-  <div class="layout-container">
-    <!-- 車載螢幕 -->
-    <div class="mon2-bezel mon2-portrait" id="mon2Frame">
-      <div class="mon2-screen">
-        <div class="mon2-header">
-          <div class="header-route" id="uiRoute">---</div>
-          <div class="header-dest">
-            <div class="dest-zh" id="uiDestZh">請選擇路線</div>
-            <div class="dest-en" id="uiDestEn">Please Select Route</div>
-          </div>
-          <div class="header-time">
-            <span class="time-title">現在時間 Time Now</span>
-            <span class="time-val" id="uiClock">--:--</span>
-          </div>
-        </div>
+  <!-- Main Workspace -->
+  <div class="app-workspace">
+    <!-- Left: Mon2 Screen Viewport -->
+    <div class="display-viewport-container">
+      <div class="viewport-toolbar">
+        <span>🖥️ LECIP MON2 顯示單元 (PIS Display Unit)</span>
+      </div>
 
-        <div class="status-sub-bar">
-          <span id="uiStatusText">此站 This stop</span>
-          <span id="uiPageIndicator"></span>
-        </div>
+      <div class="screen-housing">
+        <div class="housing-bolt bolt-tl"></div>
+        <div class="housing-bolt bolt-tr"></div>
+        <div class="housing-bolt bolt-bl"></div>
+        <div class="housing-bolt bolt-br"></div>
 
-        <div class="mon2-body">
-          <div class="mode-view active" id="viewMode1"><div class="ladder-container" id="ladderZh"></div></div>
-          <div class="mode-view" id="viewMode2"><div class="ladder-container" id="ladderEn"></div></div>
-          <div class="mode-view" id="viewMode5"><div class="overview-table" id="overviewList"></div></div>
-          <div class="mode-view" id="viewMode4">
-            <div class="poster-container">
-              <div class="poster-title" id="posterTitle">#MISSIONZERO</div>
-              <div class="poster-desc" id="posterDesc">零排放 由此啟動<br>城巴致力推動全港綠色公共交通發展</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mon2-footer" id="mon2Footer">
-          <div id="footerDriverWrap" style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
-            <div>
-              <div class="driver-name" id="uiDriverZh">李車長</div>
-              <div class="driver-sub" id="uiDriverEn">Bus Captain Li</div>
-            </div>
-            <div>
-              <span style="font-size:10px; color:#555;">員工編號 Staff No.</span>
-              <strong id="uiDriverId" style="font-size:14px; margin-left:4px;">34006</strong>
-            </div>
-            <div class="driver-badge">為您服務<br>is serving you</div>
-          </div>
-          <div class="app-promo" id="footerAppWrap" style="display: none;">
-            📱 下載 Citybus App 查閱即時抵站時間
-          </div>
-        </div>
+        <!-- Render Target -->
+        <div id="mon2-display-container"></div>
       </div>
     </div>
 
-    <!-- 控制面板 -->
-    <div class="controls-panel">
-      <h2>CTB API 路線搜尋與控制</h2>
-
-      <!-- 路線關鍵字搜尋框 -->
-      <div class="form-group">
-        <label>搜尋路線 (輸入編號如 780, 905, A12)</label>
-        <input type="text" id="routeSearchInput" class="form-control" placeholder="載入路線清單中..." autocomplete="off">
-        <div class="search-results" id="searchResults"></div>
-      </div>
-
-      <div class="form-group">
-        <label>行駛方向 Direction</label>
-        <select id="dirSelect" class="form-control">
-          <option value="outbound">去程 Outbound</option>
-          <option value="inbound">回程 Inbound</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label>車長姓名與員工編號</label>
-        <div style="display:flex; gap:5px;">
-          <input type="text" id="driverSurnameZh" class="form-control" placeholder="中文姓" value="李">
-          <input type="text" id="driverSurnameEn" class="form-control" placeholder="英文姓" value="Li">
-          <input type="text" id="driverId" class="form-control" placeholder="編號" value="34006" style="width:90px;">
+    <!-- Right: Driver / Simulator Control Console (Automated Citybus API Engine) -->
+    <div class="control-console">
+      <div class="console-header">
+        <div class="console-title">
+          <span>🚌 城巴即時 API 連線控制台</span>
+        </div>
+        <div class="console-status-pill" id="api-status-badge">
+          ● 連接 DATA.GOV.HK API...
         </div>
       </div>
 
-      <div class="btn-row">
-        <button class="btn btn-gps" id="btnGpsToggle">🛰️ 啟用真實 GPS 報站</button>
-        <button class="btn" id="btnOrientation">🔄 直向/橫向切換</button>
+      <!-- 1. Citybus API: Route, Direction & Trip (路線搜尋、方向、班次選擇) -->
+      <div class="console-section">
+        <div class="section-label">城巴 API 所有路線搜尋 (Route Search & Selection)</div>
+        
+        <div class="form-row">
+          <label for="route-search-input">🔍 搜尋路線 (Search Route)：</label>
+          <div class="search-input-wrapper">
+            <input type="text" id="route-search-input" class="form-input" placeholder="輸入路線編號或關鍵字 (如 914, A12, 780, 102)..." autocomplete="off">
+            <div id="route-search-dropdown" class="route-search-dropdown hidden"></div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="api-route-select">選擇路線 (Route)：</label>
+          <select id="api-route-select" class="form-select">
+            <option value="914" selected>【城巴】914 (海麗邨 ➔ 銅鑼灣(天后))</option>
+            <option value="780">【城巴】780 (柴灣(東) ➔ 中環碼頭)</option>
+            <option value="905">【城巴】905 (會展站 ➔ 荔枝角(盈暉臺))</option>
+            <option value="A12">【機場快線】A12 (機場 ➔ 小西灣(藍灣半島))</option>
+            <option value="702">【城巴】702 (海麗邨 ➔ 又一村(達之路))</option>
+            <option value="A21">【機場快線】A21 (紅磡站 ➔ 機場)</option>
+            <option value="8P">【城巴】8P (小西灣 ➔ 灣仔北)</option>
+            <option value="H1">【人力車】H1 (中環天星碼頭 ➔ 尖沙咀)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="api-dir-select">行駛方向 (Direction)：</label>
+          <select id="api-dir-select" class="form-select">
+            <option value="outbound" selected>去程 Outbound</option>
+            <option value="inbound">回程 Inbound</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="api-trip-select">選擇班次 (Trip / ETA)：</label>
+          <select id="api-trip-select" class="form-select">
+            <option value="trip_1">正在獲取即時班次抵站時間...</option>
+          </select>
+        </div>
       </div>
 
-      <div style="margin-top:15px; padding:10px; background:#1c1c1c; border-radius:6px;">
-        <div style="display:flex; justify-content:space-between; margin-bottom:4px;">
-          <span>API 狀態: <span id="apiStatus" class="status-badge">連線中</span></span>
-          <span>GPS: <span id="gpsStatus" class="status-badge">關閉</span></span>
+      <!-- 2. Fully Automated Trip Engine (全自動行駛進度，無任何手動按鍵) -->
+      <div class="console-section">
+        <div class="section-label">全自動行駛狀態 (Automated Journey)</div>
+        <div style="font-size: 11px; color: #38BDF8; font-weight: bold; margin-bottom: 4px;">
+          * 系統全自動報站、開車、巡航與停站，無須手動按鍵
         </div>
-        <div style="font-size:11px; color:#aaa;" id="detailStatus">請搜尋並選取一條路線以載入車站。</div>
+
+        <div class="trip-live-card">
+          <div class="live-stop-header">
+            <span class="live-pulse-dot"></span>
+            <span id="live-current-stop-name" style="font-size: 15px; font-weight: 900; color: #FFF;">載入中...</span>
+          </div>
+          <div class="live-status-row">
+            <div id="live-trip-status-text" style="font-size: 13px; font-weight: 700;">🚌 行駛中</div>
+            <div id="live-remaining-stops" style="font-size: 12px; color: #94A3B8;">剩餘站數：計算中</div>
+          </div>
+          <div class="live-progress-container">
+            <div class="live-progress-bar" id="live-trip-progress-bar" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Real GPS & Target Distance ("Use real GPS" & "目標站距：實時動態顯示距離下一個目標站點的剩餘米數。是時間計算的") -->
+        <div class="form-row" style="margin-top: 8px;">
+          <label style="display: flex; align-items: center; cursor: pointer; gap: 8px;">
+            <input type="checkbox" id="ctrl-real-gps-toggle" style="width: 18px; height: 18px; cursor: pointer;">
+            <span style="font-weight: 900; color: #38BDF8;">🛰️ 啟用真實 GPS 追蹤 (Use Real GPS)</span>
+          </label>
+        </div>
+
+        <div class="gps-telemetry-card" id="gps-telemetry-card">
+          <div class="telemetry-row">
+            <span class="telemetry-label">定位狀態：</span>
+            <span class="telemetry-val" id="gps-status-indicator"><span style="color:#EAB308">●</span> 模擬行駛時間計算模式 (Time-Based Calculation)</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-label">目標站距 (剩餘米數)：</span>
+            <span class="telemetry-val highlight-dist" id="gps-target-distance-meters">距離下一站: 142m</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-label">即時車速：</span>
+            <span class="telemetry-val" id="gps-speed-kmh">36 km/h</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="telemetry-label">GPS 座標：</span>
+            <span class="telemetry-val" id="gps-coords-display">22.27950° N, 114.18350° E</span>
+          </div>
+        </div>
+
+        <!-- Speed Controls -->
+        <div class="form-row" style="margin-top: 8px;">
+          <label>巡航速度：</label>
+          <div class="speed-buttons-group">
+            <button class="btn-pill" id="btn-speed-1" title="1x 實時真實時間">1x 實時</button>
+            <button class="btn-pill pill-active" id="btn-speed-3" title="3x 常用巡航">3x 巡航</button>
+            <button class="btn-pill" id="btn-speed-6" title="6x 快速演示">6x 快進</button>
+            <button class="btn-pill btn-danger" id="btn-trip-pause" style="margin-left: 6px;"><span>⏸</span> 暫停</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Driver & Vehicle Configuration (車長自訂與車載設定) -->
+      <div class="console-section">
+        <div class="section-label">車長資料與員工編號設定 (Captain Profile)</div>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-zh">車長中文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-zh" value="陳" class="form-input" placeholder="例如 陳 或 李">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-en">車長英文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-en" value="Chan" class="form-input" placeholder="例如 Chan 或 Li">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-id">員工編號 (Staff No.)：</label>
+          <input type="text" id="ctrl-driver-id" value="50179" class="form-input" placeholder="例如 50179">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-logged">在屏幕顯示車長資料：</label>
+          <input type="checkbox" id="ctrl-driver-logged" checked style="width: 18px; height: 18px;">
+        </div>
+      </div>
+
+      <!-- 4. Mon2 Hardware Parameters -->
+      <div class="console-section">
+        <div class="section-label">MON2 車載硬體參數 (Mon2_constfile.txt)</div>
+        <div class="form-row">
+          <label for="ctrl-theme-base">車載主題基底 (Base Theme)：</label>
+          <select id="ctrl-theme-base" class="form-select">
+            <option value="auto" selected>自動 (依路線判定 Auto)</option>
+            <option value="cityflyer">Cityflyer 機場快線紅金基底 (Cityflyer Base)</option>
+            <option value="ctb">城巴市區藍黃基底 (Citybus Normal Base)</option>
+            <option value="nwfb">新巴市區橙綠基底 (NWFB Normal Base)</option>
+            <option value="rickshaw">人力車觀光紅金基底 (Rickshaw Base)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="ctrl-orient-select">顯示方向 (DirectionV)：</label>
+          <select id="ctrl-orient-select" class="form-select">
+            <option value="1" selected>1: 直向版本 (Portrait - 實車立柱螢幕)</option>
+            <option value="0">0: 橫向版本 (Landscape - 實車橫向螢幕)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="ctrl-color-select">背景配色 (ColorP)：</label>
+          <select id="ctrl-color-select" class="form-select">
+            <option value="1" selected>1: 淡紫色 (Light Purple - 經典實車色)</option>
+            <option value="0">0: 淡灰色 (Light Grey)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="ctrl-mode-select">運行模式 (Display_Mode)：</label>
+          <select id="ctrl-mode-select" class="form-select">
+            <option value="0" selected>0: 正常模式 (7秒輪播 / 黑色待機)</option>
+            <option value="1">1: 測試模式 (3秒輪播 / 藍色待機)</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="ctrl-random-poster">隨機抽取海報 (Random)：</label>
+          <input type="checkbox" id="ctrl-random-poster" checked style="width: 18px; height: 18px;">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-audio-enable">啟用叮噹聲與雙語語音：</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="checkbox" id="ctrl-audio-enable" checked style="width: 18px; height: 18px;">
+            <input type="checkbox" id="ctrl-tts-enable" checked style="width: 18px; height: 18px;" title="粵英雙語語音廣播">
+          </div>
+        </div>
+      </div></div>
+  </div>
+
+  <!-- Custom Route JSON Modal -->
+  <div id="custom-modal" class="modal-overlay hidden">
+    <div class="modal-card">
+      <div class="modal-title">自訂路線編輯器 (Custom Route Editor)</div>
+      <p style="font-size: 13px; color: #94A3B8;">
+        您可以在此編輯或直接貼上符合格式的路線 JSON 結構（支援自訂轉乘路線、分段收費與重要地標提示）：
+      </p>
+      <textarea id="custom-json-input" class="json-textarea"></textarea>
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="btn-ctrl" id="btn-close-modal">取消 (Cancel)</button>
+        <button class="btn-ctrl btn-primary" id="btn-save-custom">套用並載入路線 (Apply Route)</button>
       </div>
     </div>
   </div>
 
-  <script>
-    const API_BASE = "https://rt.data.gov.hk/v2/transport/citybus";
-    const POSTERS = [
-      { title: "#MISSIONZERO", desc: "零排放 由此啟動<br>城巴致力推動全港綠色公共交通發展" },
-      { title: "請緊握扶手", desc: "行車時請緊握扶手<br>安全乘車 顧己及人" },
-      { title: "請佩戴安全帶", desc: "法例規定座位設有安全帶時<br>乘客必須全程佩戴" }
-    ];
-
-    let allRoutes = [];
-    let currentRoute = "";
-    let currentDir = "outbound";
-    let stops = [];
-    let currentStopIndex = 0;
-    let currentMode = 1;
-    let pageOverviewIndex = 1;
-    let isGpsActive = false;
-    let gpsWatchId = null;
-
-    // 時鐘
-    setInterval(() => {
-      const now = new Date();
-      document.getElementById('uiClock').textContent = 
-        `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    }, 1000);
-
-    // 叮噹提示音
-    function playDingDong() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.frequency.setValueAtTime(830, now);
-        osc.frequency.exponentialRampToValueAtTime(622, now + 0.35);
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.7);
-      } catch(e) {}
-    }
-
-    // 1. API: 載入全港所有城巴路線清單
-    async function loadAllRoutes() {
-      try {
-        const res = await fetch(`${API_BASE}/route/ctb`);
-        const json = await res.json();
-        allRoutes = json.data || [];
-        document.getElementById('apiStatus').textContent = "已連線";
-        document.getElementById('apiStatus').className = "status-badge ok";
-        document.getElementById('routeSearchInput').placeholder = "輸入路線 (例: 780, 905, A12)";
-        // 預設載入 780
-        selectRoute("780");
-      } catch (err) {
-        document.getElementById('apiStatus').textContent = "API 連線失敗";
-      }
-    }
-
-    // 2. 路線搜尋過濾與展示
-    const searchInput = document.getElementById('routeSearchInput');
-    const searchResults = document.getElementById('searchResults');
-
-    searchInput.addEventListener('input', (e) => {
-      const q = e.target.value.trim().toUpperCase();
-      if (!q) { searchResults.style.display = 'none'; return; }
-
-      const matches = allRoutes.filter(r => r.route.toUpperCase().includes(q)).slice(0, 15);
-      searchResults.innerHTML = "";
-      if (matches.length === 0) {
-        searchResults.innerHTML = `<div class="search-item" style="color:#888;">找不到相符路線</div>`;
-      } else {
-        matches.forEach(r => {
-          const item = document.createElement('div');
-          item.className = "search-item";
-          item.textContent = `${r.route} 往 ${r.dest_tc} (${r.dest_en})`;
-          item.onclick = () => {
-            searchInput.value = r.route;
-            searchResults.style.display = 'none';
-            selectRoute(r.route);
-          };
-          searchResults.appendChild(item);
-        });
-      }
-      searchResults.style.display = 'block';
-    });
-
-    document.addEventListener('click', (e) => {
-      if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-        searchResults.style.display = 'none';
-      }
-    });
-
-    // 3. API: 根據選取路線與方向獲取站點資料及座標
-    async function selectRoute(routeNo) {
-      currentRoute = routeNo;
-      currentStopIndex = 0;
-      document.getElementById('detailStatus').textContent = `載入路線 ${routeNo} 車站資料中...`;
-
-      try {
-        const res = await fetch(`${API_BASE}/route-stop/ctb/${routeNo}/${currentDir}`);
-        const json = await res.json();
-        const rawStops = json.data || [];
-
-        if (rawStops.length === 0) {
-          document.getElementById('detailStatus').textContent = `此方向無站點資料，請切換方向。`;
-          return;
-        }
-
-        // 批次取得站點詳細名稱與座標
-        stops = await Promise.all(rawStops.map(async (s) => {
-          const stopRes = await fetch(`${API_BASE}/stop/${s.stop}`);
-          const stopJson = await stopRes.json();
-          const d = stopJson.data || {};
-          return {
-            id: s.stop,
-            seq: s.seq,
-            nameZh: d.name_tc || "巴士站",
-            nameEn: d.name_en || "Bus Stop",
-            lat: parseFloat(d.lat),
-            lon: parseFloat(d.long)
-          };
-        }));
-
-        const matchedRoute = allRoutes.find(r => r.route === currentRoute);
-        if (matchedRoute) {
-          document.getElementById('uiDestZh').textContent = "往 " + (currentDir === 'outbound' ? matchedRoute.dest_tc : matchedRoute.orig_tc);
-          document.getElementById('uiDestEn').textContent = "to " + (currentDir === 'outbound' ? matchedRoute.dest_en : matchedRoute.orig_en);
-        }
-        document.getElementById('detailStatus').textContent = `路線 ${routeNo} 載入完成，共 ${stops.length} 站。`;
-        render();
-      } catch (e) {
-        document.getElementById('detailStatus').textContent = `車站資料讀取錯誤。`;
-      }
-    }
-
-    document.getElementById('dirSelect').addEventListener('change', (e) => {
-      currentDir = e.target.value;
-      if (currentRoute) selectRoute(currentRoute);
-    });
-
-    // 4. 畫面渲染引擎
-    function render() {
-      if (stops.length === 0) return;
-      document.getElementById('uiRoute').textContent = currentRoute;
-
-      document.querySelectorAll('.mode-view').forEach(el => el.classList.remove('active'));
-
-      // Mode 1 & 2: 三站模式
-      if (currentMode === 1 || currentMode === 2) {
-        const isZh = (currentMode === 1);
-        const container = isZh ? document.getElementById('ladderZh') : document.getElementById('ladderEn');
-        document.getElementById(isZh ? 'viewMode1' : 'viewMode2').classList.add('active');
-        document.getElementById('uiStatusText').textContent = isZh ? "此站 This stop" : "Next stop";
-        document.getElementById('uiPageIndicator').textContent = "";
-
-        container.innerHTML = "";
-        for (let i = 0; i < 3; i++) {
-          const idx = currentStopIndex + i;
-          if (idx < stops.length) {
-            const s = stops[idx];
-            const row = document.createElement('div');
-            row.className = `ladder-row ${i === 0 ? 'current' : ''}`;
-            row.innerHTML = `
-              <div class="stop-bubble">${idx + 1}</div>
-              <div class="stop-info">
-                <div class="stop-main">${isZh ? s.nameZh : s.nameEn}</div>
-                <div class="stop-sub">${isZh ? s.nameEn : s.nameZh}</div>
-              </div>
-              <div class="stop-eta-badge">${i === 0 ? "此站" : (i * 3) + " 分鐘"}</div>
-            `;
-            container.appendChild(row);
-          }
-        }
-      }
-
-      // Mode 5: 多於 13 站分頁總表
-      else if (currentMode === 5) {
-        document.getElementById('viewMode5').classList.add('active');
-        const container = document.getElementById('overviewList');
-        container.innerHTML = "";
-
-        const remaining = stops.slice(currentStopIndex);
-        const totalPages = remaining.length > 13 ? Math.ceil((remaining.length - 13) / 10) + 1 : 1;
-        document.getElementById('uiPageIndicator').textContent = `${pageOverviewIndex}/${totalPages}`;
-
-        let slice = (pageOverviewIndex === 1) 
-          ? remaining.slice(0, 13) 
-          : remaining.slice(13 + (pageOverviewIndex - 2) * 10, 13 + (pageOverviewIndex - 1) * 10);
-
-        slice.forEach((s, i) => {
-          const gIdx = stops.indexOf(s);
-          const row = document.createElement('div');
-          row.className = `overview-row ${i % 2 === 0 ? 'yellow' : 'white'}`;
-          row.innerHTML = `
-            <div class="overview-seq">${gIdx + 1}</div>
-            <div class="overview-name-zh">${s.nameZh}</div>
-            <div class="overview-name-en">${s.nameEn}</div>
-            <div class="overview-eta">${(gIdx - currentStopIndex) * 2 + 1} 分鐘</div>
-          `;
-          container.appendChild(row);
-        });
-      }
-
-      // Mode 4: 隨機海報
-      else if (currentMode === 4) {
-        document.getElementById('viewMode4').classList.add('active');
-        document.getElementById('uiStatusText').textContent = "宣傳資訊 Promotion";
-        document.getElementById('uiPageIndicator').textContent = "";
-        const p = POSTERS[Math.floor(Math.random() * POSTERS.length)];
-        document.getElementById('posterTitle').innerHTML = p.title;
-        document.getElementById('posterDesc').innerHTML = p.desc;
-      }
-    }
-
-    // 版面輪播計時器
-    setInterval(() => {
-      if (stops.length === 0) return;
-      const remaining = stops.slice(currentStopIndex);
-      const totalPages = remaining.length > 13 ? Math.ceil((remaining.length - 13) / 10) + 1 : 1;
-
-      if (currentMode === 1) currentMode = 2;
-      else if (currentMode === 2) { currentMode = 5; pageOverviewIndex = 1; }
-      else if (currentMode === 5) {
-        if (pageOverviewIndex < totalPages) pageOverviewIndex++;
-        else currentMode = 4;
-      }
-      else if (currentMode === 4) currentMode = 1;
-
-      render();
-    }, 6000);
-
-    // 車長資訊
-    function updateDriver() {
-      const zh = document.getElementById('driverSurnameZh').value || "李";
-      const en = document.getElementById('driverSurnameEn').value || "Li";
-      const id = document.getElementById('driverId').value || "34006";
-      document.getElementById('uiDriverZh').textContent = `${zh}車長`;
-      document.getElementById('uiDriverEn').textContent = `Bus Captain ${en}`;
-      document.getElementById('uiDriverId').textContent = id;
-    }
-    document.querySelectorAll('#driverSurnameZh, #driverSurnameEn, #driverId').forEach(el => el.addEventListener('input', updateDriver));
-
-    // 點擊底欄切換車長 / App 提示
-    document.getElementById('mon2Footer').addEventListener('click', () => {
-      const d = document.getElementById('footerDriverWrap');
-      const a = document.getElementById('footerAppWrap');
-      d.style.display = d.style.display === 'none' ? 'flex' : 'none';
-      a.style.display = a.style.display === 'none' ? 'block' : 'none';
-    });
-
-    // 螢幕方向切換
-    document.getElementById('btnOrientation').addEventListener('click', () => {
-      const frame = document.getElementById('mon2Frame');
-      frame.classList.toggle('mon2-portrait');
-      frame.classList.toggle('mon2-landscape');
-    });
-
-    // GPS 大圓距離計算 (米)
-    function calcDist(lat1, lon1, lat2, lon2) {
-      const R = 6371e3;
-      const p1 = lat1 * Math.PI / 180, p2 = lat2 * Math.PI / 180;
-      const dp = (lat2 - lat1) * Math.PI / 180, dl = (lon2 - lon1) * Math.PI / 180;
-      const a = Math.sin(dp/2)**2 + Math.cos(p1) * Math.cos(p2) * Math.sin(dl/2)**2;
-      return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    }
-
-    // GPS 定位控制
-    document.getElementById('btnGpsToggle').addEventListener('click', () => {
-      if (!isGpsActive) {
-        if (!navigator.geolocation) { alert("此設備不支援 GPS 定位"); return; }
-        gpsWatchId = navigator.geolocation.watchPosition(pos => {
-          const { latitude, longitude, speed } = pos.coords;
-          const target = stops[currentStopIndex];
-          if (!target || !target.lat) return;
-
-          const dist = calcDist(latitude, longitude, target.lat, target.lon);
-          const spdKm = speed ? Math.max(speed * 3.6, 20) : 20;
-          const etaMin = Math.max(1, Math.round(dist / (spdKm * 1000 / 60)));
-
-          document.getElementById('detailStatus').textContent = 
-            `目標: ${target.nameZh} | 剩餘時間: 約 ${etaMin} 分鐘 (距 ${Math.round(dist)}m)`;
-
-          if (dist <= 60) {
-            playDingDong();
-            if (currentStopIndex < stops.length - 1) {
-              setTimeout(() => { currentStopIndex++; render(); }, 8000);
-            }
-          }
-        }, err => {
-          document.getElementById('gpsStatus').textContent = "失敗";
-        }, { enableHighAccuracy: true, maximumAge: 1000 });
-
-        isGpsActive = true;
-        document.getElementById('btnGpsToggle').classList.add('active');
-        document.getElementById('btnGpsToggle').textContent = "🛑 關閉 GPS 定位";
-        document.getElementById('gpsStatus').textContent = "運作中";
-        document.getElementById('gpsStatus').className = "status-badge ok";
-      } else {
-        navigator.geolocation.clearWatch(gpsWatchId);
-        isGpsActive = false;
-        document.getElementById('btnGpsToggle').classList.remove('active');
-        document.getElementById('btnGpsToggle').textContent = "🛰️ 啟用真實 GPS 報站";
-        document.getElementById('gpsStatus').textContent = "關閉";
-        document.getElementById('gpsStatus').className = "status-badge";
-      }
-    });
-
-    // 啟動 API 資料載入
-    loadAllRoutes();
-    updateDriver();
-  </script>
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/ctb-api.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/mon2-display.js"></script>
+  <script src="js/controller.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
