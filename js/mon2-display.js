@@ -156,27 +156,11 @@ class Mon2Display {
           <main class="mon2-main" id="mon2-main">
             <!-- MODE 1: 中文停靠三站 (LECIP_Mon2_Mode1 / Chinese) -->
             <section id="panel-mode-1" class="content-page active" style="display: flex;">
-              <div class="page-top-strip">
-                <div class="status-callout zh-callout" id="zh-status-callout">
-                  <span class="status-indicator-arrow">▼</span>
-                  <span class="status-text" id="zh-status-text">下一站</span>
-                  <span class="target-dist-badge" id="hud-target-dist-zh">距 142m</span>
-                </div>
-                <div class="page-cycle-tag">Mode 1: 中文停靠三站</div>
-              </div>
               <div class="trio-stops-container" id="zh-trio-stops"></div>
             </section>
 
             <!-- MODE 2: 英文停靠三站 (LECIP_Mon2_Mode1 / English) -->
             <section id="panel-mode-2" class="content-page hidden" style="display: none;">
-              <div class="page-top-strip">
-                <div class="status-callout en-callout" id="en-status-callout">
-                  <span class="status-indicator-arrow">▼</span>
-                  <span class="status-text" id="en-status-text">Next stop</span>
-                  <span class="target-dist-badge" id="hud-target-dist-en">142m</span>
-                </div>
-                <div class="page-cycle-tag">Mode 2: English 3-Stop</div>
-              </div>
               <div class="trio-stops-container" id="en-trio-stops"></div>
             </section>
 
@@ -212,24 +196,16 @@ class Mon2Display {
 
             <!-- MODE 5: 隨後十三站全覽總表 (LECIP_Mon2_Mode5 / AllStop) -->
             <section id="panel-mode-5" class="content-page hidden" style="display: none;">
-              <div class="page-top-strip">
-                <div class="status-callout bi-callout" id="bi-status-callout">
-                  <span class="status-indicator-arrow">▼</span>
-                  <span class="status-text" id="bi-status-text">此站 This stop</span>
-                </div>
-                <div class="page-cycle-tag" id="allstop-page-indicator">1/2</div>
+              <div class="ladder-header-strip">
+                <div class="ladder-header-title">隨後車站 Next stops</div>
+                <div class="ladder-page-indicator" id="allstop-page-indicator">1/1</div>
               </div>
               <div class="ladder-wrapper">
                 <div class="ladder-stops-list" id="allstop-stops-list"></div>
               </div>
             </section>
 
-            <!-- Terminus Alert Overlay -->
-            <div class="terminus-alert-card hidden" id="terminus-alert-card">
-              <div class="terminus-title">終點站 TERMINUS</div>
-              <div class="terminus-desc">請攜帶所有隨身行李下車<br>Please alight with all your belongings</div>
-              <div class="terminus-thanks">多謝乘搭城巴 • Thank You For Travelling With Us</div>
-            </div>
+
           </main>
 
           <!-- Bottom Footer Bar (Vertical Screen Reference) -->
@@ -839,13 +815,7 @@ class Mon2Display {
     // 5. Render Mode 5 (AllStop / 13-Stop Ladder)
     this.renderMode5(curIdx);
 
-    // Terminus alert
-    const isTerminus = stop.isTerminus || stop.num === r.stops.length;
-    const terminusAlert = document.getElementById("terminus-alert-card");
-    if (terminusAlert) {
-      if (isTerminus) terminusAlert.classList.remove("hidden");
-      else terminusAlert.classList.add("hidden");
-    }
+// Terminus card removed per user request
 
     this.updateDriverDisplay();
     this.updateActivePanel();
@@ -860,18 +830,31 @@ class Mon2Display {
     const nCircles = Math.min(3, leftStop);
     const trio = stops.slice(curIdx, curIdx + nCircles);
     const isArrow4 = (leftStop >= 4);
+    const isArrived = (this.telargo_busarrivingstop === 1);
 
-    let circlesHtml = `<div class="track-bar-chevron"></div>`;
-    let rowsHtml = "";
+    // Track column HTML starting with top orange chevron
+    let trackHtml = `<div class="track-bar-chevron"></div>`;
+    
+    // Subheader row aligned with track chevron
+    let rowsHtml = `
+      <div class="trio-subheader-row">
+        <div class="trio-subheader-title ${isArrived ? 'title-arrived' : 'title-next'}">
+          ${isArrived ? "此站" : "下一站"}
+        </div>
+        <div class="trio-subheader-eta">
+          ${isArrived ? "" : "預計"}
+        </div>
+      </div>
+    `;
 
     for (let idx = 0; idx < nCircles; idx++) {
       const s = trio[idx];
       const isFirst = (idx === 0);
-      let etaMins = (idx * 2) + (isFirst ? 0 : 2);
+      let etaMins = (idx * 2) + 2;
 
       // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
       if (idx > 0) {
-        circlesHtml += `
+        trackHtml += `
           <div class="track-white-chevron">
             <svg viewBox="0 0 24 14" width="22" height="12">
               <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -880,28 +863,36 @@ class Mon2Display {
         `;
       }
 
-      circlesHtml += `
+      trackHtml += `
         <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
           ${s.num}
         </div>
       `;
 
+      // Right-side ETA: When arrived, show '此站'; when next stop, show '2 分鐘'
+      let etaColHtml = "";
+      if (isFirst && isArrived) {
+        etaColHtml = `<span class="tag-active-stop">此站</span>`;
+      } else {
+        etaColHtml = `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`;
+      }
+
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${s.zh} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
             ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
           </div>
           <div class="trio-eta-col">
-            ${isFirst ? '<span class="tag-active-stop">此站</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">分鐘</span>`}
+            ${etaColHtml}
           </div>
         </div>
       `;
     }
 
-    // If leftStop >= 4 -> add white chevron and pointed downward arrow tip (Arrow_4.png)
+    // Pointed downward arrow at bottom if more stops ahead (Arrow_4)
     if (isArrow4) {
-      circlesHtml += `
+      trackHtml += `
         <div class="track-white-chevron">
           <svg viewBox="0 0 24 14" width="22" height="12">
             <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -916,7 +907,7 @@ class Mon2Display {
     container.innerHTML = `
       <div class="trio-layout-wrapper">
         <div class="route-nav-track-col ${arrowClass}">
-          ${circlesHtml}
+          ${trackHtml}
         </div>
         <div class="trio-content-col">
           ${rowsHtml}
@@ -924,7 +915,6 @@ class Mon2Display {
       </div>
     `;
   }
-
   renderEnglishTrioStops(curIdx) {
     const container = document.getElementById("en-trio-stops");
     if (!container || !this.currentRoute) return;
@@ -934,18 +924,28 @@ class Mon2Display {
     const nCircles = Math.min(3, leftStop);
     const trio = stops.slice(curIdx, curIdx + nCircles);
     const isArrow4 = (leftStop >= 4);
+    const isArrived = (this.telargo_busarrivingstop === 1);
 
-    let circlesHtml = `<div class="track-bar-chevron"></div>`;
-    let rowsHtml = "";
+    let trackHtml = `<div class="track-bar-chevron"></div>`;
+    
+    let rowsHtml = `
+      <div class="trio-subheader-row">
+        <div class="trio-subheader-title ${isArrived ? 'title-arrived' : 'title-next'}">
+          ${isArrived ? "This stop" : "Next stop"}
+        </div>
+        <div class="trio-subheader-eta">
+          ${isArrived ? "" : "Est."}
+        </div>
+      </div>
+    `;
 
     for (let idx = 0; idx < nCircles; idx++) {
       const s = trio[idx];
       const isFirst = (idx === 0);
-      let etaMins = (idx * 2) + (isFirst ? 0 : 2);
+      let etaMins = (idx * 2) + 2;
 
-      // White downward chevron between circles as in LECIP_Mon2_Arrow_2/3/4.png
       if (idx > 0) {
-        circlesHtml += `
+        trackHtml += `
           <div class="track-white-chevron">
             <svg viewBox="0 0 24 14" width="22" height="12">
               <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -954,27 +954,34 @@ class Mon2Display {
         `;
       }
 
-      circlesHtml += `
+      trackHtml += `
         <div class="${isFirst ? 'track-circle-active' : 'track-circle-upcoming'}">
           ${s.num}
         </div>
       `;
 
+      let etaColHtml = "";
+      if (isFirst && isArrived) {
+        etaColHtml = `<span class="tag-active-stop">This stop</span>`;
+      } else {
+        etaColHtml = `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`;
+      }
+
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${s.en} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
             ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
           </div>
           <div class="trio-eta-col">
-            ${isFirst ? '<span class="tag-active-stop">Now</span>' : `<span class="eta-big">${etaMins}</span><span class="eta-unit-text">min</span>`}
+            ${etaColHtml}
           </div>
         </div>
       `;
     }
 
     if (isArrow4) {
-      circlesHtml += `
+      trackHtml += `
         <div class="track-white-chevron">
           <svg viewBox="0 0 24 14" width="22" height="12">
             <path d="M2 2 L12 11 L22 2" fill="none" stroke="#FFFFFF" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -989,7 +996,7 @@ class Mon2Display {
     container.innerHTML = `
       <div class="trio-layout-wrapper">
         <div class="route-nav-track-col ${arrowClass}">
-          ${circlesHtml}
+          ${trackHtml}
         </div>
         <div class="trio-content-col">
           ${rowsHtml}
@@ -997,7 +1004,6 @@ class Mon2Display {
       </div>
     `;
   }
-
   renderMode3(stop) {
     const wrap = document.getElementById("mode3-content-wrap");
     const titleZh = document.getElementById("mode3-title-zh");

@@ -3368,3 +3368,200 @@ body {
   object-fit: contain;
   background: #000000;
 }
+
+
+/* ==========================================================================
+   AUTHENTIC TRIO SUBHEADER & ALIGNED TRACK
+   (Fixed Arrow Position, Fixed Next Stop / This Stop logic, No Distance on screen, No Debug Windows)
+   ========================================================================== */
+.trio-stops-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.trio-layout-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 0;
+  border: none;
+  overflow: hidden;
+}
+
+.trio-content-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.trio-subheader-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  min-height: 42px;
+  background: #FFFFFF;
+  border-bottom: 2px solid #E2E8F0;
+}
+
+.trio-subheader-title {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: var(--font-chinese);
+  letter-spacing: 0.05em;
+}
+
+.trio-subheader-title.title-next {
+  color: #1E3A8A; /* Navy blue */
+}
+
+.mode-cityflyer .trio-subheader-title.title-next {
+  color: var(--cityflyer-crimson) !important;
+}
+
+.trio-subheader-title.title-arrived {
+  color: #16A34A !important; /* Green */
+  font-weight: 900;
+}
+
+.trio-subheader-eta {
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+}
+
+.trio-row-item {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 14px;
+  border-bottom: 1.5px solid #F1F5F9;
+}
+
+.trio-row-item:last-child {
+  border-bottom: none;
+}
+
+/* Track column sizing & vertical alignment with subheader */
+.route-nav-track-col {
+  width: 44px;
+  background: #0022AA;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin: 0 0 0 10px;
+  padding-top: 6px;
+  flex-shrink: 0;
+  box-shadow: 1px 0 3px rgba(0,0,0,0.12);
+}
+
+.mode-cityflyer .route-nav-track-col {
+  background: var(--cityflyer-crimson) !important;
+}
+
+/* Orange top chevron aligns directly with subheader row */
+.track-bar-chevron {
+  width: 32px;
+  height: 24px;
+  background: #EA580C;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 65%, 50% 100%, 0% 65%);
+  margin-top: 4px;
+  margin-bottom: 6px;
+  flex-shrink: 0;
+}
+
+.route-nav-track-col.arrow-rounded {
+  border-bottom-left-radius: 22px;
+  border-bottom-right-radius: 22px;
+}
+
+.route-nav-track-col.arrow-pointed {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.track-bar-point-bottom {
+  width: 100%;
+  height: 22px;
+  background: inherit;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
+  flex-shrink: 0;
+}
+
+/* Hide any residual debug page-cycle-tag or distance badges from passenger screen */
+.page-cycle-tag,
+.target-dist-badge,
+.hud-target-distance-meters,
+.page-top-strip {
+  display: none !important;
+}
+
+
+/* ==========================================================================
+   CANCEL TERMINUS CARD & PREVENT LONG STATION NAME TRUNCATION
+   ========================================================================== */
+/* 1. Cancel Terminus Alert Card (取消終點站卡片) */
+.terminus-alert-card {
+  display: none !important;
+}
+
+/* 2. Prevent Station Name Truncation (比較長的站名完整顯示，不被省略號切斷) */
+.trio-name-col {
+  flex: 1;
+  padding: 0 12px;
+  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.trio-main-name {
+  font-size: 23px;
+  font-weight: 900;
+  color: #0F172A;
+  line-height: 1.18;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+#panel-mode-2 .trio-main-name {
+  font-size: 20px !important;
+  line-height: 1.15;
+}
+
+.trio-sub-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: #64748B;
+  margin-top: 3px;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Mode 5 AllStop / Ladder: Full text display */
+.ladder-names-bilingual {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+.ladder-zh-col, 
+.ladder-en-col {
+  white-space: normal !important;
+  word-break: break-word !important;
+  text-overflow: clip !important;
+}
