@@ -46,124 +46,121 @@
       </div>
     </div>
 
-    <!-- Right: Driver / Simulator Control Console -->
+    <!-- Right: Driver / Simulator Control Console (Automated Citybus API Engine) -->
     <div class="control-console">
       <div class="console-header">
         <div class="console-title">
-          <span>🎛️ 車長控制台 (Driver Console)</span>
+          <span>🚌 城巴即時 API 連線控制台</span>
         </div>
-        <div class="console-status-pill" id="console-status-pill">
-          正常運作 RUNNING
-        </div>
-      </div>
-
-      <!-- 1. Route & Trip Selector -->
-      <div class="console-section">
-        <div class="section-label">路線與行車資料 (Route & Trip)</div>
-        <div class="form-row">
-          <label for="ctrl-route-select">行駛路線：</label>
-          <select id="ctrl-route-select" class="form-select">
-            <!-- Dynamically populated -->
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="ctrl-stop-select">快速跳站：</label>
-          <select id="ctrl-stop-select" class="form-select">
-            <!-- Dynamically populated -->
-          </select>
+        <div class="console-status-pill" id="api-status-badge">
+          ● 連接 DATA.GOV.HK API...
         </div>
       </div>
 
-      <!-- 2.5 版面輪替控制 (Page Rotation Controls) -->
+      <!-- 1. Citybus API: Route, Direction & Trip (路線、方向、班次選擇) -->
       <div class="console-section">
-        <div class="section-label">版面輪替控制 (Page Rotation)</div>
-        <div class="rotation-pills-bar">
-          <button class="btn-pill pill-active" data-mode="1" id="pill-m1">Mode 1: 中文三站</button>
-          <button class="btn-pill" data-mode="2" id="pill-m2">Mode 2: 英文三站</button>
-          <button class="btn-pill" data-mode="3" id="pill-m3">Mode 3: 分段/轉乘</button>
-          <button class="btn-pill" data-mode="4" id="pill-m4">Mode 4: 宣傳海報</button>
-          <button class="btn-pill" data-mode="5" id="pill-m5">Mode 5: 隨後十三站</button>
-        </div>
-        <div class="form-row" style="margin-top: 6px;">
-          <label for="ctrl-cycle-enable">自動輪替播放：</label>
-          <input type="checkbox" id="ctrl-cycle-enable" checked style="width: 18px; height: 18px;">
-          <span style="font-size: 11px; color: #94A3B8;">(7秒正常 / 3秒測試)</span>
-        </div>
+        <div class="section-label">城巴 API 路線與班次選擇 (Route & Trip)</div>
+        
         <div class="form-row">
-          <label for="ctrl-random-poster">海報隨機放映 (Random)：</label>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="checkbox" id="ctrl-random-poster" checked style="width: 18px; height: 18px;" title="實車邏輯：海報隨機抽取播放">
-            <button class="btn-top" id="btn-shuffle-poster" style="padding: 2px 8px; font-size: 11px;" title="立即隨機更換下一張海報">🎲 換一張</button>
+          <label for="api-route-select">選擇路線 (Route)：</label>
+          <select id="api-route-select" class="form-select">
+            <option value="780">【城巴】780 (柴灣(東) ➔ 中環碼頭)</option>
+            <option value="905">【城巴】905 (會展站 ➔ 荔枝角(盈暉臺))</option>
+            <option value="A12">【機場快線】A12 (機場 ➔ 小西灣(藍灣半島))</option>
+            <option value="702">【城巴】702 (海麗邨 ➔ 又一村(達之路))</option>
+            <option value="A21">【機場快線】A21 (紅磡站 ➔ 機場)</option>
+            <option value="8P">【城巴】8P (小西灣 ➔ 灣仔北)</option>
+            <option value="H1">【人力車】H1 (中環天星碼頭 ➔ 尖沙咀)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="api-dir-select">行駛方向 (Direction)：</label>
+          <select id="api-dir-select" class="form-select">
+            <option value="outbound" selected>去程 Outbound</option>
+            <option value="inbound">回程 Inbound</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="api-trip-select">選擇班次 (Trip / ETA)：</label>
+          <select id="api-trip-select" class="form-select">
+            <option value="trip_1">正在獲取即時班次抵站時間...</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2. Fully Automated Trip Engine (全自動行駛進度，無任何手動按鍵) -->
+      <div class="console-section">
+        <div class="section-label">全自動行駛狀態 (Automated Journey)</div>
+        <div style="font-size: 11px; color: #38BDF8; font-weight: bold; margin-bottom: 4px;">
+          * 系統全自動報站、開車、巡航與停站，無須手動按鍵
+        </div>
+
+        <div class="trip-live-card">
+          <div class="live-stop-header">
+            <span class="live-pulse-dot"></span>
+            <span id="live-current-stop-name" style="font-size: 15px; font-weight: 900; color: #FFF;">載入中...</span>
+          </div>
+          <div class="live-status-row">
+            <div id="live-trip-status-text" style="font-size: 13px; font-weight: 700;">🚌 行駛中</div>
+            <div id="live-remaining-stops" style="font-size: 12px; color: #94A3B8;">剩餘站數：計算中</div>
+          </div>
+          <div class="live-progress-container">
+            <div class="live-progress-bar" id="live-trip-progress-bar" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Speed Controls -->
+        <div class="form-row" style="margin-top: 8px;">
+          <label>巡航速度：</label>
+          <div class="speed-buttons-group">
+            <button class="btn-pill" id="btn-speed-1" title="1x 實時真實時間">1x 實時</button>
+            <button class="btn-pill pill-active" id="btn-speed-3" title="3x 常用巡航">3x 巡航</button>
+            <button class="btn-pill" id="btn-speed-6" title="6x 快速演示">6x 快進</button>
+            <button class="btn-pill btn-danger" id="btn-trip-pause" style="margin-left: 6px;"><span>⏸</span> 暫停</button>
           </div>
         </div>
       </div>
 
-      <!-- 2. Primary Navigation Controls -->
+      <!-- 3. Driver & Vehicle Configuration (車長自訂與車載設定) -->
       <div class="console-section">
-        <div class="section-label">報站操作 (Stop Navigation)</div>
-        <div class="controls-grid">
-          <button class="btn-ctrl" id="btn-prev-stop" title="回到上一站">
-            <span>⏮</span> 上一站 (Prev)
-          </button>
-          <button class="btn-ctrl btn-success" id="btn-arrive-stop" title="切換為「此站 This stop」狀態">
-            <span>🛑</span> 此站停靠 (Arrive)
-          </button>
-          <button class="btn-ctrl btn-primary" id="btn-next-stop" title="開車前往下一站">
-            <span>⏭</span> 下一站 (Next)
-          </button>
-          <button class="btn-ctrl" id="btn-auto-play" title="以定時器模擬自動行駛">
-            <span>▶</span> 自動巡航 (模擬行駛)
-          </button>
+        <div class="section-label">車長資料與員工編號設定 (Captain Profile)</div>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-zh">車長中文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-zh" value="陳" class="form-input" placeholder="例如 陳 或 李">
         </div>
-
-        <div class="controls-grid" style="margin-top: 6px;">
-          <button class="btn-ctrl" id="btn-chime-only" title="播放經典叮噹提示音">
-            <span>🔔</span> 報站叮噹 (Chime)
-          </button>
-          <button class="btn-ctrl" id="btn-seatbelt-alert" title="觸發 !SeatBelt 安全帶警報">
-            <span>⚠️</span> 安全帶提示 (!SeatBelt)
-          </button>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-en">車長英文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-en" value="Chan" class="form-input" placeholder="例如 Chan 或 Li">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-id">員工編號 (Staff No.)：</label>
+          <input type="text" id="ctrl-driver-id" value="50179" class="form-input" placeholder="例如 50179">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-logged">在屏幕顯示車長資料：</label>
+          <input type="checkbox" id="ctrl-driver-logged" checked style="width: 18px; height: 18px;">
         </div>
       </div>
 
-      <!-- 3. Mon2 Parameter Configurations (From OMSI 2 Mon2_constfile) -->
+      <!-- 4. Mon2 Hardware Parameters -->
       <div class="console-section">
-        <div class="section-label">MON2 運作參數 (Mon2_constfile.txt)</div>
-
-        <div class="form-row">
-          <label for="ctrl-power-select">系統電源狀態：</label>
-          <select id="ctrl-power-select" class="form-select">
-            <option value="RUN" selected>正常開機 (RUN)</option>
-            <option value="STANDBY">待機未入線 (STANDBY)</option>
-            <option value="OFF">關閉電源 (OFF)</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="ctrl-dep-timer">剩餘開車時間：</label>
-          <input type="range" id="ctrl-dep-timer" min="1" max="20" value="5" style="flex:1;">
-          <span id="val-dep-timer" style="min-width: 80px; text-align: right; font-weight: bold;">5 分鐘 min</span>
-        </div>
-        <div style="font-size: 11px; color: #94A3B8; margin-top: -4px;">
-          * 超過 10 分鐘將自動切換為「系統未入線」待機畫面 (參考 Readme 規格)
-        </div>
-
+        <div class="section-label">MON2 車載硬體參數 (Mon2_constfile.txt)</div>
         <div class="form-row">
           <label for="ctrl-orient-select">顯示方向 (DirectionV)：</label>
           <select id="ctrl-orient-select" class="form-select">
-            <option value="1" selected>1: 直向版本 (Portrait Vertical)</option>
-            <option value="0">0: 橫向版本 (Landscape Horizontal)</option>
+            <option value="1" selected>1: 直向版本 (Portrait - 實車立柱螢幕)</option>
+            <option value="0">0: 橫向版本 (Landscape - 實車橫向螢幕)</option>
           </select>
         </div>
-
         <div class="form-row">
           <label for="ctrl-color-select">背景配色 (ColorP)：</label>
           <select id="ctrl-color-select" class="form-select">
-            <option value="0" selected>0: 淡灰色 (Light Grey)</option>
-            <option value="1">1: 淡紫色 (Light Purple)</option>
+            <option value="1" selected>1: 淡紫色 (Light Purple - 經典實車色)</option>
+            <option value="0">0: 淡灰色 (Light Grey)</option>
           </select>
         </div>
-
         <div class="form-row">
           <label for="ctrl-mode-select">運行模式 (Display_Mode)：</label>
           <select id="ctrl-mode-select" class="form-select">
@@ -171,51 +168,18 @@
             <option value="1">1: 測試模式 (3秒輪播 / 藍色待機)</option>
           </select>
         </div>
-
-      </div>
-
-      <!-- 4. 車長資料與員工編號自訂 (Captain Profile & Driver ID) -->
-      <div class="console-section">
-        <div class="section-label">車長資料與員工編號設定 (Captain Profile)</div>
         <div class="form-row">
-          <label for="ctrl-driver-surname-zh">車長中文姓氏：</label>
-          <input type="text" id="ctrl-driver-surname-zh" value="李" class="form-input" placeholder="例如 李 或 黃">
+          <label for="ctrl-random-poster">隨機抽取海報 (Random)：</label>
+          <input type="checkbox" id="ctrl-random-poster" checked style="width: 18px; height: 18px;">
         </div>
         <div class="form-row">
-          <label for="ctrl-driver-surname-en">車長英文姓氏：</label>
-          <input type="text" id="ctrl-driver-surname-en" value="Li" class="form-input" placeholder="例如 Li 或 Huang">
+          <label for="ctrl-audio-enable">啟用叮噹聲與雙語語音：</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="checkbox" id="ctrl-audio-enable" checked style="width: 18px; height: 18px;">
+            <input type="checkbox" id="ctrl-tts-enable" checked style="width: 18px; height: 18px;" title="粵英雙語語音廣播">
+          </div>
         </div>
-        <div class="form-row">
-          <label for="ctrl-driver-id">員工編號 (Staff No.)：</label>
-          <input type="text" id="ctrl-driver-id" value="34006" class="form-input" placeholder="例如 34006 或 62075">
-        </div>
-        <div class="form-row">
-          <label for="ctrl-driver-logged">在屏幕顯示車長資料：</label>
-          <input type="checkbox" id="ctrl-driver-logged" checked style="width: 18px; height: 18px;">
-        </div>
-        <div style="font-size: 11px; color: #94A3B8; margin-top: -4px; line-height: 1.5;">
-          * 遵循城巴標準格式：「X車長 / Bus Captain X」與「為您服務 is serving you」<br>
-          * <strong>直向螢幕</strong>：顯示於螢幕底部資訊列；<strong>橫向螢幕</strong>：顯示於頂部頂欄（點擊可切換顯示/隱藏）
-        </div>
-      </div>
-
-      <!-- 4. Audio & Bilingual TTS -->
-      <div class="console-section">
-        <div class="section-label">音效與語音播報 (Audio & Bilingual TTS)</div>
-        <div class="form-row">
-          <label>啟用報站音效：</label>
-          <input type="checkbox" id="ctrl-audio-enable" checked style="width: 18px; height: 18px;">
-        </div>
-        <div class="form-row">
-          <label>啟用粵英雙語語音 (TTS)：</label>
-          <input type="checkbox" id="ctrl-tts-enable" checked style="width: 18px; height: 18px;">
-        </div>
-        <div class="form-row">
-          <label for="ctrl-volume">音量大小 (Volume)：</label>
-          <input type="range" id="ctrl-volume" min="0" max="1" step="0.05" value="0.7" style="flex:1;">
-        </div>
-      </div>
-    </div>
+      </div></div>
   </div>
 
   <!-- Custom Route JSON Modal -->
@@ -235,6 +199,7 @@
 
   <!-- Scripts -->
   <script src="js/data.js"></script>
+  <script src="js/ctb-api.js"></script>
   <script src="js/audio.js"></script>
   <script src="js/mon2-display.js"></script>
   <script src="js/controller.js"></script>

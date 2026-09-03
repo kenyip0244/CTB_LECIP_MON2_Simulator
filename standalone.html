@@ -2280,6 +2280,300 @@ body {
   border-radius: 3px;
 }
 
+
+/* ==========================================================================
+   AUTOMATED CITYBUS API ENGINE & LIVE PROGRESS STYLES
+   ========================================================================== */
+.trip-live-card {
+  background: #181B22;
+  border: 1px solid #333C4D;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.live-stop-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.live-pulse-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 8px #22C55E;
+  animation: livePulse 1.5s infinite;
+}
+
+@keyframes livePulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.live-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.live-progress-container {
+  width: 100%;
+  height: 8px;
+  background: #2D3748;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.live-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #0284C7, #38BDF8);
+  transition: width 0.4s ease-out;
+}
+
+.speed-buttons-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* ==========================================================================
+   MODE 3: 收費表 BASE (LECIP_Mon2_Fare_11.png / Fare_12.png / Fare_22.png)
+   ========================================================================== */
+.mode3-fare-base {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #CBD5E1;
+}
+
+/* Blue banner for Mode 3 header bar */
+#panel-mode-3 .section-title-bar {
+  background: #0022AA !important;
+  color: #FFFFFF !important;
+  border-left: none !important;
+  border-radius: 4px 4px 0 0;
+  padding: 6px 12px;
+}
+
+#panel-mode-3 .bar-zh {
+  color: #FFFFFF !important;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+#panel-mode-3 .bar-en {
+  color: #E2E8F0 !important;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+#panel-mode-3 .page-indicator {
+  color: #FFFFFF !important;
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* Black Table Header */
+.fare-black-header {
+  background: #000000;
+  color: #FFFFFF;
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fare-black-header .header-left .zh {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.fare-black-header .header-left .en {
+  font-size: 11px;
+  font-weight: 700;
+  color: #CBD5E1;
+}
+
+.fare-black-header .header-right {
+  text-align: right;
+}
+
+.fare-black-header .header-right .zh {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.fare-black-header .header-right .en {
+  font-size: 11px;
+  font-weight: 700;
+  color: #CBD5E1;
+}
+
+/* Section Fare Rows */
+.fare-stage-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #FFFFFF;
+  overflow-y: auto;
+}
+
+.fare-stage-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.fare-stage-row:nth-child(even) {
+  background: #F8FAFC;
+}
+
+.stage-name-col .stage-zh {
+  font-size: 20px;
+  font-weight: 900;
+  color: #0F172A;
+}
+
+.stage-name-col .stage-en {
+  font-size: 13px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.stage-price-col .price-val {
+  font-size: 26px;
+  font-weight: 900;
+  color: #0022AA;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+}
+
+/* Bottom Notice Box matching LECIP_Mon2_Fare_12.png */
+.fare-bottom-notice {
+  background: #FFFFFF;
+  border-top: 2px solid #000000;
+  padding: 8px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.fare-bottom-notice .notice-text {
+  font-size: 11px;
+  font-weight: 800;
+  color: #000000;
+  line-height: 1.35;
+  flex: 1;
+}
+
+.fare-bottom-notice .notice-text small {
+  font-size: 10px;
+  font-weight: 600;
+  color: #4B5563;
+}
+
+.qr-code-box {
+  width: 48px;
+  height: 48px;
+  background: repeating-conic-gradient(#000 0% 25%, #FFF 0% 50%) 50% / 8px 8px;
+  border: 1px solid #000;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   AUTHENTIC DRIVER BAR: LECIP_Mon2_Driver_ID & LECIP_Mon2_No_Driver_ID
+   ========================================================================== */
+.v-driver-card {
+  width: 100%;
+  height: 52px;
+  display: flex;
+  background: #FFFFFF;
+  border-top: 3px solid #D92525;
+}
+
+/* When Driver Hidden: LECIP_Mon2_No_Driver_ID.png */
+.v-driver-no-id-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.no-id-text-wrap {
+  flex: 1;
+  padding-left: 14px;
+}
+
+.no-id-zh {
+  font-size: 15px;
+  font-weight: 900;
+  color: #0F172A;
+}
+
+.no-id-en {
+  font-size: 11px;
+  font-weight: 700;
+  color: #475569;
+}
+
+.no-id-qr {
+  padding: 0 10px;
+}
+
+.qr-code-box-mini {
+  width: 36px;
+  height: 36px;
+  background: repeating-conic-gradient(#000 0% 25%, #FFF 0% 50%) 50% / 6px 6px;
+  border: 1px solid #000;
+}
+
+.v-col-route-info {
+  width: 115px;
+  background: #0022AA;
+  color: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(18px 0%, 100% 0%, 100% 100%, 0% 100%);
+  padding-left: 12px;
+  height: 100%;
+}
+
+.route-info-zh {
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+}
+
+.route-info-en {
+  font-size: 10px;
+  font-weight: 700;
+  color: #E2E8F0;
+}
+
+/* Blue Chevron Wedge for Logged In Driver (LECIP_Mon2_Driver_ID.png) */
+.v-col-motto {
+  width: 115px;
+  background: #0022AA !important;
+  clip-path: polygon(18px 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+  padding-left: 12px !important;
+  height: 100% !important;
+}
+
 </style>
 </head>
 <body>
@@ -2322,124 +2616,121 @@ body {
       </div>
     </div>
 
-    <!-- Right: Driver / Simulator Control Console -->
+    <!-- Right: Driver / Simulator Control Console (Automated Citybus API Engine) -->
     <div class="control-console">
       <div class="console-header">
         <div class="console-title">
-          <span>🎛️ 車長控制台 (Driver Console)</span>
+          <span>🚌 城巴即時 API 連線控制台</span>
         </div>
-        <div class="console-status-pill" id="console-status-pill">
-          正常運作 RUNNING
-        </div>
-      </div>
-
-      <!-- 1. Route & Trip Selector -->
-      <div class="console-section">
-        <div class="section-label">路線與行車資料 (Route & Trip)</div>
-        <div class="form-row">
-          <label for="ctrl-route-select">行駛路線：</label>
-          <select id="ctrl-route-select" class="form-select">
-            <!-- Dynamically populated -->
-          </select>
-        </div>
-        <div class="form-row">
-          <label for="ctrl-stop-select">快速跳站：</label>
-          <select id="ctrl-stop-select" class="form-select">
-            <!-- Dynamically populated -->
-          </select>
+        <div class="console-status-pill" id="api-status-badge">
+          ● 連接 DATA.GOV.HK API...
         </div>
       </div>
 
-      <!-- 2.5 版面輪替控制 (Page Rotation Controls) -->
+      <!-- 1. Citybus API: Route, Direction & Trip (路線、方向、班次選擇) -->
       <div class="console-section">
-        <div class="section-label">版面輪替控制 (Page Rotation)</div>
-        <div class="rotation-pills-bar">
-          <button class="btn-pill pill-active" data-mode="1" id="pill-m1">Mode 1: 中文三站</button>
-          <button class="btn-pill" data-mode="2" id="pill-m2">Mode 2: 英文三站</button>
-          <button class="btn-pill" data-mode="3" id="pill-m3">Mode 3: 分段/轉乘</button>
-          <button class="btn-pill" data-mode="4" id="pill-m4">Mode 4: 宣傳海報</button>
-          <button class="btn-pill" data-mode="5" id="pill-m5">Mode 5: 隨後十三站</button>
-        </div>
-        <div class="form-row" style="margin-top: 6px;">
-          <label for="ctrl-cycle-enable">自動輪替播放：</label>
-          <input type="checkbox" id="ctrl-cycle-enable" checked style="width: 18px; height: 18px;">
-          <span style="font-size: 11px; color: #94A3B8;">(7秒正常 / 3秒測試)</span>
-        </div>
+        <div class="section-label">城巴 API 路線與班次選擇 (Route & Trip)</div>
+        
         <div class="form-row">
-          <label for="ctrl-random-poster">海報隨機放映 (Random)：</label>
-          <div style="display: flex; align-items: center; gap: 8px;">
-            <input type="checkbox" id="ctrl-random-poster" checked style="width: 18px; height: 18px;" title="實車邏輯：海報隨機抽取播放">
-            <button class="btn-top" id="btn-shuffle-poster" style="padding: 2px 8px; font-size: 11px;" title="立即隨機更換下一張海報">🎲 換一張</button>
+          <label for="api-route-select">選擇路線 (Route)：</label>
+          <select id="api-route-select" class="form-select">
+            <option value="780">【城巴】780 (柴灣(東) ➔ 中環碼頭)</option>
+            <option value="905">【城巴】905 (會展站 ➔ 荔枝角(盈暉臺))</option>
+            <option value="A12">【機場快線】A12 (機場 ➔ 小西灣(藍灣半島))</option>
+            <option value="702">【城巴】702 (海麗邨 ➔ 又一村(達之路))</option>
+            <option value="A21">【機場快線】A21 (紅磡站 ➔ 機場)</option>
+            <option value="8P">【城巴】8P (小西灣 ➔ 灣仔北)</option>
+            <option value="H1">【人力車】H1 (中環天星碼頭 ➔ 尖沙咀)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="api-dir-select">行駛方向 (Direction)：</label>
+          <select id="api-dir-select" class="form-select">
+            <option value="outbound" selected>去程 Outbound</option>
+            <option value="inbound">回程 Inbound</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label for="api-trip-select">選擇班次 (Trip / ETA)：</label>
+          <select id="api-trip-select" class="form-select">
+            <option value="trip_1">正在獲取即時班次抵站時間...</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2. Fully Automated Trip Engine (全自動行駛進度，無任何手動按鍵) -->
+      <div class="console-section">
+        <div class="section-label">全自動行駛狀態 (Automated Journey)</div>
+        <div style="font-size: 11px; color: #38BDF8; font-weight: bold; margin-bottom: 4px;">
+          * 系統全自動報站、開車、巡航與停站，無須手動按鍵
+        </div>
+
+        <div class="trip-live-card">
+          <div class="live-stop-header">
+            <span class="live-pulse-dot"></span>
+            <span id="live-current-stop-name" style="font-size: 15px; font-weight: 900; color: #FFF;">載入中...</span>
+          </div>
+          <div class="live-status-row">
+            <div id="live-trip-status-text" style="font-size: 13px; font-weight: 700;">🚌 行駛中</div>
+            <div id="live-remaining-stops" style="font-size: 12px; color: #94A3B8;">剩餘站數：計算中</div>
+          </div>
+          <div class="live-progress-container">
+            <div class="live-progress-bar" id="live-trip-progress-bar" style="width: 10%;"></div>
+          </div>
+        </div>
+
+        <!-- Speed Controls -->
+        <div class="form-row" style="margin-top: 8px;">
+          <label>巡航速度：</label>
+          <div class="speed-buttons-group">
+            <button class="btn-pill" id="btn-speed-1" title="1x 實時真實時間">1x 實時</button>
+            <button class="btn-pill pill-active" id="btn-speed-3" title="3x 常用巡航">3x 巡航</button>
+            <button class="btn-pill" id="btn-speed-6" title="6x 快速演示">6x 快進</button>
+            <button class="btn-pill btn-danger" id="btn-trip-pause" style="margin-left: 6px;"><span>⏸</span> 暫停</button>
           </div>
         </div>
       </div>
 
-      <!-- 2. Primary Navigation Controls -->
+      <!-- 3. Driver & Vehicle Configuration (車長自訂與車載設定) -->
       <div class="console-section">
-        <div class="section-label">報站操作 (Stop Navigation)</div>
-        <div class="controls-grid">
-          <button class="btn-ctrl" id="btn-prev-stop" title="回到上一站">
-            <span>⏮</span> 上一站 (Prev)
-          </button>
-          <button class="btn-ctrl btn-success" id="btn-arrive-stop" title="切換為「此站 This stop」狀態">
-            <span>🛑</span> 此站停靠 (Arrive)
-          </button>
-          <button class="btn-ctrl btn-primary" id="btn-next-stop" title="開車前往下一站">
-            <span>⏭</span> 下一站 (Next)
-          </button>
-          <button class="btn-ctrl" id="btn-auto-play" title="以定時器模擬自動行駛">
-            <span>▶</span> 自動巡航 (模擬行駛)
-          </button>
+        <div class="section-label">車長資料與員工編號設定 (Captain Profile)</div>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-zh">車長中文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-zh" value="陳" class="form-input" placeholder="例如 陳 或 李">
         </div>
-
-        <div class="controls-grid" style="margin-top: 6px;">
-          <button class="btn-ctrl" id="btn-chime-only" title="播放經典叮噹提示音">
-            <span>🔔</span> 報站叮噹 (Chime)
-          </button>
-          <button class="btn-ctrl" id="btn-seatbelt-alert" title="觸發 !SeatBelt 安全帶警報">
-            <span>⚠️</span> 安全帶提示 (!SeatBelt)
-          </button>
+        <div class="form-row">
+          <label for="ctrl-driver-surname-en">車長英文姓氏：</label>
+          <input type="text" id="ctrl-driver-surname-en" value="Chan" class="form-input" placeholder="例如 Chan 或 Li">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-id">員工編號 (Staff No.)：</label>
+          <input type="text" id="ctrl-driver-id" value="50179" class="form-input" placeholder="例如 50179">
+        </div>
+        <div class="form-row">
+          <label for="ctrl-driver-logged">在屏幕顯示車長資料：</label>
+          <input type="checkbox" id="ctrl-driver-logged" checked style="width: 18px; height: 18px;">
         </div>
       </div>
 
-      <!-- 3. Mon2 Parameter Configurations (From OMSI 2 Mon2_constfile) -->
+      <!-- 4. Mon2 Hardware Parameters -->
       <div class="console-section">
-        <div class="section-label">MON2 運作參數 (Mon2_constfile.txt)</div>
-
-        <div class="form-row">
-          <label for="ctrl-power-select">系統電源狀態：</label>
-          <select id="ctrl-power-select" class="form-select">
-            <option value="RUN" selected>正常開機 (RUN)</option>
-            <option value="STANDBY">待機未入線 (STANDBY)</option>
-            <option value="OFF">關閉電源 (OFF)</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label for="ctrl-dep-timer">剩餘開車時間：</label>
-          <input type="range" id="ctrl-dep-timer" min="1" max="20" value="5" style="flex:1;">
-          <span id="val-dep-timer" style="min-width: 80px; text-align: right; font-weight: bold;">5 分鐘 min</span>
-        </div>
-        <div style="font-size: 11px; color: #94A3B8; margin-top: -4px;">
-          * 超過 10 分鐘將自動切換為「系統未入線」待機畫面 (參考 Readme 規格)
-        </div>
-
+        <div class="section-label">MON2 車載硬體參數 (Mon2_constfile.txt)</div>
         <div class="form-row">
           <label for="ctrl-orient-select">顯示方向 (DirectionV)：</label>
           <select id="ctrl-orient-select" class="form-select">
-            <option value="1" selected>1: 直向版本 (Portrait Vertical)</option>
-            <option value="0">0: 橫向版本 (Landscape Horizontal)</option>
+            <option value="1" selected>1: 直向版本 (Portrait - 實車立柱螢幕)</option>
+            <option value="0">0: 橫向版本 (Landscape - 實車橫向螢幕)</option>
           </select>
         </div>
-
         <div class="form-row">
           <label for="ctrl-color-select">背景配色 (ColorP)：</label>
           <select id="ctrl-color-select" class="form-select">
-            <option value="0" selected>0: 淡灰色 (Light Grey)</option>
-            <option value="1">1: 淡紫色 (Light Purple)</option>
+            <option value="1" selected>1: 淡紫色 (Light Purple - 經典實車色)</option>
+            <option value="0">0: 淡灰色 (Light Grey)</option>
           </select>
         </div>
-
         <div class="form-row">
           <label for="ctrl-mode-select">運行模式 (Display_Mode)：</label>
           <select id="ctrl-mode-select" class="form-select">
@@ -2447,51 +2738,18 @@ body {
             <option value="1">1: 測試模式 (3秒輪播 / 藍色待機)</option>
           </select>
         </div>
-
-      </div>
-
-      <!-- 4. 車長資料與員工編號自訂 (Captain Profile & Driver ID) -->
-      <div class="console-section">
-        <div class="section-label">車長資料與員工編號設定 (Captain Profile)</div>
         <div class="form-row">
-          <label for="ctrl-driver-surname-zh">車長中文姓氏：</label>
-          <input type="text" id="ctrl-driver-surname-zh" value="李" class="form-input" placeholder="例如 李 或 黃">
+          <label for="ctrl-random-poster">隨機抽取海報 (Random)：</label>
+          <input type="checkbox" id="ctrl-random-poster" checked style="width: 18px; height: 18px;">
         </div>
         <div class="form-row">
-          <label for="ctrl-driver-surname-en">車長英文姓氏：</label>
-          <input type="text" id="ctrl-driver-surname-en" value="Li" class="form-input" placeholder="例如 Li 或 Huang">
+          <label for="ctrl-audio-enable">啟用叮噹聲與雙語語音：</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="checkbox" id="ctrl-audio-enable" checked style="width: 18px; height: 18px;">
+            <input type="checkbox" id="ctrl-tts-enable" checked style="width: 18px; height: 18px;" title="粵英雙語語音廣播">
+          </div>
         </div>
-        <div class="form-row">
-          <label for="ctrl-driver-id">員工編號 (Staff No.)：</label>
-          <input type="text" id="ctrl-driver-id" value="34006" class="form-input" placeholder="例如 34006 或 62075">
-        </div>
-        <div class="form-row">
-          <label for="ctrl-driver-logged">在屏幕顯示車長資料：</label>
-          <input type="checkbox" id="ctrl-driver-logged" checked style="width: 18px; height: 18px;">
-        </div>
-        <div style="font-size: 11px; color: #94A3B8; margin-top: -4px; line-height: 1.5;">
-          * 遵循城巴標準格式：「X車長 / Bus Captain X」與「為您服務 is serving you」<br>
-          * <strong>直向螢幕</strong>：顯示於螢幕底部資訊列；<strong>橫向螢幕</strong>：顯示於頂部頂欄（點擊可切換顯示/隱藏）
-        </div>
-      </div>
-
-      <!-- 4. Audio & Bilingual TTS -->
-      <div class="console-section">
-        <div class="section-label">音效與語音播報 (Audio & Bilingual TTS)</div>
-        <div class="form-row">
-          <label>啟用報站音效：</label>
-          <input type="checkbox" id="ctrl-audio-enable" checked style="width: 18px; height: 18px;">
-        </div>
-        <div class="form-row">
-          <label>啟用粵英雙語語音 (TTS)：</label>
-          <input type="checkbox" id="ctrl-tts-enable" checked style="width: 18px; height: 18px;">
-        </div>
-        <div class="form-row">
-          <label for="ctrl-volume">音量大小 (Volume)：</label>
-          <input type="range" id="ctrl-volume" min="0" max="1" step="0.05" value="0.7" style="flex:1;">
-        </div>
-      </div>
-    </div>
+      </div></div>
   </div>
 
   <!-- Custom Route JSON Modal -->
@@ -4075,6 +4333,181 @@ if (typeof module !== "undefined") {
   module.exports = MON2_DATA;
 }
 
+/* --- ctb-api.js --- */
+/**
+ * CITYBUS (CTB) OPEN DATA API SERVICE
+ * Connects directly to Hong Kong Government Open Data API (DATA.GOV.HK):
+ * https://rt.data.gov.hk/v2/transport/citybus/
+ * 
+ * Supports:
+ * - Route List: /route/ctb
+ * - Route Stops: /route-stop/ctb/{route}/{direction}
+ * - Stop Details: /stop/{stop_id}
+ * - Stop ETA (Trips / 班次): /eta/ctb/{stop_id}/{route}
+ * 
+ * Includes in-memory caching and verified offline fallback for popular routes (780, 905, A12, 702, A21, 8P, H1)
+ */
+
+class CitybusAPIService {
+  constructor() {
+    this.baseUrl = "https://rt.data.gov.hk/v2/transport/citybus";
+    this.stopCache = new Map();
+    this.routeCache = null;
+    this.apiOnline = true;
+  }
+
+  // 1. Fetch All Citybus Routes
+  async getRoutes() {
+    if (this.routeCache) return this.routeCache;
+
+    try {
+      const resp = await fetch(`${this.baseUrl}/route/ctb`, { cache: "default" });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      if (json && json.data) {
+        this.apiOnline = true;
+        this.routeCache = json.data;
+        return json.data;
+      }
+    } catch (err) {
+      console.warn("Citybus API /route/ctb unreachable, using fallback database:", err);
+      this.apiOnline = false;
+      // Convert preset routes in data.js to route list format
+      return MON2_DATA.routes.map(r => ({
+        co: r.company || "CTB",
+        route: r.code,
+        orig_tc: r.origin.zh,
+        orig_en: r.origin.en,
+        dest_tc: r.dest.zh,
+        dest_en: r.dest.en,
+        isFallback: true
+      }));
+    }
+  }
+
+  // 2. Fetch Route Stops for Direction (outbound / inbound)
+  async getRouteStops(route, direction = "outbound") {
+    const dirKey = direction.toLowerCase();
+    try {
+      const resp = await fetch(`${this.baseUrl}/route-stop/ctb/${encodeURIComponent(route)}/${dirKey}`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      if (json && json.data && json.data.length > 0) {
+        this.apiOnline = true;
+        // Fetch stop names for each stop
+        const stopPromises = json.data.map(async (item) => {
+          const stopInfo = await this.getStopInfo(item.stop);
+          return {
+            num: item.seq,
+            stopId: item.stop,
+            zh: stopInfo.name_tc || `車站 ${item.seq}`,
+            en: stopInfo.name_en || `Stop ${item.seq}`,
+            subZh: "",
+            subEn: "",
+            fare: "$7.7",
+            isTerminus: item.seq === json.data.length
+          };
+        });
+
+        const stops = await Promise.all(stopPromises);
+        return stops;
+      }
+    } catch (err) {
+      console.warn(`Citybus API /route-stop/ctb/${route}/${dirKey} failed:`, err);
+      this.apiOnline = false;
+    }
+
+    // Fallback to local verified routes
+    const fallback = MON2_DATA.routes.find(r => r.code.toUpperCase() === route.toUpperCase());
+    if (fallback) {
+      return fallback.stops;
+    }
+
+    return null;
+  }
+
+  // 3. Fetch Single Stop Details
+  async getStopInfo(stopId) {
+    if (this.stopCache.has(stopId)) {
+      return this.stopCache.get(stopId);
+    }
+
+    try {
+      const resp = await fetch(`${this.baseUrl}/stop/${stopId}`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      if (json && json.data) {
+        this.stopCache.set(stopId, json.data);
+        return json.data;
+      }
+    } catch (err) {
+      // Return placeholder
+      return { stop: stopId, name_tc: `巴士站 ${stopId}`, name_en: `Bus Stop ${stopId}` };
+    }
+  }
+
+  // 4. Fetch ETA / Trips (班次) for First Stop of Route
+  async getTripsETA(firstStopId, route) {
+    try {
+      const resp = await fetch(`${this.baseUrl}/eta/ctb/${firstStopId}/${encodeURIComponent(route)}`);
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const json = await resp.json();
+      if (json && json.data && json.data.length > 0) {
+        this.apiOnline = true;
+        return json.data.map((item, idx) => {
+          let timeLabel = "";
+          let diffMins = 0;
+          if (item.eta) {
+            const etaDate = new Date(item.eta);
+            const now = new Date();
+            diffMins = Math.max(0, Math.round((etaDate - now) / 60000));
+            const h = String(etaDate.getHours()).padStart(2, "0");
+            const m = String(etaDate.getMinutes()).padStart(2, "0");
+            timeLabel = `${h}:${m} (${diffMins === 0 ? "即將開出" : `${diffMins} 分鐘`})`;
+          } else {
+            timeLabel = `班次 #${idx + 1} (表定開出)`;
+            diffMins = idx * 10 + 2;
+          }
+
+          return {
+            tripId: `trip_${idx + 1}`,
+            seq: idx + 1,
+            timeLabel: timeLabel,
+            etaDate: item.eta,
+            diffMins: diffMins,
+            remarkZh: item.rmk_tc || "",
+            remarkEn: item.rmk_en || ""
+          };
+        });
+      }
+    } catch (err) {
+      console.warn(`Citybus API /eta/ctb/${firstStopId}/${route} failed:`, err);
+    }
+
+    // Generate realistic schedule trips if API unavailable
+    const now = new Date();
+    const mockTrips = [];
+    [3, 12, 24].forEach((mOffset, idx) => {
+      const dep = new Date(now.getTime() + mOffset * 60000);
+      const h = String(dep.getHours()).padStart(2, "0");
+      const m = String(dep.getMinutes()).padStart(2, "0");
+      mockTrips.push({
+        tripId: `mock_${idx + 1}`,
+        seq: idx + 1,
+        timeLabel: `${h}:${m} (${mOffset === 0 ? "即將開出" : `${mOffset} 分鐘`})`,
+        etaDate: dep.toISOString(),
+        diffMins: mOffset,
+        remarkZh: idx === 0 ? "正在行駛班次" : "預計開出班次",
+        remarkEn: idx === 0 ? "In Service Trip" : "Scheduled Departure"
+      });
+    });
+
+    return mockTrips;
+  }
+}
+
+window.ctbAPI = new CitybusAPIService();
+
 /* --- audio.js --- */
 /**
  * CTB LECIP MON2 SIMULATOR - AUDIO SYSTEM
@@ -4436,8 +4869,9 @@ class Mon2Display {
 
           <!-- Bottom Footer Bar (Vertical Screen Reference) -->
           <footer class="mon2-footer" id="mon2-footer">
-            <!-- Vertical Screen Driver Card -->
-            <div class="v-driver-card vertical-only" id="v-driver-card" title="點擊切換 車長資訊 / Citybus App">
+            <!-- Vertical Screen Driver Card (LECIP_Mon2_Driver_ID.png & LECIP_Mon2_No_Driver_ID.png) -->
+            <div class="v-driver-card vertical-only" id="v-driver-card" title="點擊切換 車長資訊 / 路線資訊">
+              <!-- When Driver Logged In: LECIP_Mon2_Driver_ID.png -->
               <div class="v-driver-content" id="v-driver-content">
                 <div class="v-col v-col-captain">
                   <div class="v-captain-zh" id="v-captain-zh">陳車長</div>
@@ -4455,9 +4889,20 @@ class Mon2Display {
                   <div class="v-motto-en">is serving you</div>
                 </div>
               </div>
-              <div class="v-driver-app hidden" id="v-driver-app">
-                <span class="app-icon-mini">📱</span>
-                <span class="app-promo-text">下載 Citybus App 查閱即時抵站時間及優惠</span>
+
+              <!-- When Driver Hidden: LECIP_Mon2_No_Driver_ID.png -->
+              <div class="v-driver-no-id-content hidden" id="v-driver-app">
+                <div class="no-id-text-wrap">
+                  <div class="no-id-zh">請即下載新巴城巴App</div>
+                  <div class="no-id-en">Download Citybus NWFB App</div>
+                </div>
+                <div class="no-id-qr">
+                  <div class="qr-code-box-mini"></div>
+                </div>
+                <div class="v-col-route-info">
+                  <div class="route-info-zh">路線資訊</div>
+                  <div class="route-info-en">Route info</div>
+                </div>
               </div>
             </div>
 
@@ -5067,53 +5512,146 @@ class Mon2Display {
     const wrap = document.getElementById("mode3-content-wrap");
     const titleZh = document.getElementById("mode3-title-zh");
     const titleEn = document.getElementById("mode3-title-en");
+    const pageNum = document.getElementById("mode3-page-num");
     if (!wrap) return;
 
     wrap.innerHTML = "";
 
+    // If stop has interchange routes -> Render LECIP_Mon2_Interchange_11.png
     if (stop.interchanges && stop.interchanges.length > 0) {
       if (titleZh) titleZh.textContent = "轉乘路線";
       if (titleEn) titleEn.textContent = "Interchange routes";
+      if (pageNum) pageNum.textContent = "1/1";
 
       let tableHtml = `
-        <table class="interchange-table">
-          <thead>
-            <tr>
-              <th style="width: 25%;">路線<br><small>Route</small></th>
-              <th style="width: 50%;">方向<br><small>Direction</small></th>
-              <th style="width: 25%; text-align: right;">抵站時間<br><small>ETA</small></th>
-            </tr>
-          </thead>
-          <tbody>
+        <div class="mode3-fare-base interchange-style">
+          <div class="fare-black-header">
+            <div class="col-route">路線<br><small>Route</small></div>
+            <div class="col-direction">方向<br><small>Direction</small></div>
+            <div class="col-fare-eta" style="text-align: right;">抵站時間<br><small>ETA</small></div>
+          </div>
+          <div class="fare-stage-list">
       `;
       stop.interchanges.forEach(ic => {
         tableHtml += `
-          <tr>
-            <td><span class="ic-route-badge">${ic.route}</span></td>
-            <td>
+          <div class="fare-stage-row">
+            <div class="col-route"><span class="ic-route-badge">${ic.route}</span></div>
+            <div class="col-direction">
               <div class="ic-dest-zh">${ic.destZh}</div>
               <div class="ic-dest-en">${ic.destEn}</div>
-            </td>
-            <td style="text-align: right;">
-              <strong class="ic-eta-val">${ic.eta}</strong> <span class="ic-eta-unit">分鐘<br>min</span>
-            </td>
-          </tr>
+            </div>
+            <div class="col-fare-eta" style="text-align: right;">
+              <strong class="ic-eta-val">${ic.eta}</strong> <span class="ic-eta-unit">分鐘 min</span>
+            </div>
+          </div>
         `;
       });
-      tableHtml += `</tbody></table>`;
-      wrap.innerHTML = tableHtml;
-    } else {
-      if (titleZh) titleZh.textContent = "車資資訊";
-      if (titleEn) titleEn.textContent = "Fare Information";
-
-      wrap.innerHTML = `
-        <div style="padding: 24px; text-align: center;">
-          <div style="font-size: 16px; font-weight: 700; color: #475569;">正程成人車資 Standard Adult Fare</div>
-          <div style="font-size: 42px; font-weight: 900; color: #0284C7; margin: 10px 0;">${stop.fare || "$7.7"}</div>
-          <div style="font-size: 13px; color: #64748B;">支援八達通、感應式信用卡及指定電子支付<br>Supported by Octopus, Contactless Credit Cards & e-Wallets</div>
+      tableHtml += `
+          </div>
+          <div class="fare-bottom-notice">
+            <div class="notice-text">
+              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
+              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
+            </div>
+            <div class="notice-qr">
+              <div class="qr-code-box"></div>
+            </div>
+          </div>
         </div>
       `;
+      wrap.innerHTML = tableHtml;
+    } else {
+      // BASE CASE: Mode 3 is FARE TABLE BASE (LECIP_Mon2_Fare_11.png / Fare_12.png)
+      if (titleZh) titleZh.textContent = "車費資料";
+      if (titleEn) titleEn.textContent = "Fare information";
+      if (pageNum) pageNum.textContent = "1/1";
+
+      const fareStages = this.getSectionFareStages();
+
+      let tableHtml = `
+        <div class="mode3-fare-base">
+          <!-- Black Table Header (由下列巴士站起 / 成人車費) -->
+          <div class="fare-black-header">
+            <div class="header-left">
+              <div class="zh">由下列巴士站起</div>
+              <div class="en">Beginning from bus stop below</div>
+            </div>
+            <div class="header-right">
+              <div class="zh">成人車費</div>
+              <div class="en">Adult Fare</div>
+            </div>
+          </div>
+
+          <!-- Section Fare Rows -->
+          <div class="fare-stage-list">
+      `;
+
+      fareStages.forEach((stage, idx) => {
+        tableHtml += `
+          <div class="fare-stage-row ${idx % 2 === 0 ? 'fare-row-even' : 'fare-row-odd'}">
+            <div class="stage-name-col">
+              <div class="stage-zh">${stage.zh}</div>
+              <div class="stage-en">${stage.en}</div>
+            </div>
+            <div class="stage-price-col">
+              <span class="price-val">${stage.fare}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      tableHtml += `
+          </div>
+
+          <!-- Bottom Notice with QR code as in LECIP_Mon2_Fare_12.png -->
+          <div class="fare-bottom-notice">
+            <div class="notice-text">
+              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
+              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
+            </div>
+            <div class="notice-qr">
+              <div class="qr-code-box"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      wrap.innerHTML = tableHtml;
     }
+  }
+
+  // --- Helper to extract realistic section fare stages for current route ---
+  getSectionFareStages() {
+    if (!this.currentRoute) return [{ zh: "由起點站起", en: "From First Stop", fare: "$7.7" }];
+
+    const r = this.currentRoute;
+    const stops = r.stops;
+    const stages = [];
+
+    // First stop is always stage 1
+    const firstStop = stops[0] || { zh: "總站", en: "Terminus", fare: "$7.7" };
+    stages.push({ zh: firstStop.zh, en: firstStop.en, fare: firstStop.fare || "$7.7" });
+
+    // Look for intermediate stops with different fare or landmarks
+    let prevFare = firstStop.fare;
+    for (let i = 1; i < stops.length; i++) {
+      const s = stops[i];
+      if (s.fare && s.fare !== prevFare) {
+        stages.push({ zh: s.zh, en: s.en, fare: s.fare });
+        prevFare = s.fare;
+      }
+    }
+
+    // If only 1 fare stage found, synthesize typical intermediate section
+    if (stages.length === 1 && stops.length >= 8) {
+      const midIdx = Math.floor(stops.length / 2);
+      const midStop = stops[midIdx];
+      const baseNum = parseFloat((firstStop.fare || "$7.7").replace(/[^0-9.]/g, ""));
+      const discounted = (baseNum * 0.68).toFixed(1);
+      stages.push({ zh: midStop.zh, en: midStop.en, fare: `$${discounted}` });
+    }
+
+    return stages;
   }
 
   renderMode5(curIdx) {
@@ -5317,113 +5855,106 @@ window.Mon2Display = Mon2Display;
 
 /* --- controller.js --- */
 /**
- * CTB LECIP MON2 DRIVER CONTROLLER CONSOLE
- * Interacts with Mon2Display and Audio Engine
+ * CTB LECIP MON2 CONTROLLER - FULLY AUTOMATED API ENGINE
+ * NO MANUAL BUTTONS: Data fetched directly from Citybus Open Data API (DATA.GOV.HK).
+ * Automatically handles:
+ * - Route Selection (路線)
+ * - Direction Selection (方向: 去程 Outbound / 回程 Inbound)
+ * - Trip Selection (班次: 實時 ETA 抵站班次)
+ * - Automated Trip Progression (開車 -> 巡航 -> 報站 -> 停站 -> 終點站)
  */
 
 class Mon2Controller {
   constructor(display, audio) {
     this.display = display;
     this.audio = audio;
-    this.autoPlayTimer = null;
-    this.autoPlayInterval = 12000; // 12 seconds per stop in auto mode
-    this.isAutoPlaying = false;
+    this.api = window.ctbAPI;
+
+    // Trip State
+    this.routesList = [];
+    this.selectedRouteCode = "780";
+    this.selectedDirection = "outbound";
+    this.currentStops = [];
+    this.currentStopIndex = 0; // 0-based
+    this.tripStatus = "departing"; // 'departing', 'transit', 'arriving', 'dwelling', 'terminus'
+
+    // Simulation Speed & Timer
+    this.speedMultiplier = 3.0; // Default 3x for pleasant realistic demo
+    this.tripStepTimer = null;
+    this.isTripPaused = false;
+    this.timeInPhase = 0;
   }
 
-  init() {
+  async init() {
     this.bindDOM();
-    this.populateRoutes();
-    this.loadSelectedRoute();
-    this.syncDriverProfileFromDOM();
+    await this.loadRoutesFromAPI();
   }
 
   bindDOM() {
-    // Route Selection
-    const routeSelect = document.getElementById("ctrl-route-select");
+    // 1. Route Selector
+    const routeSelect = document.getElementById("api-route-select");
     if (routeSelect) {
-      routeSelect.addEventListener("change", () => {
-        this.loadSelectedRoute();
+      routeSelect.addEventListener("change", async (e) => {
+        this.selectedRouteCode = e.target.value;
+        await this.loadRouteDirectionAndStops();
       });
     }
 
-    // Stop Jump Select
-    const stopSelect = document.getElementById("ctrl-stop-select");
-    if (stopSelect) {
-      stopSelect.addEventListener("change", (e) => {
-        const idx = parseInt(e.target.value, 10);
-        this.jumpToStop(idx);
+    // 2. Direction Selector
+    const dirSelect = document.getElementById("api-dir-select");
+    if (dirSelect) {
+      dirSelect.addEventListener("change", async (e) => {
+        this.selectedDirection = e.target.value;
+        await this.loadRouteDirectionAndStops();
       });
     }
 
-    // Mode Selection Pills (Matching Mon2.osc Modes 1, 2, 3, 4, 5)
-    [1, 2, 3, 4, 5].forEach(mNum => {
-      const btn = document.getElementById(`pill-m${mNum}`);
-      if (btn) {
-        btn.addEventListener("click", () => {
-          this.display.setMode(mNum);
-          this.updateModePills(mNum);
-        });
-      }
-    });
-
-    const cycleCheck = document.getElementById("ctrl-cycle-enable");
-    if (cycleCheck) {
-      cycleCheck.addEventListener("change", (e) => {
-        this.display.isCyclePaused = !e.target.checked;
+    // 3. Trip / Departure Selector
+    const tripSelect = document.getElementById("api-trip-select");
+    if (tripSelect) {
+      tripSelect.addEventListener("change", () => {
+        this.startSelectedTrip();
       });
     }
 
-    const randomPosterCheck = document.getElementById("ctrl-random-poster");
-    if (randomPosterCheck) {
-      randomPosterCheck.addEventListener("change", (e) => {
-        this.display.randomPosterMode = e.target.checked;
+    // 4. Speed Multiplier Buttons
+    const btnSpeed1 = document.getElementById("btn-speed-1");
+    const btnSpeed3 = document.getElementById("btn-speed-3");
+    const btnSpeed6 = document.getElementById("btn-speed-6");
+    const btnPause = document.getElementById("btn-trip-pause");
+
+    const updateSpeedActive = (activeBtn) => {
+      [btnSpeed1, btnSpeed3, btnSpeed6].forEach(b => b && b.classList.remove("pill-active"));
+      if (activeBtn) activeBtn.classList.add("pill-active");
+    };
+
+    if (btnSpeed1) {
+      btnSpeed1.addEventListener("click", () => {
+        this.speedMultiplier = 1.0;
+        updateSpeedActive(btnSpeed1);
+      });
+    }
+    if (btnSpeed3) {
+      btnSpeed3.addEventListener("click", () => {
+        this.speedMultiplier = 3.0;
+        updateSpeedActive(btnSpeed3);
+      });
+    }
+    if (btnSpeed6) {
+      btnSpeed6.addEventListener("click", () => {
+        this.speedMultiplier = 6.0;
+        updateSpeedActive(btnSpeed6);
+      });
+    }
+    if (btnPause) {
+      btnPause.addEventListener("click", () => {
+        this.isTripPaused = !this.isTripPaused;
+        btnPause.innerHTML = this.isTripPaused ? "<span>▶</span> 繼續行程" : "<span>⏸</span> 暫停行程";
+        btnPause.classList.toggle("btn-danger", this.isTripPaused);
       });
     }
 
-    const btnShuffle = document.getElementById("btn-shuffle-poster");
-    if (btnShuffle) {
-      btnShuffle.addEventListener("click", () => {
-        this.display.advancePosterIndex();
-        this.display.setMode(4);
-      });
-    }
-
-    // Stop Navigation Buttons
-    const btnPrev = document.getElementById("btn-prev-stop");
-    const btnArrive = document.getElementById("btn-arrive-stop");
-    const btnNext = document.getElementById("btn-next-stop");
-    const btnAuto = document.getElementById("btn-auto-play");
-    const btnChime = document.getElementById("btn-chime-only");
-    const btnSeatbelt = document.getElementById("btn-seatbelt-alert");
-
-    if (btnPrev) btnPrev.addEventListener("click", () => this.handlePrevStop());
-    if (btnArrive) btnArrive.addEventListener("click", () => this.handleArriveStop());
-    if (btnNext) btnNext.addEventListener("click", () => this.handleNextStop());
-    if (btnAuto) btnAuto.addEventListener("click", () => this.toggleAutoPlay());
-    if (btnChime) btnChime.addEventListener("click", () => this.audio.playChime());
-    if (btnSeatbelt) btnSeatbelt.addEventListener("click", () => this.triggerSeatbeltAlert());
-
-    // Power Controls
-    const powerSelect = document.getElementById("ctrl-power-select");
-    if (powerSelect) {
-      powerSelect.addEventListener("change", (e) => {
-        this.display.setPower(e.target.value);
-        this.updateStatusPill();
-      });
-    }
-
-    // Dep Timer (Departure Countdown)
-    const depTimerInput = document.getElementById("ctrl-dep-timer");
-    const depTimerVal = document.getElementById("val-dep-timer");
-    if (depTimerInput && depTimerVal) {
-      depTimerInput.addEventListener("input", (e) => {
-        const mins = parseInt(e.target.value, 10);
-        depTimerVal.textContent = `${mins} 分鐘 min`;
-        this.display.setDepartureTimer(mins);
-      });
-    }
-
-    // Screen Settings
+    // 5. System Configurations (Mon2_constfile)
     const orientSelect = document.getElementById("ctrl-orient-select");
     if (orientSelect) {
       orientSelect.addEventListener("change", (e) => {
@@ -5445,16 +5976,16 @@ class Mon2Controller {
       });
     }
 
-    // Customizable Driver ID & Captain Profile (X車長 / Bus Captain X)
+    // 6. Driver Profile Inputs
     const driverZhInput = document.getElementById("ctrl-driver-surname-zh");
     const driverEnInput = document.getElementById("ctrl-driver-surname-en");
     const driverIdInput = document.getElementById("ctrl-driver-id");
     const driverCheck = document.getElementById("ctrl-driver-logged");
 
     const updateProfile = () => {
-      const surnameZh = driverZhInput ? driverZhInput.value : "李";
-      const surnameEn = driverEnInput ? driverEnInput.value : "Li";
-      const id = driverIdInput ? driverIdInput.value : "34006";
+      const surnameZh = driverZhInput ? driverZhInput.value : "陳";
+      const surnameEn = driverEnInput ? driverEnInput.value : "Chan";
+      const id = driverIdInput ? driverIdInput.value : "50179";
       const logged = driverCheck ? driverCheck.checked : true;
 
       this.display.driverPrivacyHidden = !logged;
@@ -5466,7 +5997,29 @@ class Mon2Controller {
     if (driverIdInput) driverIdInput.addEventListener("input", updateProfile);
     if (driverCheck) driverCheck.addEventListener("change", updateProfile);
 
-    // Audio & Speech
+    // 7. Fullscreen button
+    const btnFullscreen = document.getElementById("btn-fullscreen");
+    if (btnFullscreen) {
+      btnFullscreen.addEventListener("click", () => {
+        const frame = document.getElementById("mon2-frame");
+        if (frame) {
+          if (!document.fullscreenElement) {
+            frame.requestFullscreen().catch(err => alert(err.message));
+          } else {
+            document.exitFullscreen();
+          }
+        }
+      });
+    }
+
+    // 8. Random poster & audio toggles
+    const randomCheck = document.getElementById("ctrl-random-poster");
+    if (randomCheck) {
+      randomCheck.addEventListener("change", (e) => {
+        this.display.randomPosterMode = e.target.checked;
+      });
+    }
+
     const audioCheck = document.getElementById("ctrl-audio-enable");
     if (audioCheck) {
       audioCheck.addEventListener("change", (e) => {
@@ -5480,238 +6033,251 @@ class Mon2Controller {
         this.audio.speechEnabled = e.target.checked;
       });
     }
-
-    const volInput = document.getElementById("ctrl-volume");
-    if (volInput) {
-      volInput.addEventListener("input", (e) => {
-        this.audio.volume = parseFloat(e.target.value);
-      });
-    }
-
-    // Custom Route Modal
-    const btnCustom = document.getElementById("btn-custom-route");
-    const modal = document.getElementById("custom-modal");
-    const btnCloseModal = document.getElementById("btn-close-modal");
-    const btnSaveCustom = document.getElementById("btn-save-custom");
-    const textarea = document.getElementById("custom-json-input");
-
-    if (btnCustom && modal && textarea) {
-      btnCustom.addEventListener("click", () => {
-        textarea.value = JSON.stringify(this.display.currentRoute || MON2_DATA.routes[0], null, 2);
-        modal.classList.remove("hidden");
-      });
-    }
-
-    if (btnCloseModal && modal) {
-      btnCloseModal.addEventListener("click", () => {
-        modal.classList.add("hidden");
-      });
-    }
-
-    if (btnSaveCustom && modal && textarea) {
-      btnSaveCustom.addEventListener("click", () => {
-        try {
-          const parsed = JSON.parse(textarea.value);
-          if (!parsed.code || !parsed.stops || !Array.isArray(parsed.stops)) {
-            alert("無效的路線格式：需包含 code 與 stops 陣列。");
-            return;
-          }
-          MON2_DATA.routes.push(parsed);
-          this.populateRoutes();
-          const routeSelect = document.getElementById("ctrl-route-select");
-          if (routeSelect) {
-            routeSelect.value = parsed.id || parsed.code;
-            this.loadSelectedRoute();
-          }
-          modal.classList.add("hidden");
-          alert(`成功載入自訂路線：${parsed.code}`);
-        } catch (err) {
-          alert("JSON 解析錯誤：" + err.message);
-        }
-      });
-    }
-
-    // Fullscreen Viewport Toggle
-    const btnFullscreen = document.getElementById("btn-fullscreen");
-    if (btnFullscreen) {
-      btnFullscreen.addEventListener("click", () => {
-        const frame = document.getElementById("mon2-frame");
-        if (frame) {
-          if (!document.fullscreenElement) {
-            frame.requestFullscreen().catch(err => {
-              alert(`無法啟用全螢幕: ${err.message}`);
-            });
-          } else {
-            document.exitFullscreen();
-          }
-        }
-      });
-    }
   }
 
-  syncDriverProfileFromDOM() {
-    const surnameZh = document.getElementById("ctrl-driver-surname-zh")?.value || "李";
-    const surnameEn = document.getElementById("ctrl-driver-surname-en")?.value || "Li";
-    const id = document.getElementById("ctrl-driver-id")?.value || "34006";
-    const logged = document.getElementById("ctrl-driver-logged")?.checked ?? true;
+  // --- Step 1: Load Routes list from Citybus Open Data API ---
+  async loadRoutesFromAPI() {
+    const statusBadge = document.getElementById("api-status-badge");
+    if (statusBadge) {
+      statusBadge.innerHTML = `<span class="spinner-dot"></span> 正在連接城巴 Open Data API...`;
+    }
 
-    this.display.setDriverProfile({ id, surnameZh, surnameEn, logged });
-  }
+    this.routesList = await this.api.getRoutes();
 
-  updateModePills(modeNum) {
-    [1, 2, 3, 4, 5].forEach(mNum => {
-      const btn = document.getElementById(`pill-m${mNum}`);
-      if (btn) {
-        if (modeNum === mNum) {
-          btn.classList.add("pill-active");
-        } else {
-          btn.classList.remove("pill-active");
-        }
+    if (statusBadge) {
+      if (this.api.apiOnline) {
+        statusBadge.innerHTML = `<span style="color:#22C55E">●</span> 城巴 API 即時連線 (DATA.GOV.HK)`;
+      } else {
+        statusBadge.innerHTML = `<span style="color:#EAB308">●</span> 離線備份資料庫模式 (包含實車 780, 905, A12 等)`;
       }
+    }
+
+    this.populateRouteSelect();
+    await this.loadRouteDirectionAndStops();
+  }
+
+  populateRouteSelect() {
+    const select = document.getElementById("api-route-select");
+    if (!select || !this.routesList) return;
+
+    select.innerHTML = "";
+
+    // Prioritize prominent routes: 780, 905, A12, 702, A21, 8P, H1
+    const featured = ["780", "905", "A12", "702", "A21", "8P", "H1"];
+    const sorted = [...this.routesList].sort((a, b) => {
+      const aFeat = featured.indexOf(a.route);
+      const bFeat = featured.indexOf(b.route);
+      if (aFeat !== -1 && bFeat !== -1) return aFeat - bFeat;
+      if (aFeat !== -1) return -1;
+      if (bFeat !== -1) return 1;
+      return a.route.localeCompare(b.route, undefined, { numeric: true });
     });
+
+    sorted.forEach(r => {
+      const opt = document.createElement("option");
+      opt.value = r.route;
+      const isAirport = r.route.startsWith("A") || r.route.startsWith("NA");
+      const badge = isAirport ? "【機場快線】" : (r.route.startsWith("H") ? "【人力車】" : "【城巴】");
+      opt.textContent = `${badge} ${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
+      select.appendChild(opt);
+    });
+
+    select.value = this.selectedRouteCode;
+  }
+
+  // --- Step 2: Load Route Direction and Stop Sequence ---
+  async loadRouteDirectionAndStops() {
+    const routeCode = this.selectedRouteCode;
+    const direction = this.selectedDirection;
+
+    // Find route info
+    const routeMeta = this.routesList.find(r => r.route === routeCode) || {
+      route: routeCode,
+      orig_tc: "總站",
+      orig_en: "Terminus",
+      dest_tc: "中環碼頭",
+      dest_en: "Central (Ferry Piers)"
+    };
+
+    // Update direction dropdown text
+    const dirSelect = document.getElementById("api-dir-select");
+    if (dirSelect) {
+      dirSelect.options[0].textContent = `去程 Outbound (往 ${routeMeta.dest_tc})`;
+      dirSelect.options[1].textContent = `回程 Inbound (往 ${routeMeta.orig_tc})`;
+    }
+
+    // Fetch stops from API
+    const stops = await this.api.getRouteStops(routeCode, direction);
+    this.currentStops = stops || [];
+
+    // Construct route object for Mon2Display
+    const destZh = direction === "outbound" ? routeMeta.dest_tc : routeMeta.orig_tc;
+    const destEn = direction === "outbound" ? routeMeta.dest_en : routeMeta.orig_en;
+    const origZh = direction === "outbound" ? routeMeta.orig_tc : routeMeta.dest_tc;
+    const origEn = direction === "outbound" ? routeMeta.orig_en : routeMeta.dest_en;
+
+    const routeData = {
+      code: routeCode,
+      company: routeCode.startsWith("H") ? "NWFB" : "CTB",
+      isAirport: routeCode.startsWith("A") || routeCode.startsWith("NA"),
+      isRickshaw: routeCode.startsWith("H"),
+      origin: { zh: origZh, en: origEn },
+      dest: { zh: destZh, en: destEn },
+      colorHex: (routeCode.startsWith("A") || routeCode.startsWith("NA")) ? "#E6007E" : "#004B87",
+      textColor: "#FFFFFF",
+      stops: this.currentStops
+    };
+
+    // Load into display
+    this.display.setRoute(routeData, 0);
+
+    // Fetch ETA Trips for first stop
+    const firstStopId = this.currentStops[0]?.stopId || "001";
+    const trips = await this.api.getTripsETA(firstStopId, routeCode);
+    this.populateTripSelect(trips);
+
+    // Automatically start journey progression!
+    this.startSelectedTrip();
+  }
+
+  // --- Step 3: Populate Trip (班次) Select ---
+  populateTripSelect(trips) {
+    const tripSelect = document.getElementById("api-trip-select");
+    if (!tripSelect) return;
+
+    tripSelect.innerHTML = "";
+    trips.forEach((t) => {
+      const opt = document.createElement("option");
+      opt.value = t.tripId;
+      opt.textContent = `${t.timeLabel} - ${t.remarkZh}`;
+      tripSelect.appendChild(opt);
+    });
+  }
+
+  // --- Step 4: Automatic Trip Progression (NO MANUAL BUTTONS!) ---
+  startSelectedTrip() {
+    this.currentStopIndex = 0;
+    this.tripStatus = "departing";
+    this.timeInPhase = 0;
+    this.display.setStopIndex(0, "next");
+
+    this.startAutomatedTripLoop();
+    this.updateTripProgressUI();
+
+    // Initial Departure Chime and Spoken Announcement
+    this.audio.playChime();
+    const curStop = this.currentStops[0];
+    if (curStop) {
+      this.audio.speakAnnouncement(curStop, "next");
+    }
+  }
+
+  startAutomatedTripLoop() {
+    if (this.tripStepTimer) clearInterval(this.tripStepTimer);
+
+    // 1-second ticks scaled by speedMultiplier
+    this.tripStepTimer = setInterval(() => {
+      if (this.isTripPaused || !this.currentStops || this.currentStops.length === 0) return;
+
+      this.stepTripProgression();
+    }, 1000);
+  }
+
+  stepTripProgression() {
+    this.timeInPhase += this.speedMultiplier;
+
+    // Phase timings (in seconds):
+    // 1. 'departing': 8s (showing Next stop, cycling through Mon2 modes)
+    // 2. 'arriving': 6s (switches to 'This stop', chimes, approaches)
+    // 3. 'dwelling': 5s (bus stopped at station, doors open)
+    const transitDuration = 18; // Transit time between stops
+    const dwellDuration = 6;    // Dwell time at station
+
+    const curStop = this.currentStops[this.currentStopIndex];
+    const isTerminus = (this.currentStopIndex >= this.currentStops.length - 1);
+
+    if (this.tripStatus === "departing") {
+      if (this.timeInPhase >= transitDuration) {
+        // Switch to arriving / This Stop
+        this.tripStatus = "arriving";
+        this.timeInPhase = 0;
+        this.display.arriveStop();
+        this.audio.playChime();
+        if (curStop) this.audio.speakAnnouncement(curStop, "arrived");
+      }
+    } else if (this.tripStatus === "arriving") {
+      if (this.timeInPhase >= 4) {
+        this.tripStatus = "dwelling";
+        this.timeInPhase = 0;
+      }
+    } else if (this.tripStatus === "dwelling") {
+      if (this.timeInPhase >= dwellDuration) {
+        if (isTerminus) {
+          this.tripStatus = "terminus";
+          this.updateTripProgressUI();
+          return;
+        }
+
+        // Advance to next stop automatically!
+        this.currentStopIndex++;
+        this.tripStatus = "departing";
+        this.timeInPhase = 0;
+
+        const nextStopData = this.currentStops[this.currentStopIndex];
+        this.display.nextStop();
+        this.audio.playChime();
+        if (nextStopData) this.audio.speakAnnouncement(nextStopData, "next");
+      }
+    }
+
+    this.updateTripProgressUI();
+  }
+
+  updateTripProgressUI() {
+    const curStop = this.currentStops[this.currentStopIndex];
+    const stopNameEl = document.getElementById("live-current-stop-name");
+    const statusTextEl = document.getElementById("live-trip-status-text");
+    const progressBar = document.getElementById("live-trip-progress-bar");
+    const remainingStopsEl = document.getElementById("live-remaining-stops");
+
+    if (!curStop) return;
+
+    if (stopNameEl) {
+      stopNameEl.textContent = `${curStop.num}. ${curStop.zh} (${curStop.en})`;
+    }
+
+    if (statusTextEl) {
+      if (this.tripStatus === "departing") {
+        statusTextEl.innerHTML = `<span style="color:#38BDF8">🚌 行駛中 (前往第 ${curStop.num} 站)</span>`;
+      } else if (this.tripStatus === "arriving") {
+        statusTextEl.innerHTML = `<span style="color:#16A34A">🛑 即將抵站 (此站停靠)</span>`;
+      } else if (this.tripStatus === "dwelling") {
+        statusTextEl.innerHTML = `<span style="color:#EAB308">👥 停站載客中 (客上落)</span>`;
+      } else if (this.tripStatus === "terminus") {
+        statusTextEl.innerHTML = `<span style="color:#DC2626">🏁 已抵達終點站 (旅程完成)</span>`;
+      }
+    }
+
+    if (remainingStopsEl) {
+      const left = Math.max(0, this.currentStops.length - (this.currentStopIndex + 1));
+      remainingStopsEl.textContent = `剩餘站數：${left} 站`;
+    }
+
+    if (progressBar) {
+      const pct = Math.round(((this.currentStopIndex + 1) / this.currentStops.length) * 100);
+      progressBar.style.width = `${pct}%`;
+    }
   }
 
   syncDriverCheckbox() {
     const loggedEl = document.getElementById("ctrl-driver-logged");
     if (loggedEl) {
-      loggedEl.checked = !this.display.driverPrivacyHidden && this.display.driverLogged;
+      loggedEl.checked = !this.display.driverPrivacyHidden && (this.display.ddu_login === 1);
     }
   }
 
-  populateRoutes() {
-    const select = document.getElementById("ctrl-route-select");
-    if (!select) return;
-    select.innerHTML = "";
-    MON2_DATA.routes.forEach(r => {
-      const opt = document.createElement("option");
-      opt.value = r.id;
-      let badge = r.isAirport ? "【機場快線】" : (r.isRickshaw ? "【人力車】" : `【${r.company}】`);
-      opt.textContent = `${badge} ${r.code} (${r.origin.zh} ➔ ${r.dest.zh})`;
-      select.appendChild(opt);
-    });
-  }
-
-  loadSelectedRoute() {
-    const select = document.getElementById("ctrl-route-select");
-    if (!select) return;
-    const routeId = select.value;
-    const route = MON2_DATA.routes.find(r => r.id === routeId) || MON2_DATA.routes[0];
-    this.display.setRoute(route, 0);
-    this.populateStopSelect();
-    this.updateStatusPill();
-  }
-
-  populateStopSelect() {
-    const stopSelect = document.getElementById("ctrl-stop-select");
-    if (!stopSelect || !this.display.currentRoute) return;
-    stopSelect.innerHTML = "";
-    this.display.currentRoute.stops.forEach((s, idx) => {
-      const opt = document.createElement("option");
-      opt.value = idx;
-      opt.textContent = `${s.num}. ${s.zh} (${s.en}) ${s.isTerminus ? '[總站]' : ''}`;
-      stopSelect.appendChild(opt);
-    });
-    stopSelect.value = this.display.currentStopIndex;
-  }
-
-  syncStopSelect() {
-    const stopSelect = document.getElementById("ctrl-stop-select");
-    if (stopSelect) {
-      stopSelect.value = this.display.currentStopIndex;
-    }
-  }
-
-  jumpToStop(index) {
-    this.display.setStopIndex(index, "next");
-    this.syncStopSelect();
-    this.audio.playChime();
-    const stop = this.display.currentRoute.stops[index];
-    if (stop) this.audio.speakAnnouncement(stop, "next");
-  }
-
-  handleNextStop() {
-    const advanced = this.display.nextStop();
-    if (advanced) {
-      this.syncStopSelect();
-      this.audio.playChime();
-      const stop = this.display.currentRoute.stops[this.display.currentStopIndex];
-      if (stop) this.audio.speakAnnouncement(stop, "next");
-    } else {
-      const stop = this.display.currentRoute.stops[this.display.currentStopIndex];
-      this.audio.playChime();
-      if (stop) this.audio.speakAnnouncement(stop, "arrived");
-    }
-  }
-
-  handlePrevStop() {
-    const moved = this.display.prevStop();
-    if (moved) {
-      this.syncStopSelect();
-      this.audio.playChime();
-      const stop = this.display.currentRoute.stops[this.display.currentStopIndex];
-      if (stop) this.audio.speakAnnouncement(stop, "next");
-    }
-  }
-
-  handleArriveStop() {
-    this.display.arriveStop();
-    this.audio.playChime();
-    const stop = this.display.currentRoute.stops[this.display.currentStopIndex];
-    if (stop) this.audio.speakAnnouncement(stop, "arrived");
-  }
-
-  triggerSeatbeltAlert() {
-    this.display.currentPosterIndex = 0;
-    this.display.renderPoster();
-    this.display.showPage(3);
-    this.audio.playChime();
-  }
-
-  toggleAutoPlay() {
-    this.isAutoPlaying = !this.isAutoPlaying;
-    const btn = document.getElementById("btn-auto-play");
-
-    if (this.isAutoPlaying) {
-      if (btn) {
-        btn.classList.add("btn-danger");
-        btn.innerHTML = `<span>⏹</span> 停止自動行駛`;
-      }
-      this.autoPlayTimer = setInterval(() => {
-        const canAdvance = this.display.nextStop();
-        if (canAdvance) {
-          this.syncStopSelect();
-          this.audio.playChime();
-          const stop = this.display.currentRoute.stops[this.display.currentStopIndex];
-          if (stop) this.audio.speakAnnouncement(stop, "next");
-        } else {
-          this.toggleAutoPlay();
-        }
-      }, this.autoPlayInterval);
-    } else {
-      if (btn) {
-        btn.classList.remove("btn-danger");
-        btn.innerHTML = `<span>▶</span> 自動巡航 (模擬行駛)`;
-      }
-      if (this.autoPlayTimer) {
-        clearInterval(this.autoPlayTimer);
-        this.autoPlayTimer = null;
-      }
-    }
-  }
-
-  updateStatusPill() {
-    const pill = document.getElementById("console-status-pill");
-    if (!pill) return;
-    if (this.display.power === "OFF") {
-      pill.textContent = "電源關閉 OFF";
-      pill.style.background = "#DC2626";
-    } else if (this.display.power === "STANDBY" || this.display.depTimerMinutes > 10) {
-      pill.textContent = "系統待機 STANDBY";
-      pill.style.background = "#D97706";
-    } else {
-      pill.textContent = "正常運作 RUNNING";
-      pill.style.background = "#16A34A";
-    }
+  updateModePills(modeNum) {
+    // Keep internal state updated
   }
 }
 

@@ -231,8 +231,9 @@ class Mon2Display {
 
           <!-- Bottom Footer Bar (Vertical Screen Reference) -->
           <footer class="mon2-footer" id="mon2-footer">
-            <!-- Vertical Screen Driver Card -->
-            <div class="v-driver-card vertical-only" id="v-driver-card" title="點擊切換 車長資訊 / Citybus App">
+            <!-- Vertical Screen Driver Card (LECIP_Mon2_Driver_ID.png & LECIP_Mon2_No_Driver_ID.png) -->
+            <div class="v-driver-card vertical-only" id="v-driver-card" title="點擊切換 車長資訊 / 路線資訊">
+              <!-- When Driver Logged In: LECIP_Mon2_Driver_ID.png -->
               <div class="v-driver-content" id="v-driver-content">
                 <div class="v-col v-col-captain">
                   <div class="v-captain-zh" id="v-captain-zh">陳車長</div>
@@ -250,9 +251,20 @@ class Mon2Display {
                   <div class="v-motto-en">is serving you</div>
                 </div>
               </div>
-              <div class="v-driver-app hidden" id="v-driver-app">
-                <span class="app-icon-mini">📱</span>
-                <span class="app-promo-text">下載 Citybus App 查閱即時抵站時間及優惠</span>
+
+              <!-- When Driver Hidden: LECIP_Mon2_No_Driver_ID.png -->
+              <div class="v-driver-no-id-content hidden" id="v-driver-app">
+                <div class="no-id-text-wrap">
+                  <div class="no-id-zh">請即下載新巴城巴App</div>
+                  <div class="no-id-en">Download Citybus NWFB App</div>
+                </div>
+                <div class="no-id-qr">
+                  <div class="qr-code-box-mini"></div>
+                </div>
+                <div class="v-col-route-info">
+                  <div class="route-info-zh">路線資訊</div>
+                  <div class="route-info-en">Route info</div>
+                </div>
               </div>
             </div>
 
@@ -862,53 +874,146 @@ class Mon2Display {
     const wrap = document.getElementById("mode3-content-wrap");
     const titleZh = document.getElementById("mode3-title-zh");
     const titleEn = document.getElementById("mode3-title-en");
+    const pageNum = document.getElementById("mode3-page-num");
     if (!wrap) return;
 
     wrap.innerHTML = "";
 
+    // If stop has interchange routes -> Render LECIP_Mon2_Interchange_11.png
     if (stop.interchanges && stop.interchanges.length > 0) {
       if (titleZh) titleZh.textContent = "轉乘路線";
       if (titleEn) titleEn.textContent = "Interchange routes";
+      if (pageNum) pageNum.textContent = "1/1";
 
       let tableHtml = `
-        <table class="interchange-table">
-          <thead>
-            <tr>
-              <th style="width: 25%;">路線<br><small>Route</small></th>
-              <th style="width: 50%;">方向<br><small>Direction</small></th>
-              <th style="width: 25%; text-align: right;">抵站時間<br><small>ETA</small></th>
-            </tr>
-          </thead>
-          <tbody>
+        <div class="mode3-fare-base interchange-style">
+          <div class="fare-black-header">
+            <div class="col-route">路線<br><small>Route</small></div>
+            <div class="col-direction">方向<br><small>Direction</small></div>
+            <div class="col-fare-eta" style="text-align: right;">抵站時間<br><small>ETA</small></div>
+          </div>
+          <div class="fare-stage-list">
       `;
       stop.interchanges.forEach(ic => {
         tableHtml += `
-          <tr>
-            <td><span class="ic-route-badge">${ic.route}</span></td>
-            <td>
+          <div class="fare-stage-row">
+            <div class="col-route"><span class="ic-route-badge">${ic.route}</span></div>
+            <div class="col-direction">
               <div class="ic-dest-zh">${ic.destZh}</div>
               <div class="ic-dest-en">${ic.destEn}</div>
-            </td>
-            <td style="text-align: right;">
-              <strong class="ic-eta-val">${ic.eta}</strong> <span class="ic-eta-unit">分鐘<br>min</span>
-            </td>
-          </tr>
+            </div>
+            <div class="col-fare-eta" style="text-align: right;">
+              <strong class="ic-eta-val">${ic.eta}</strong> <span class="ic-eta-unit">分鐘 min</span>
+            </div>
+          </div>
         `;
       });
-      tableHtml += `</tbody></table>`;
-      wrap.innerHTML = tableHtml;
-    } else {
-      if (titleZh) titleZh.textContent = "車資資訊";
-      if (titleEn) titleEn.textContent = "Fare Information";
-
-      wrap.innerHTML = `
-        <div style="padding: 24px; text-align: center;">
-          <div style="font-size: 16px; font-weight: 700; color: #475569;">正程成人車資 Standard Adult Fare</div>
-          <div style="font-size: 42px; font-weight: 900; color: #0284C7; margin: 10px 0;">${stop.fare || "$7.7"}</div>
-          <div style="font-size: 13px; color: #64748B;">支援八達通、感應式信用卡及指定電子支付<br>Supported by Octopus, Contactless Credit Cards & e-Wallets</div>
+      tableHtml += `
+          </div>
+          <div class="fare-bottom-notice">
+            <div class="notice-text">
+              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
+              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
+            </div>
+            <div class="notice-qr">
+              <div class="qr-code-box"></div>
+            </div>
+          </div>
         </div>
       `;
+      wrap.innerHTML = tableHtml;
+    } else {
+      // BASE CASE: Mode 3 is FARE TABLE BASE (LECIP_Mon2_Fare_11.png / Fare_12.png)
+      if (titleZh) titleZh.textContent = "車費資料";
+      if (titleEn) titleEn.textContent = "Fare information";
+      if (pageNum) pageNum.textContent = "1/1";
+
+      const fareStages = this.getSectionFareStages();
+
+      let tableHtml = `
+        <div class="mode3-fare-base">
+          <!-- Black Table Header (由下列巴士站起 / 成人車費) -->
+          <div class="fare-black-header">
+            <div class="header-left">
+              <div class="zh">由下列巴士站起</div>
+              <div class="en">Beginning from bus stop below</div>
+            </div>
+            <div class="header-right">
+              <div class="zh">成人車費</div>
+              <div class="en">Adult Fare</div>
+            </div>
+          </div>
+
+          <!-- Section Fare Rows -->
+          <div class="fare-stage-list">
+      `;
+
+      fareStages.forEach((stage, idx) => {
+        tableHtml += `
+          <div class="fare-stage-row ${idx % 2 === 0 ? 'fare-row-even' : 'fare-row-odd'}">
+            <div class="stage-name-col">
+              <div class="stage-zh">${stage.zh}</div>
+              <div class="stage-en">${stage.en}</div>
+            </div>
+            <div class="stage-price-col">
+              <span class="price-val">${stage.fare}</span>
+            </div>
+          </div>
+        `;
+      });
+
+      tableHtml += `
+          </div>
+
+          <!-- Bottom Notice with QR code as in LECIP_Mon2_Fare_12.png -->
+          <div class="fare-bottom-notice">
+            <div class="notice-text">
+              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
+              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
+            </div>
+            <div class="notice-qr">
+              <div class="qr-code-box"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      wrap.innerHTML = tableHtml;
     }
+  }
+
+  // --- Helper to extract realistic section fare stages for current route ---
+  getSectionFareStages() {
+    if (!this.currentRoute) return [{ zh: "由起點站起", en: "From First Stop", fare: "$7.7" }];
+
+    const r = this.currentRoute;
+    const stops = r.stops;
+    const stages = [];
+
+    // First stop is always stage 1
+    const firstStop = stops[0] || { zh: "總站", en: "Terminus", fare: "$7.7" };
+    stages.push({ zh: firstStop.zh, en: firstStop.en, fare: firstStop.fare || "$7.7" });
+
+    // Look for intermediate stops with different fare or landmarks
+    let prevFare = firstStop.fare;
+    for (let i = 1; i < stops.length; i++) {
+      const s = stops[i];
+      if (s.fare && s.fare !== prevFare) {
+        stages.push({ zh: s.zh, en: s.en, fare: s.fare });
+        prevFare = s.fare;
+      }
+    }
+
+    // If only 1 fare stage found, synthesize typical intermediate section
+    if (stages.length === 1 && stops.length >= 8) {
+      const midIdx = Math.floor(stops.length / 2);
+      const midStop = stops[midIdx];
+      const baseNum = parseFloat((firstStop.fare || "$7.7").replace(/[^0-9.]/g, ""));
+      const discounted = (baseNum * 0.68).toFixed(1);
+      stages.push({ zh: midStop.zh, en: midStop.en, fare: `$${discounted}` });
+    }
+
+    return stages;
   }
 
   renderMode5(curIdx) {
