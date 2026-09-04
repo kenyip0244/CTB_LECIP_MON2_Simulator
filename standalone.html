@@ -5353,6 +5353,185 @@ body {
   font-size: clamp(20px, 3vw, 32px) !important;
 }
 
+
+/* ==========================================================================
+   FINAL CRITICAL FIXES:
+   1. Losted line: Mode 3 Left Navigation Track Line
+   2. Station name: Mode 5 Station Names Visibility & 100% Height to Bottom
+   3. Auto-adapt screen size with fixed aspect ratio
+   ========================================================================== */
+
+/* 1. Mode 3 Left Track Line (Losted line -> Restored) */
+.mode3-nav-track {
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 100% !important;
+  margin: 0 !important;
+  flex-shrink: 0 !important;
+  border-radius: 0 !important;
+}
+
+.mode3-top-stop-banner {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  height: 140px !important;
+  min-height: 140px !important;
+  background: #FFFFFF !important;
+  border-bottom: 3.5px solid #0022AA !important;
+  overflow: hidden !important;
+}
+
+.mode3-stop-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding: 6px 14px !important;
+  overflow: hidden !important;
+}
+
+/* 2. Mode 5: Station name & 13頁車站 應該要到底 */
+#panel-mode-5,
+.ladder-wrapper,
+#allstop-stops-list,
+.ladder-stops-container {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ladder-layout-wrapper {
+  display: flex !important;
+  flex-direction: row !important; /* CRITICAL: Must be row, track on left, names on right! */
+  height: 100% !important;
+  width: 100% !important;
+  flex: 1 !important;
+  overflow: hidden !important;
+  background: #FFFFFF !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ladder-nav-track-col {
+  width: 36px !important;
+  min-width: 36px !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: stretch !important;
+  margin: 0 !important;
+  padding: 2px 0 0 0 !important;
+  flex-shrink: 0 !important;
+  border-radius: 0 !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: stretch !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 10px 0 10px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  box-sizing: border-box !important;
+}
+
+.ladder-name-row.row-yellow {
+  background-color: #FFF04D !important;
+}
+
+.ladder-name-row.row-white {
+  background-color: #FFFFFF !important;
+}
+
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  overflow: hidden !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: clamp(15px, 2.2vh, 20px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: clamp(10px, 1.4vh, 13px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+}
+
+.ladder-eta-col {
+  min-width: 42px !important;
+  text-align: right !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+.ladder-eta-footer-label {
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-align: right !important;
+  padding: 2px 10px !important;
+  background: #FFFFFF !important;
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+/* 3. Auto-adapt screen size with fixed aspect ratio (固定大小比例) */
+.mon2-frame.horizontal {
+  width: min(94vw, 1100px) !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  margin: 0 auto !important;
+}
+
+.mon2-frame.vertical {
+  width: min(90vw, 450px) !important;
+  aspect-ratio: 9 / 16 !important;
+  height: auto !important;
+  max-height: 90vh !important;
+  margin: 0 auto !important;
+}
+
 </style>
 </head>
 <body>
@@ -7885,19 +8064,26 @@ class Mon2Display {
         <div class="mode3-split-card">
           <!-- Top Next Stop Box: Circle adjacent to station name ("車站編號位置要貼合車站名稱 車站名稱加大") -->
           <div class="mode3-top-stop-banner">
-            <div class="mode3-stop-header-row">
-              <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
-              <div class="mode3-eta-label">
-                <div class="eta-icon-title">預計<br>ETA</div>
-                <div class="eta-value-box">&lt;1</div>
-                <div class="eta-unit-box">分鐘<br>min</div>
+            <!-- Left Navigation Track Line in Mode 3 ("Losted line" -> RESTORED) -->
+            <div class="route-nav-track-col arrow-pointed mode3-nav-track">
+              <div class="track-subheader-cell"><div class="track-bar-chevron"></div></div>
+              <div class="track-row-cell">
+                <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">${stop.num}</div>
+                <div class="track-bar-point-bottom"></div>
               </div>
             </div>
-            <div class="mode3-stop-body-row align-top">
-              <div class="mode3-snug-circle ${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
-                ${stop.num}
+
+            <!-- Right Content of Top Banner -->
+            <div class="mode3-stop-content">
+              <div class="mode3-stop-header-row">
+                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
+                <div class="mode3-eta-label">
+                  <div class="eta-icon-title">預計<br>ETA</div>
+                  <div class="eta-value-box">&lt;1</div>
+                  <div class="eta-unit-box">分鐘<br>min</div>
+                </div>
               </div>
-              <div class="mode3-station-name-col align-top">
+              <div class="mode3-station-name-row align-top">
                 <div class="m3-zh autofit-text">${this.cleanStopName(stop.zh)}</div>
                 <div class="m3-en autofit-text">${this.cleanStopName(stop.en)}</div>
               </div>

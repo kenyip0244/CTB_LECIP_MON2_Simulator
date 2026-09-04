@@ -1118,19 +1118,26 @@ class Mon2Display {
         <div class="mode3-split-card">
           <!-- Top Next Stop Box: Circle adjacent to station name ("車站編號位置要貼合車站名稱 車站名稱加大") -->
           <div class="mode3-top-stop-banner">
-            <div class="mode3-stop-header-row">
-              <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
-              <div class="mode3-eta-label">
-                <div class="eta-icon-title">預計<br>ETA</div>
-                <div class="eta-value-box">&lt;1</div>
-                <div class="eta-unit-box">分鐘<br>min</div>
+            <!-- Left Navigation Track Line in Mode 3 ("Losted line" -> RESTORED) -->
+            <div class="route-nav-track-col arrow-pointed mode3-nav-track">
+              <div class="track-subheader-cell"><div class="track-bar-chevron"></div></div>
+              <div class="track-row-cell">
+                <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">${stop.num}</div>
+                <div class="track-bar-point-bottom"></div>
               </div>
             </div>
-            <div class="mode3-stop-body-row align-top">
-              <div class="mode3-snug-circle ${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
-                ${stop.num}
+
+            <!-- Right Content of Top Banner -->
+            <div class="mode3-stop-content">
+              <div class="mode3-stop-header-row">
+                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
+                <div class="mode3-eta-label">
+                  <div class="eta-icon-title">預計<br>ETA</div>
+                  <div class="eta-value-box">&lt;1</div>
+                  <div class="eta-unit-box">分鐘<br>min</div>
+                </div>
               </div>
-              <div class="mode3-station-name-col align-top">
+              <div class="mode3-station-name-row align-top">
                 <div class="m3-zh autofit-text">${this.cleanStopName(stop.zh)}</div>
                 <div class="m3-en autofit-text">${this.cleanStopName(stop.en)}</div>
               </div>
