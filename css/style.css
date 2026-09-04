@@ -5548,3 +5548,475 @@ body {
   font-size: 25px !important;
   font-weight: 900 !important;
 }
+
+
+/* ==========================================================================
+   PIXEL-ACCURATE HORIZONTAL LAYOUT
+   Directly matching real-life photos 580f851a.png (Cityflyer) & 6fc273ae.jpeg (CTB Normal)
+   ========================================================================== */
+
+/* Outer screen canvas */
+.mon2-frame.horizontal {
+  width: 800px !important;
+  height: 450px !important;
+  border-radius: 8px !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5) !important;
+}
+
+.mon2-frame.horizontal .mon2-footer {
+  display: none !important;
+}
+
+/* --- 1. HORIZONTAL TOP HEADER (100px Height) --- */
+.mon2-frame.horizontal .mon2-header {
+  height: 98px !important;
+  min-height: 98px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: flex !important;
+  align-items: stretch !important;
+  border-bottom: 4px solid #D92525 !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.mon2-frame.horizontal .mon2-main {
+  height: calc(100% - 98px) !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+/* ==========================================================================
+   STYLE A: 城巴普通路線 (Citybus Normal - Photo 6fc273ae.jpeg: 930)
+   ========================================================================== */
+/* Left Route Badge: Solid Blue Square with Massive White Numeral */
+.mon2-frame.horizontal.mode-ctb .header-route-badge {
+  width: 145px !important;
+  min-width: 145px !important;
+  background: #0022AA !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-route-badge .route-num {
+  font-size: 64px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+  font-family: var(--font-english) !important;
+}
+
+/* Middle Destination: Solid Bright Yellow */
+.mon2-frame.horizontal.mode-ctb .header-dest-box {
+  background: #FFF04D !important;
+  padding: 6px 18px !important;
+  min-width: 250px !important;
+  flex: 1.1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-zh {
+  color: #000000 !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-en {
+  color: #1E293B !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-top: 2px !important;
+}
+
+/* Right Driver Info: Yellow top with blue slanted wedge at bottom */
+.mon2-frame.horizontal.mode-ctb .header-driver-box {
+  background: #FFF04D !important;
+  flex: 1.1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 6px 14px 0 14px !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-wrap {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-zh {
+  color: #000000 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-en {
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-label {
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-num {
+  color: #000000 !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-col.col-motto {
+  background: #0022AA !important;
+  clip-path: polygon(18px 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+  padding: 4px 20px 4px 28px !important;
+  margin-left: -14px !important;
+  margin-right: -14px !important;
+  margin-bottom: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-motto-zh,
+.mon2-frame.horizontal.mode-ctb .h-motto-en {
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  font-size: 13.5px !important;
+}
+
+/* Time Box on the far right */
+.mon2-frame.horizontal.mode-ctb .header-time-box {
+  width: 110px !important;
+  min-width: 110px !important;
+  background: #FFFFFF !important;
+  border-left: 1.5px solid #CBD5E1 !important;
+}
+
+
+/* ==========================================================================
+   STYLE B: 城巴機場快線 (Cityflyer - Photo 580f851a.png: A26)
+   ========================================================================== */
+.mon2-frame.horizontal.mode-cityflyer .mon2-header {
+  border-bottom: 4px solid #EAB308 !important;
+  background: #B70028 !important;
+}
+
+/* Left Route Badge: Seamless Red with Massive White Numeral */
+.mon2-frame.horizontal.mode-cityflyer .header-route-badge {
+  width: 145px !important;
+  min-width: 145px !important;
+  background: #B70028 !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-route-badge .route-num {
+  font-size: 64px !important;
+  line-height: 1 !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+/* Destination: Solid Red */
+.mon2-frame.horizontal.mode-cityflyer .header-dest-box {
+  background: #B70028 !important;
+  padding: 6px 16px !important;
+  min-width: 200px !important;
+  flex: 1.1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-zh {
+  color: #FFFFFF !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-en {
+  color: #FFFFFF !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-top: 2px !important;
+}
+
+/* Cityflyer Header Driver Card: Red background with yellow wedge under captain */
+.mon2-frame.horizontal.mode-cityflyer .header-driver-box {
+  background: linear-gradient(115deg, #B70028 0%, #D8262C 48%, #EAB308 48.5%, #B70028 50%, #9E0020 100%) !important;
+  flex: 1.2 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 4px 14px !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-col.col-name {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-name-zh {
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-name-en {
+  font-size: 11.5px !important;
+  color: #FEE2E2 !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-col.col-motto {
+  background: #EAB308 !important; /* Gold wedge */
+  color: #000000 !important;
+  padding: 2px 10px !important;
+  border-radius: 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-motto-zh {
+  font-size: 13.5px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-motto-en {
+  font-size: 10px !important;
+  font-weight: 800 !important;
+  color: #1E293B !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-col.col-id {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-id-label {
+  font-size: 12px !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-id-num {
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-time-box {
+  width: 110px !important;
+  min-width: 110px !important;
+  background: #FFFFFF !important;
+  border-left: 1.5px solid #CBD5E1 !important;
+}
+
+
+/* ==========================================================================
+   HORIZONTAL BODY: 3-STOP MODE (Matching Photo 580f851a.png & 6fc273ae.jpeg)
+   ========================================================================== */
+.mon2-frame.horizontal .trio-stops-container {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .trio-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  background: #FFFFFF !important;
+}
+
+/* Left Navigation Track Bar: Width 54px */
+.mon2-frame.horizontal .route-nav-track-col {
+  width: 54px !important;
+  min-width: 54px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  border-radius: 0 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .route-nav-track-col {
+  background: #0022AA !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .route-nav-track-col {
+  background: #D8262C !important;
+}
+
+.mon2-frame.horizontal .track-subheader-cell {
+  height: 42px !important;
+  min-height: 42px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal .track-row-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+}
+
+/* Circles in track: Diameter 32px */
+.mon2-frame.horizontal .track-circle-active {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 16px !important;
+}
+
+.mon2-frame.horizontal .track-circle-arrived-green {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 16px !important;
+}
+
+.mon2-frame.horizontal .track-circle-upcoming {
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 16px !important;
+  background: #FFFFFF !important;
+  border: 2px solid #94A3B8 !important;
+  color: #000000 !important;
+}
+
+/* White chevrons between circles */
+.mon2-frame.horizontal .track-white-chevron {
+  position: absolute !important;
+  bottom: -6px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 5 !important;
+}
+
+/* Subheader Strip */
+.mon2-frame.horizontal .trio-subheader-row {
+  height: 42px !important;
+  min-height: 42px !important;
+  padding: 4px 18px !important;
+  border-bottom: 2px solid #CBD5E1 !important;
+}
+
+.mon2-frame.horizontal .trio-subheader-title {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.mon2-frame.horizontal .trio-subheader-eta {
+  font-size: 16px !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+}
+
+/* 3 Station Rows (Alternating Ice-Blue and White as in Photo 580f851a.png) */
+.mon2-frame.horizontal .trio-content-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal .trio-row-item {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 20px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+.mon2-frame.horizontal .trio-row-item:nth-child(2) {
+  background-color: #EAF4FD !important; /* Soft Ice-Blue */
+}
+
+.mon2-frame.horizontal .trio-row-item:nth-child(3) {
+  background-color: #FFFFFF !important; /* White */
+}
+
+.mon2-frame.horizontal .trio-row-item:nth-child(4) {
+  background-color: #EAF4FD !important; /* Soft Ice-Blue */
+}
+
+/* Station Names: Huge Bold Chinese (34px) as in Photo 580f851a.png */
+.mon2-frame.horizontal .trio-name-col {
+  flex: 1 !important;
+}
+
+.mon2-frame.horizontal .trio-main-name {
+  font-size: 34px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.mon2-frame.horizontal .trio-sub-text {
+  font-size: 17px !important;
+  font-weight: 800 !important;
+  color: #B70028 !important; /* Red for landmark / interchange notice */
+  margin-top: 3px !important;
+}
+
+/* Minutes Column: 30px bold numbers as in Photo 580f851a.png */
+.mon2-frame.horizontal .trio-eta-col {
+  min-width: 70px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal .trio-eta-col .eta-big {
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1 !important;
+}
+
+.mon2-frame.horizontal .trio-eta-col .eta-unit-text {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  margin-top: 2px !important;
+}
