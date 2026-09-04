@@ -157,6 +157,10 @@ class Mon2Display {
               <div class="time-value" id="header-clock">15:04</div>
             </div>
           </header>
+          <!-- 顯示進度條 (Real-time Trip Progress Bar) -->
+          <div class="mon2-trip-progress-bar-container">
+            <div class="mon2-trip-progress-bar" id="mon2-trip-progress-bar" style="width: 5%;"></div>
+          </div>
 
           <!-- Main Content Area containing Modes 1, 2, 3, 4, 5 -->
           <main class="mon2-main" id="mon2-main">
@@ -443,6 +447,15 @@ class Mon2Display {
 
     // Switch visible panel DOM based on Mon2_Mode
     this.updateActivePanel();
+
+    // 更新行車進度條 (顯示進度條)
+    if (this.currentRoute && this.currentRoute.stops && this.currentRoute.stops.length > 0) {
+      const pBar = document.getElementById("mon2-trip-progress-bar");
+      if (pBar) {
+        const pct = Math.min(100, Math.round((this.telargo_busstop / this.currentRoute.stops.length) * 100));
+        pBar.style.width = `${pct}%`;
+      }
+    }
   }
 
   // --- Macro: LECIP_Mon2_Mode4 (Poster Timer & Loop) ---
@@ -568,6 +581,15 @@ class Mon2Display {
     else if (modeNum === 5) this.Mon2_Page_Timer = 0;
 
     this.updateActivePanel();
+
+    // 更新行車進度條 (顯示進度條)
+    if (this.currentRoute && this.currentRoute.stops && this.currentRoute.stops.length > 0) {
+      const pBar = document.getElementById("mon2-trip-progress-bar");
+      if (pBar) {
+        const pct = Math.min(100, Math.round((this.telargo_busstop / this.currentRoute.stops.length) * 100));
+        pBar.style.width = `${pct}%`;
+      }
+    }
   }
 
   // --- Route & Stop Navigation ---
@@ -835,6 +857,15 @@ class Mon2Display {
 
     this.updateDriverDisplay();
     this.updateActivePanel();
+
+    // 更新行車進度條 (顯示進度條)
+    if (this.currentRoute && this.currentRoute.stops && this.currentRoute.stops.length > 0) {
+      const pBar = document.getElementById("mon2-trip-progress-bar");
+      if (pBar) {
+        const pct = Math.min(100, Math.round((this.telargo_busstop / this.currentRoute.stops.length) * 100));
+        pBar.style.width = `${pct}%`;
+      }
+    }
   }
 
   renderChineseTrioStops(curIdx) {
@@ -1182,6 +1213,9 @@ class Mon2Display {
 
     // Accurate Citybus Fare Table by Route Code
     const FARE_TABLE = {
+      "H3": { full: "$41.8", stages: [{ match: "香港摩天輪", fare: "$41.8" }, { match: "赤柱", fare: "$19.8" }] },
+      "H1": { full: "$41.8", stages: [{ match: "中環", fare: "$41.8" }, { match: "尖沙咀", fare: "$19.8" }] },
+      "H2": { full: "$41.8", stages: [{ match: "中環", fare: "$41.8" }, { match: "尖沙咀", fare: "$19.8" }] },
       "A10": { full: "$49.7", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
       "A11": { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "A12": { full: "$47.1", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
@@ -1219,6 +1253,8 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
+      "720": { full: "$8.7", stages: [{ match: "國際調解院", fare: "$5.5" }] },
       "H3": { full: "$41.8", stages: [] },
       "77": { full: "$9.6", stages: [{ match: "模範邨", fare: "$4.6" }, { match: "琴行街", fare: "$4.6" }] },
       "11": { full: "$8.6", stages: [{ match: "灣仔", fare: "$5.6" }] },

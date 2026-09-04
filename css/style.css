@@ -7582,3 +7582,276 @@ body {
   align-items: flex-start !important;
   padding-top: 8px !important;
 }
+
+
+/* ==========================================================================
+   FIXED ASPECT RATIO CONTAINER (固定大小比例 16:9 & 9:16 - 自動適應不同螢幕)
+   ========================================================================== */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding: 10px !important;
+  box-sizing: border-box !important;
+}
+
+/* Horizontal Screen: STRICT 16:9 ASPECT RATIO */
+.mon2-frame.horizontal {
+  width: min(960px, 94vw, calc(88vh * (16 / 9))) !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  margin: 0 auto !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background: #FFFFFF !important;
+}
+
+/* Vertical Screen: STRICT 9:16 ASPECT RATIO */
+.mon2-frame.vertical {
+  height: min(820px, 90vh, calc(95vw * (16 / 9))) !important;
+  aspect-ratio: 9 / 16 !important;
+  width: auto !important;
+  max-width: 95vw !important;
+  margin: 0 auto !important;
+  border-radius: 10px !important;
+  overflow: hidden !important;
+  background: #FFFFFF !important;
+}
+
+/* 1. 車站名向上靠 自動適應大細 (Top-aligned & Auto-fitting) */
+.trio-name-col,
+.mode3-station-name-row,
+.mode3-stop-content {
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+.mode3-top-stop-banner {
+  padding-top: 6px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(20px, 2.8vw, 32px) !important;
+  line-height: 1.15 !important;
+  margin-top: 6px !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(13px, 1.6vw, 17px) !important;
+  line-height: 1.15 !important;
+  margin-top: 3px !important;
+}
+
+/* 2. 13頁車站 應該要到底 (Fill completely to the bottom) */
+.ladder-stops-container,
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  overflow: hidden !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  flex: 1 !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+}
+
+/* 3. 直向屏幕車費資料頁 (對照實車照片 image_90cebd.jpg: 720 上下分割) */
+.mon2-frame.vertical #panel-mode-3 {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  background: #FFFFFF !important;
+}
+
+.mon2-frame.vertical .mode3-split-card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+}
+
+.mon2-frame.vertical .mode3-top-stop-banner {
+  flex: 0.9 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  border-bottom: 3.5px solid #0022AA !important;
+  border-right: none !important;
+}
+
+.mon2-frame.vertical.mode-cityflyer .mode3-top-stop-banner {
+  border-bottom-color: var(--cityflyer-crimson) !important;
+}
+
+.mon2-frame.vertical .mode3-fare-base {
+  flex: 1.1 !important;
+  height: auto !important;
+  border: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.mon2-frame.vertical .fare-black-header {
+  min-height: 32px !important;
+  padding: 4px 10px !important;
+}
+
+.mon2-frame.vertical .fare-stage-row {
+  padding: 4px 12px !important;
+}
+
+
+/* ==========================================================================
+   USER FIXES:
+   1. 車站名向上靠 自動適應大細 (Top-aligned adaptive station names)
+   2. 橫向螢幕 自動適應不同螢幕 固定大小比例 16:9 (Responsive 16:9 frame)
+   3. 13頁車站 應該要到底 (13 stops stretch all the way to bottom)
+   4. 顯示進度條 (Trip progress bar)
+   ========================================================================== */
+
+/* 1. 車站名向上靠 自動適應大細 */
+.mode3-station-name-row,
+.trio-content-col,
+.mode3-stop-content {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  padding-top: 14px !important;
+  text-align: left !important;
+}
+
+.mode3-station-name-row .m3-zh,
+.trio-main-name {
+  font-size: clamp(24px, 3.2vw, 38px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  word-break: break-word !important;
+}
+
+.mode3-station-name-row .m3-en,
+.trio-sub-text {
+  font-size: clamp(14px, 1.8vw, 20px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.2 !important;
+  margin-top: 6px !important;
+  word-break: break-word !important;
+}
+
+/* 2. 橫向螢幕 自動適應不同螢幕 固定大小比例 16:9 */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(94vw, calc(94vh * (16 / 9))) !important;
+  height: min(calc(94vw * (9 / 16)), 94vh) !important;
+  max-width: 1360px !important;
+  max-height: 765px !important;
+  margin: auto !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+/* 3. 13頁車站 應該要到底 (Stretch smoothly to very bottom edge) */
+.ladder-stops-container,
+.ladder-layout-wrapper,
+.ladder-unified-wrapper,
+.ladder-rows-col,
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-layout-wrapper {
+  flex-direction: row !important;
+  flex: 1 !important;
+  height: 100% !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-name-row,
+.ladder-unified-row {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ladder-eta-footer-label {
+  flex-shrink: 0 !important;
+}
+
+/* 4. 顯示進度條 (Real-time Trip Progress Bar on Screen) */
+.mon2-trip-progress-bar-container {
+  width: 100% !important;
+  height: 5px !important;
+  background: rgba(0, 0, 0, 0.15) !important;
+  overflow: hidden !important;
+  position: relative !important;
+  z-index: 15 !important;
+}
+
+.mon2-trip-progress-bar {
+  height: 100% !important;
+  width: 5% !important;
+  background: linear-gradient(90deg, #16A34A, #38BDF8, #2563EB) !important;
+  transition: width 0.35s ease !important;
+}

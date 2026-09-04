@@ -12,7 +12,7 @@ class Mon2Controller {
   constructor(display, audio) {
     this.display = display;
     this.audio = audio;
-    this.api = window.ctbAPI;
+    this.api = window.ctbAPI || (typeof CitybusAPIService !== "undefined" ? new CitybusAPIService() : null);
 
     // Trip State
     this.routesList = [];

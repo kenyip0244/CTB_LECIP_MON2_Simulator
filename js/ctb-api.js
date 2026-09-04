@@ -729,5 +729,6 @@ class CitybusAPIService {
     } catch (e) {}
     return this.getTripsETA(firstStopId, route);
   }
+}
 
 window.ctbAPI = new CitybusAPIService();
