@@ -158,7 +158,7 @@ class CitybusAPIService {
     } catch (e) {}
 
     try {
-      const resp = await fetch("https://raw.githubusercontent.com/hkbus/hk-bus-crawling/gh-pages/routeFareList.min.json");
+      const resp = await fetch("https://data.hkbus.app/routeFareList.min.json");
       if (resp.ok) {
         const json = await resp.json();
         if (json) {

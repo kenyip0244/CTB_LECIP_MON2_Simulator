@@ -179,17 +179,7 @@ class Mon2Display {
 
             <!-- MODE 3: 分段收費 / 轉乘路線 (LECIP_Mon2_Mode3) -->
             <section id="panel-mode-3" class="content-page hidden" style="display: none;">
-              <div class="section-title-bar interchange-header">
-                <span class="bar-zh" id="mode3-title-zh">轉乘路線</span>
-                <span class="bar-en" id="mode3-title-en">Interchange routes</span>
-                <span class="page-indicator" id="mode3-page-num">1/1</span>
-              </div>
-              <div class="interchange-table-wrapper" id="mode3-content-wrap">
-                <!-- Dynamically injected table or fare card -->
-              </div>
-              <div class="interchange-footer">
-                實際抵站時間受交通情況影響 • Actual arrival time affected by traffic
-              </div>
+              <div class="mode3-content-wrapper" id="mode3-content-wrap"></div>
             </section>
 
             <!-- MODE 4: 電子海報輪播 (LECIP_Mon2_Mode4) -->

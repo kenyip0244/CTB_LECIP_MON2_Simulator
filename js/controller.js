@@ -445,6 +445,8 @@ class Mon2Controller {
     }
 
     if (this.operationMode === "manual") return;
+    // 「GPS 模式一直自動跳站 沒有跟隨gps」: GPS模式下嚴格禁止計時器跳站，只能由真實GPS座標抵達時觸發
+    if (this.useRealGPS) return;
 
     if (this.tripStatus === "departing") {
       // When approaching stop (under 100 meters or time threshold) -> trigger 'arriving'
@@ -673,7 +675,7 @@ class Mon2Controller {
       }
 
       // Real-life auto arrival detection
-      if (this.operationMode !== "manual" && this.targetDistanceMeters <= 100 && this.tripStatus === "departing") {
+      if (this.operationMode !== "manual" && this.targetDistanceMeters <= 80 && this.tripStatus === "departing") {
         this.tripStatus = "arriving";
         this.display.arriveStop();
         this.audio.playChime();
