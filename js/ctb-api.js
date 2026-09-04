@@ -584,150 +584,69 @@ class CitybusAPIService {
     const code = (routeCode || "").toUpperCase();
     const name = stopName || "";
 
-    // 1. Sightseeing Routes H1, H2, H3, H4 (落日飛車 / 人力車)
+    // 1. Sightseeing Routes H1, H2, H3 (落日飛車 / 人力車)
     if (code.startsWith("H")) {
-      if (code.startsWith("H")) return "$41.8"; // 落日飛車單程 / 全日通
       return "$19.8";
     }
 
-    // 2. Airport Express A Routes
-    if (code.startsWith("A")) {
-      if (name.includes("青嶼幹線") || name.includes("大嶼山") || seq > totalStops * 0.75) return "$17.8";
+    // 2. Specific Route Fares from authentic Citybus photos
+    if (code === "720") {
+      if (name.includes("國際調解院") || seq >= totalStops * 0.7) return "$5.5";
+      return "$8.7";
+    }
+    if (code === "930" || code === "930X") {
+      if (name.includes("葵涌廣場") || name.includes("西消防街") || seq >= totalStops * 0.7) return "$6.8";
+      if (name.includes("西區海底隧道") || name.includes("西隧")) return "$11.0";
+      return "$20.8";
+    }
+    if (code === "933") {
+      if (name.includes("琴行街") || seq >= totalStops * 0.7) return "$5.6";
+      if (name.includes("西區海底隧道") || name.includes("西隧")) return "$13.1";
+      return "$20.8";
+    }
+    if (code === "973") {
+      if (name.includes("鄉村俱樂部") || seq >= totalStops * 0.7) return "$6.4";
+      if (name.includes("高樂花園") || seq >= totalStops * 0.25) return "$8.1";
+      return "$18.1";
+    }
+    if (code === "A26") {
+      if (name.includes("秀茂坪") || seq >= totalStops * 0.8) return "$6.8";
+      if (name.includes("黃大仙") || seq >= totalStops * 0.6) return "$10.5";
+      if (name.includes("畢架山") || seq >= totalStops * 0.45) return "$13.6";
+      if (name.includes("青嶼幹線") || seq >= totalStops * 0.3) return "$30.3";
+      return "$44.0";
+    }
+    if (code === "A10") {
+      if (name.includes("青嶼幹線") || seq >= totalStops * 0.75) return "$17.8";
       if (name.includes("西區海底隧道") || name.includes("西隧")) return "$41.8";
-      if (code === "A10") return "$49.7"; // A10 $49.7 per user request
-      if (code === "A12") return "$47.1";
-      if (code === "A21") return (seq > totalStops * 0.55) ? "$8.0" : "$34.6";
-      if (code === "A26" || code === "A28" || code === "A29") return "$44.0";
+      return "$50.3";
+    }
+    if (code === "A12") {
+      if (name.includes("青嶼幹線") || seq >= totalStops * 0.75) return "$17.8";
+      if (name.includes("西區海底隧道") || name.includes("西隧")) return "$41.8";
+      return "$47.1";
+    }
+    if (code === "A21") {
+      if (name.includes("青嶼幹線") || seq >= totalStops * 0.75) return "$17.8";
+      return "$34.6";
+    }
+    if (code === "S1") return "$3.7";
+    if (code === "780") return (name.includes("分域街") || name.includes("舊灣仔警署") || seq >= totalStops * 0.7) ? "$4.4" : "$7.7";
+    if (code === "8P") return (seq >= totalStops * 0.6) ? "$4.8" : "$7.0";
+
+    // General A routes
+    if (code.startsWith("A")) {
+      if (name.includes("青嶼幹線") || seq > totalStops * 0.75) return "$17.8";
       return "$41.9";
     }
 
-    // 3. Overnight Airport NA Routes
-    if (code.startsWith("NA")) {
-      if (name.includes("青嶼幹線") || seq > totalStops * 0.75) return "$40.2";
-      if (code === "NA10" || code === "NA12") return "$60.7";
-      return "$54.4";
-    }
-
-    // 4. North Lantau External E Routes
-    if (code.startsWith("E")) {
-      if (name.includes("東涌") || seq > totalStops * 0.8) return "$4.0";
-      if (name.includes("青嶼幹線") || name.includes("青馬")) return "$8.2";
-      if (code === "E11" || code === "E11A") return "$22.4";
-      return "$18.9";
-    }
-
-    // 5. Cross-Harbour Routes (9xx, 1xx, 6xx, 3xx)
+    // General Cross Harbour
     if (code.startsWith("9") || code.startsWith("1") || code.startsWith("6") || code.startsWith("3")) {
-      if (code === "930" || code === "930X") {
-        if (name.includes("西消防街") || seq > totalStops * 0.7) return "$7.7";
-        if (name.includes("西區海底隧道") || name.includes("西隧")) return "$12.2";
-        return "$20.8";
-      }
-      if (code === "973") {
-        if (name.includes("鄉村俱樂部") || seq > totalStops * 0.7) return "$6.4";
-        if (name.includes("高樂花園") || seq > totalStops * 0.25) return "$8.1";
-        return "$18.1";
-      }
-      if (code === "971") {
-        if (name.includes("薄扶林") || seq > totalStops * 0.75) return "$5.6";
-        if (name.includes("西區海底隧道") || name.includes("西隧") || seq > totalStops * 0.4) return "$7.7";
-        return "$13.1";
-      }
-      if (name.includes("西區海底隧道") || name.includes("海底隧道") || name.includes("東區海底隧道") || seq > totalStops * 0.6) {
-        return "$6.9";
-      }
+      if (name.includes("隧道") || seq > totalStops * 0.6) return "$6.9";
       return "$11.4";
     }
 
-    // 6. Island Express 7xx
-    if (code.startsWith("7")) {
-      if (name.includes("舊灣仔警署") || name.includes("分域街") || seq > totalStops * 0.7) return "$4.4";
-      if (code === "702") return "$4.4";
-      return "$7.7";
-    }
-
-    // 7. Local & Boundary Routes
-    if (code === "S1") return "$3.7";
-    if (code === "8P") return (seq > totalStops * 0.6) ? "$4.8" : "$7.0";
-    if (code === "B8") return (seq > totalStops * 0.5) ? "$8.9" : "$16.1";
-
     return "$6.5";
-  }
-
-  // --- 九巴/龍運路線走法與站點API ---
-  async getKMBRouteStops(route, direction = "outbound", serviceType = "1") {
-    const dirKey = direction.toLowerCase() === "inbound" ? "inbound" : "outbound";
-    try {
-      const resp = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${encodeURIComponent(route)}/${dirKey}/${serviceType}`);
-      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-      const json = await resp.json();
-      if (json && json.data && json.data.length > 0) {
-        const stopPromises = json.data.map(async (item) => {
-          const stopInfo = await this.getKMBStopInfo(item.stop);
-          return {
-            num: parseInt(item.seq, 10),
-            stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
-            lat: parseFloat(stopInfo.lat) || 0,
-            long: parseFloat(stopInfo.long) || 0,
-            subZh: "",
-            subEn: "",
-            fare: this.calculateStopFare(route, parseInt(item.seq, 10), json.data.length, stopInfo.name_tc),
-            isTerminus: parseInt(item.seq, 10) === json.data.length
-          };
-        });
-        return await Promise.all(stopPromises);
-      }
-    } catch (e) {
-      console.warn(`KMB /route-stop/${route} failed:`, e);
-    }
-    return null;
-  }
-
-  async getKMBStopInfo(stopId) {
-    if (this.stopCache.has(`kmb_${stopId}`)) {
-      return this.stopCache.get(`kmb_${stopId}`);
-    }
-    try {
-      const resp = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`);
-      if (resp.ok) {
-        const json = await resp.json();
-        if (json && json.data) {
-          this.stopCache.set(`kmb_${stopId}`, json.data);
-          return json.data;
-        }
-      }
-    } catch (e) {}
-    return { stop: stopId, name_tc: `巴士站 ${stopId}`, name_en: `Bus Stop ${stopId}` };
-  }
-
-  async getKMBTripsETA(firstStopId, route, serviceType = "1") {
-    try {
-      const resp = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${firstStopId}/${encodeURIComponent(route)}/${serviceType}`);
-      if (resp.ok) {
-        const json = await resp.json();
-        if (json && json.data && json.data.length > 0) {
-          const now = new Date();
-          return json.data.filter(it => it.eta).map((item, idx) => {
-            const etaDate = new Date(item.eta);
-            const diffMins = Math.max(0, Math.round((etaDate - now) / 60000));
-            const h = String(etaDate.getHours()).padStart(2, "0");
-            const m = String(etaDate.getMinutes()).padStart(2, "0");
-            return {
-              tripId: `trip_${idx + 1}`,
-              seq: idx + 1,
-              timeLabel: `${h}:${m} (${diffMins === 0 ? "即將開出" : `${diffMins} 分鐘`})`,
-              etaDate: item.eta,
-              diffMins: diffMins,
-              remarkZh: item.rmk_tc || "原定班次",
-              remarkEn: item.rmk_en || "Scheduled"
-            };
-          });
-        }
-      }
-    } catch (e) {}
-    return this.getTripsETA(firstStopId, route);
   }
 }
 

@@ -4580,3 +4580,139 @@ body {
   font-weight: 900 !important;
   color: #000000 !important;
 }
+
+
+/* ==========================================================================
+   FIXED ASPECT RATIO & RESPONSIVE SCALING (自動適應不同螢幕 固定大小比例)
+   ========================================================================== */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+}
+
+/* Horizontal Frame: Locked 16:9 Aspect Ratio */
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(92vw, calc((90vh - 40px) * 16 / 9)) !important;
+  height: auto !important;
+  max-height: 90vh !important;
+  max-width: calc(100vw - 360px) !important;
+  margin: auto !important;
+}
+
+/* Fullscreen Horizontal: Exact 16:9 fit */
+.mon2-frame.horizontal:fullscreen,
+#mon2-frame.horizontal:fullscreen {
+  aspect-ratio: 16 / 9 !important;
+  width: min(100vw, calc(100vh * 16 / 9)) !important;
+  height: min(100vh, calc(100vw * 9 / 16)) !important;
+  margin: auto !important;
+}
+
+/* Vertical Frame: Locked 9:16 Aspect Ratio */
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(88vh, 780px) !important;
+  width: auto !important;
+  max-width: 90vw !important;
+  margin: auto !important;
+}
+
+.mon2-frame.vertical:fullscreen,
+#mon2-frame.vertical:fullscreen {
+  aspect-ratio: 9 / 16 !important;
+  height: 100vh !important;
+  width: calc(100vh * 9 / 16) !important;
+  margin: auto !important;
+}
+
+/* ==========================================================================
+   車站名向上靠 自動適應大細 (Align to Top, Auto-Fit Font Sizes)
+   ========================================================================== */
+.mode3-stop-body-row.align-top,
+.mode3-station-name-col.align-top {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  margin-top: 0 !important;
+  padding-top: 4px !important;
+}
+
+.mode3-stop-body-row {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: 12px !important;
+  padding: 6px 14px !important;
+  flex: 1 !important;
+}
+
+.mode3-snug-circle {
+  margin-top: 6px !important;
+  flex-shrink: 0 !important;
+}
+
+.autofit-text.m3-zh {
+  font-size: clamp(22px, 3.2vw, 34px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  margin-top: 2px !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+.autofit-text.m3-en {
+  font-size: clamp(13px, 1.8vw, 17px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.15 !important;
+  margin-top: 3px !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+
+/* ==========================================================================
+   13頁車站 應該要到底 (Ladder Rows Stretch Completely to the Bottom)
+   ========================================================================== */
+.ladder-stops-container,
+.ladder-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  overflow: hidden !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-name-row {
+  flex: 1 1 0 !important; /* Stretches evenly to fill the entire height to the bottom! */
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 1 0 !important; /* Stretches evenly to match the rows! */
+  min-height: 0 !important;
+}

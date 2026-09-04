@@ -1126,13 +1126,13 @@ class Mon2Display {
                 <div class="eta-unit-box">分鐘<br>min</div>
               </div>
             </div>
-            <div class="mode3-stop-body-row">
+            <div class="mode3-stop-body-row align-top">
               <div class="mode3-snug-circle ${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
                 ${stop.num}
               </div>
-              <div class="mode3-station-name-col">
-                <div class="m3-zh">${this.cleanStopName(stop.zh)}</div>
-                <div class="m3-en">${this.cleanStopName(stop.en)}</div>
+              <div class="mode3-station-name-col align-top">
+                <div class="m3-zh autofit-text">${this.cleanStopName(stop.zh)}</div>
+                <div class="m3-en autofit-text">${this.cleanStopName(stop.en)}</div>
               </div>
             </div>
           </div>
@@ -1225,6 +1225,10 @@ class Mon2Display {
       "E21": { full: "$14.9", stages: [{ match: "青馬", fare: "$8.2" }, { match: "東涌", fare: "$4.0" }] },
       "E22": { full: "$18.9", stages: [{ match: "青嶼幹線", fare: "$8.2" }, { match: "東涌", fare: "$4.0" }] },
       "E23": { full: "$18.9", stages: [{ match: "青嶼幹線", fare: "$8.2" }, { match: "東涌", fare: "$4.0" }] },
+      "720": { full: "$8.7", stages: [{ match: "國際調解院", fare: "$5.5" }] },
+      "933": { full: "$20.8", stages: [{ match: "西區海底隧道", fare: "$13.1" }, { match: "琴行街", fare: "$5.6" }] },
+      "A26": { full: "$44.0", stages: [{ match: "青嶼幹線", fare: "$30.3" }, { match: "畢架山花園", fare: "$13.6" }, { match: "黃大仙站", fare: "$10.5" }, { match: "秀茂坪", fare: "$6.8" }] },
+      "H3": { full: "$19.8", stages: [] },
       "914": { full: "$11.4", stages: [{ match: "西區海底隧道", fare: "$6.9" }] },
       "905": { full: "$11.4", stages: [{ match: "西區海底隧道", fare: "$6.9" }] },
       "930": { full: "$19.8", stages: [{ match: "西區海底隧道", fare: "$10.4" }] },
