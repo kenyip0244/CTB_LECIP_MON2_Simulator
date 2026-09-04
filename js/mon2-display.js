@@ -1250,6 +1250,7 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$47.6", stages: [{ match: "中環", fare: "$47.6" }, { match: "金鐘", fare: "$47.6" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "720": { full: "$8.7", stages: [{ match: "國際調解院", fare: "$5.5" }] },
       "H3": { full: "$41.8", stages: [] },

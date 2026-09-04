@@ -5232,6 +5232,127 @@ body {
   overflow: hidden !important;
 }
 
+
+/* ==========================================================================
+   USER SPECIFICATIONS:
+   1. 車站名向上靠 自動適應大細 (Station name aligned to top, auto-fit font size)
+   2. 英文站名放在中文站名的右邊 (English station name placed to the RIGHT of Chinese)
+   3. 橫向螢幕 自動適應不同螢幕 固定大小比例 (Fixed 16:9 aspect ratio, no chaotic stretch)
+   4. 13頁車站 應該要到底 (13-stop ladder stretches all the way to the bottom)
+   ========================================================================== */
+
+/* 1. 固定大小比例 (Fixed Aspect Ratio: 16:9 Horizontal & 9:16 Vertical) */
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(92vw, 1000px) !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  width: min(92vw, 440px) !important;
+  height: auto !important;
+  max-height: 92vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 2. 13頁車站 應該要到底 (Ladder rows expand evenly to touch the bottom) */
+.ladder-layout-wrapper,
+.ladder-unified-wrapper,
+#allstop-stops-list,
+.ladder-stops-container,
+.ladder-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.ladder-name-row,
+.ladder-unified-row {
+  flex: 1 !important;
+  min-height: 0 !important; /* Allow flex: 1 to fill exactly the full available height to the bottom */
+}
+
+/* 3. 英文站名放在中文站名的右邊 (English station name placed to the RIGHT of Chinese) */
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important; /* Row layout: Chinese on left, English on right */
+  align-items: baseline !important;
+  gap: 12px !important;
+  overflow: hidden !important;
+  padding: 0 8px !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  flex: 1 !important;
+}
+
+/* 4. 車站名向上靠 自動適應大細 (Mode 3 station name aligned to top, auto-fit font size) */
+.mode3-station-name-row {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 向上靠 */
+  align-items: flex-start !important;
+  padding-top: 8px !important;
+  flex: 1 !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(20px, 3.2vw, 32px) !important; /* 自動適應大細 */
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(12px, 1.8vw, 18px) !important; /* 自動適應大細 */
+  font-weight: 700 !important;
+  color: #334155 !important;
+  line-height: 1.15 !important;
+  margin-top: 4px !important;
+}
+
+/* Trio 3-Stop mode: Align top and auto-fit */
+.trio-name-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  flex: 1 !important;
+}
+
+.trio-main-name {
+  font-size: clamp(20px, 3vw, 32px) !important;
+}
+
 </style>
 </head>
 <body>
@@ -7896,6 +8017,7 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$47.6", stages: [{ match: "中環", fare: "$47.6" }, { match: "金鐘", fare: "$47.6" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "720": { full: "$8.7", stages: [{ match: "國際調解院", fare: "$5.5" }] },
       "H3": { full: "$41.8", stages: [] },
