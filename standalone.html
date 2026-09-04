@@ -5532,6 +5532,119 @@ body {
   margin: 0 auto !important;
 }
 
+
+/* ==========================================================================
+   FIXED ASPECT RATIO & RESPONSIVE PROPORTIONS
+   1. 固定大小比例 (16:9 for Horizontal, 9:16 for Vertical)
+   2. 英文站名放在中文站名的右邊 不是放在下面
+   3. 13頁車站 應該要到底 (Rows stretch all the way to bottom)
+   4. 車站名向上靠 自動適應大細
+   ========================================================================== */
+
+/* Fixed Aspect Ratio: Automatically adapts to all screens without distortion */
+.mon2-frame.horizontal {
+  width: 900px !important;
+  max-width: 94vw !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  margin: 0 auto !important;
+}
+
+.mon2-frame.vertical {
+  width: 440px !important;
+  max-width: 94vw !important;
+  aspect-ratio: 9 / 16 !important;
+  height: auto !important;
+  max-height: 92vh !important;
+  margin: 0 auto !important;
+}
+
+/* 13頁車站 應該要到底 (Rows stretch to bottom of screen) */
+.ladder-stops-container {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: stretch !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 10px 0 6px !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+}
+
+/* 英文站名放在中文站名的右邊 不是放在下面 (Side-by-side Layout) */
+.ladder-names-side-by-side {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  padding-left: 6px !important;
+  overflow: hidden !important;
+}
+
+.ladder-names-side-by-side .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: clamp(14px, 1.8vw, 19px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+  line-height: 1 !important;
+}
+
+.ladder-names-side-by-side .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: clamp(11px, 1.3vw, 14px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+  line-height: 1 !important;
+}
+
+/* 車站名向上靠 (Top-aligned in 3-stop mode) */
+.trio-content-col {
+  justify-content: flex-start !important;
+}
+
+.trio-name-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+}
+
 </style>
 </head>
 <body>
@@ -8274,7 +8387,6 @@ class Mon2Display {
     const totalStops = stops.length;
     const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // 13 站每頁，高度伸展到底
     const STOPS_PER_PAGE = 13;
     if (totalStops <= STOPS_PER_PAGE) {
       this.Mon2_Page_Totel = 1;
@@ -8301,6 +8413,9 @@ class Mon2Display {
     let rowsHtml = "";
 
     if (isPageOne) {
+      // PAGE 1: 13 stops
+      // 「英文站名放在中文站名的右邊 不是放在下面」
+      // 「13頁車站 應該要到底」
       const pageList = stops.slice(0, STOPS_PER_PAGE);
 
       pageList.forEach((s, idx) => {
@@ -8332,9 +8447,9 @@ class Mon2Display {
 
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
+            <div class="ladder-names-side-by-side">
+              <span class="ladder-zh-col">${this.cleanStopName(s.zh)}</span>
+              <span class="ladder-en-col">${this.cleanStopName(s.en)}</span>
             </div>
             <div class="ladder-eta-col">
               ${minsHtml}
@@ -8357,12 +8472,12 @@ class Mon2Display {
         </div>
       `;
     } else {
-      // Page 2+: 1 Origin Stop + 3 Dots in Track + 12 Stops
+      // PAGE 2+: Origin stop + 3 dots in track + Page stops
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
       const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
       const pageList = stops.slice(startIdx, startIdx + 12);
 
-      // Origin stop
+      // Stop 1
       trackHtml += `
         <div class="ladder-track-cell">
           <div class="track-circle-upcoming">
@@ -8372,9 +8487,9 @@ class Mon2Display {
       `;
       rowsHtml += `
         <div class="ladder-name-row row-yellow">
-          <div class="ladder-names-cell">
-            <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
-            <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
+          <div class="ladder-names-side-by-side">
+            <span class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</span>
+            <span class="ladder-en-col">${this.cleanStopName(firstStop.en)}</span>
           </div>
           <div class="ladder-eta-col"></div>
         </div>
@@ -8392,12 +8507,12 @@ class Mon2Display {
       `;
       rowsHtml += `
         <div class="ladder-name-row row-dots-spacer">
-          <div class="ladder-names-cell"></div>
+          <div class="ladder-names-side-by-side"></div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // Subsequent 12 stops
+      // Page stops
       pageList.forEach((s, idx) => {
         const globalIdx = startIdx + idx;
         const isCurrent = (globalIdx === curIdx);
@@ -8428,9 +8543,9 @@ class Mon2Display {
 
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
+            <div class="ladder-names-side-by-side">
+              <span class="ladder-zh-col">${this.cleanStopName(s.zh)}</span>
+              <span class="ladder-en-col">${this.cleanStopName(s.en)}</span>
             </div>
             <div class="ladder-eta-col">
               ${minsHtml}

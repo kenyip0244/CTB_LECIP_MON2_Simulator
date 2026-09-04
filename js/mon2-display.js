@@ -1328,7 +1328,6 @@ class Mon2Display {
     const totalStops = stops.length;
     const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // 13 站每頁，高度伸展到底
     const STOPS_PER_PAGE = 13;
     if (totalStops <= STOPS_PER_PAGE) {
       this.Mon2_Page_Totel = 1;
@@ -1355,6 +1354,9 @@ class Mon2Display {
     let rowsHtml = "";
 
     if (isPageOne) {
+      // PAGE 1: 13 stops
+      // 「英文站名放在中文站名的右邊 不是放在下面」
+      // 「13頁車站 應該要到底」
       const pageList = stops.slice(0, STOPS_PER_PAGE);
 
       pageList.forEach((s, idx) => {
@@ -1386,9 +1388,9 @@ class Mon2Display {
 
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
+            <div class="ladder-names-side-by-side">
+              <span class="ladder-zh-col">${this.cleanStopName(s.zh)}</span>
+              <span class="ladder-en-col">${this.cleanStopName(s.en)}</span>
             </div>
             <div class="ladder-eta-col">
               ${minsHtml}
@@ -1411,12 +1413,12 @@ class Mon2Display {
         </div>
       `;
     } else {
-      // Page 2+: 1 Origin Stop + 3 Dots in Track + 12 Stops
+      // PAGE 2+: Origin stop + 3 dots in track + Page stops
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
       const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
       const pageList = stops.slice(startIdx, startIdx + 12);
 
-      // Origin stop
+      // Stop 1
       trackHtml += `
         <div class="ladder-track-cell">
           <div class="track-circle-upcoming">
@@ -1426,9 +1428,9 @@ class Mon2Display {
       `;
       rowsHtml += `
         <div class="ladder-name-row row-yellow">
-          <div class="ladder-names-cell">
-            <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
-            <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
+          <div class="ladder-names-side-by-side">
+            <span class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</span>
+            <span class="ladder-en-col">${this.cleanStopName(firstStop.en)}</span>
           </div>
           <div class="ladder-eta-col"></div>
         </div>
@@ -1446,12 +1448,12 @@ class Mon2Display {
       `;
       rowsHtml += `
         <div class="ladder-name-row row-dots-spacer">
-          <div class="ladder-names-cell"></div>
+          <div class="ladder-names-side-by-side"></div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // Subsequent 12 stops
+      // Page stops
       pageList.forEach((s, idx) => {
         const globalIdx = startIdx + idx;
         const isCurrent = (globalIdx === curIdx);
@@ -1482,9 +1484,9 @@ class Mon2Display {
 
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
+            <div class="ladder-names-side-by-side">
+              <span class="ladder-zh-col">${this.cleanStopName(s.zh)}</span>
+              <span class="ladder-en-col">${this.cleanStopName(s.en)}</span>
             </div>
             <div class="ladder-eta-col">
               ${minsHtml}
