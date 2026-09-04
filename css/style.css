@@ -7855,3 +7855,236 @@ body {
   background: linear-gradient(90deg, #16A34A, #38BDF8, #2563EB) !important;
   transition: width 0.35s ease !important;
 }
+
+
+/* ==========================================================================
+   FIXED ASPECT RATIO & RESPONSIVE PROPORTIONAL SCALING (自動適應不同螢幕 固定大小比例)
+   ========================================================================== */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  background: #0B0E14 !important;
+}
+
+#mon2-display-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Vertical Screen: Fixed 9:16 bus proportion */
+.mon2-frame.vertical {
+  width: min(440px, 92vw) !important;
+  aspect-ratio: 9 / 16 !important;
+  height: auto !important;
+  max-height: 96vh !important;
+}
+
+/* Horizontal Screen: Fixed 16:9 bus proportion (橫向螢幕 放大後不再混亂) */
+.mon2-frame.horizontal {
+  width: min(860px, 96vw) !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  max-height: 90vh !important;
+}
+
+/* ==========================================================================
+   13站頁 應該要到底 & 車站號碼與車站名稱 100% 高度對齊
+   ========================================================================== */
+.ladder-stops-container {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-unified-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+}
+
+.ladder-rows-container {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* 每個車站行高度與圓形 100% 對齊，並伸展到底部 (13頁車站 應該要到底) */
+.ladder-unified-row {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  box-sizing: border-box !important;
+}
+
+.ladder-track-cell {
+  width: 44px !important;
+  min-width: 44px !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #0022AA !important; /* 貫穿式軌道底色 */
+  margin: 0 10px 0 6px !important;
+  padding: 0 !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+}
+
+.mode-cityflyer .ladder-track-cell {
+  background: #B70028 !important;
+}
+
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding: 0 8px 0 0 !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: clamp(15px, 2.5vh, 18px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: clamp(10px, 1.8vh, 12.5px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  margin-top: 1px !important;
+}
+
+.ladder-eta-col {
+  min-width: 50px !important;
+  padding-right: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+.ladder-eta-footer-label {
+  height: 24px !important;
+  min-height: 24px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  padding-right: 14px !important;
+  background: #FFFFFF !important;
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+/* ==========================================================================
+   三站模式：車站名向上靠、自動適應大細、頁面分鐘靠右邊界
+   ========================================================================== */
+.trio-content-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.trio-subheader-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 6px 20px 6px 14px !important;
+  box-sizing: border-box !important;
+}
+
+.trio-subheader-title {
+  font-size: 20px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.trio-subheader-eta {
+  font-size: 15px !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  margin-left: auto !important;
+}
+
+.trio-row-item {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: flex-start !important; /* 車站名向上靠 */
+  justify-content: space-between !important;
+  width: 100% !important;
+  padding: 18px 24px 12px 14px !important; /* 車站名向上靠 */
+  box-sizing: border-box !important;
+}
+
+.trio-name-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 車站名向上靠 */
+  padding-right: 16px !important;
+}
+
+.trio-main-name {
+  font-size: clamp(20px, 4.5vw, 32px) !important; /* 自動適應大細 */
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  word-break: break-word !important;
+}
+
+.trio-sub-text {
+  font-size: clamp(12px, 2.5vw, 15px) !important;
+  font-weight: 700 !important;
+  color: #64748B !important;
+  margin-top: 4px !important;
+}
+
+.trio-eta-col {
+  min-width: 75px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-end !important; /* 分鐘位置靠右邊界 */
+  justify-content: flex-start !important;
+  margin-left: auto !important;
+  padding-top: 4px !important;
+}
+
+.trio-eta-col .eta-big {
+  font-size: 32px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1 !important;
+}
+
+.trio-eta-col .eta-unit-text {
+  font-size: 13.5px !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  margin-top: 2px !important;
+}

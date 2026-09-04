@@ -1321,7 +1321,7 @@ class Mon2Display {
     const totalStops = stops.length;
     const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // 「One page show 13 stops」: 每頁嚴格顯示 13 個車站
+    // 「13頁車站 應該要到底」: 13 站每頁，高度伸展到底
     const STOPS_PER_PAGE = 13;
     if (totalStops <= STOPS_PER_PAGE) {
       this.Mon2_Page_Totel = 1;
@@ -1344,11 +1344,10 @@ class Mon2Display {
     }
 
     const isPageOne = (this.Mon2_Page_Now === 1);
-    let trackHtml = `<div class="track-bar-chevron"></div>`;
     let rowsHtml = "";
 
     if (isPageOne) {
-      // PAGE 1: 剛好顯示 13 個車站 (One page show 13 stops)
+      // PAGE 1: 13 站一體化行，車站號碼與站名 100% 高度對齊
       const pageList = stops.slice(0, STOPS_PER_PAGE);
 
       pageList.forEach((s, idx) => {
@@ -1370,18 +1369,15 @@ class Mon2Display {
           circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
         }
 
-        trackHtml += `
-          <div class="ladder-track-cell">
-            <div class="${circleClass}">
-              ${s.num}
-            </div>
-          </div>
-        `;
-
         rowsHtml += `
-          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+            <div class="ladder-track-cell">
+              <div class="${circleClass}">
+                ${s.num}
+              </div>
+            </div>
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} </div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
@@ -1392,60 +1388,53 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-layout-wrapper">
-          <div class="ladder-nav-track-col arrow-rounded">
-            ${trackHtml}
-          </div>
-          <div class="ladder-rows-col">
+        <div class="ladder-unified-wrapper">
+          <div class="ladder-rows-container">
             ${rowsHtml}
-            <div class="ladder-eta-footer-label">
-              <span>預計(分鐘) ETA(min)</span>
-            </div>
+          </div>
+          <div class="ladder-eta-footer-label">
+            <span>預計(分鐘) ETA(min)</span>
           </div>
         </div>
       `;
     } else {
-      // PAGE 2+: 1 起點站 + 3 白點省略號 + 12 車站 = 共 13 站
+      // PAGE 2+: 起點站 + 3 白點省略號 + 12 車站
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
       const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
       const pageList = stops.slice(startIdx, startIdx + 12);
 
-      // Row 1: 起點總站
-      trackHtml += `
-        <div class="ladder-track-cell">
-          <div class="track-circle-upcoming">
-            ${firstStop.num}
-          </div>
-        </div>
-      `;
+      // Row 1: 起點站
       rowsHtml += `
-        <div class="ladder-name-row row-yellow">
+        <div class="ladder-unified-row row-yellow">
+          <div class="ladder-track-cell">
+            <div class="track-circle-upcoming">
+              ${firstStop.num}
+            </div>
+          </div>
           <div class="ladder-names-cell">
-            <span class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</span>
-            <span class="ladder-en-col">${this.cleanStopName(firstStop.en)}</span>
+            <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
+            <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
           </div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // 3 白點省略號 (對應素材 12.png)
-      trackHtml += `
-        <div class="ladder-track-cell ladder-dots-cell">
-          <div class="track-dots-group">
-            <span class="track-dot"></span>
-            <span class="track-dot"></span>
-            <span class="track-dot"></span>
-          </div>
-        </div>
-      `;
+      // 3 白點槽位
       rowsHtml += `
-        <div class="ladder-name-row row-dots-spacer">
+        <div class="ladder-unified-row ladder-dots-row">
+          <div class="ladder-track-cell ladder-dots-cell">
+            <div class="track-dots-group">
+              <span class="track-dot"></span>
+              <span class="track-dot"></span>
+              <span class="track-dot"></span>
+            </div>
+          </div>
           <div class="ladder-names-cell"></div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // 隨後 12 個車站
+      // 隨後 12 站
       pageList.forEach((s, idx) => {
         const globalIdx = startIdx + idx;
         const isCurrent = (globalIdx === curIdx);
@@ -1466,18 +1455,15 @@ class Mon2Display {
           circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
         }
 
-        trackHtml += `
-          <div class="ladder-track-cell">
-            <div class="${circleClass}">
-              ${s.num}
-            </div>
-          </div>
-        `;
-
         rowsHtml += `
-          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+            <div class="ladder-track-cell">
+              <div class="${circleClass}">
+                ${s.num}
+              </div>
+            </div>
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} </div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
@@ -1488,15 +1474,12 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-layout-wrapper">
-          <div class="ladder-nav-track-col arrow-pointed">
-            ${trackHtml}
-          </div>
-          <div class="ladder-rows-col">
+        <div class="ladder-unified-wrapper">
+          <div class="ladder-rows-container">
             ${rowsHtml}
-            <div class="ladder-eta-footer-label">
-              <span>預計(分鐘) ETA(min)</span>
-            </div>
+          </div>
+          <div class="ladder-eta-footer-label">
+            <span>預計(分鐘) ETA(min)</span>
           </div>
         </div>
       `;
