@@ -6452,6 +6452,399 @@ body {
   padding-right: 14px !important;
 }
 
+
+/* ==========================================================================
+   FIXED ASPECT RATIO, TOP-ALIGNED STATIONS, STRETCH TO BOTTOM
+   ========================================================================== */
+/* 1. 固定大小比例 (Fixed Aspect Ratio 16:9 and 9:16) */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(92vw, calc(88vh * 16 / 9)) !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(90vh, calc(90vw * 16 / 9)) !important;
+  width: auto !important;
+  max-width: 90vw !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 (Top-aligned stations with fluid font sizes) */
+.mode3-station-name-row {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 12px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(22px, 3.2vw, 36px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(14px, 1.8vw, 20px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin-top: 4px !important;
+  line-height: 1.15 !important;
+}
+
+/* 3. 13頁車站 應該要到底 (13-stop rows stretch to the very bottom) */
+.ladder-wrapper,
+.ladder-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  overflow: hidden !important;
+}
+
+.ladder-stops-container {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+
+/* ==========================================================================
+   FIXED 16:9 RATIO, FILL TO BOTTOM & DRIVER GRID LAYOUT
+   (Addressing all issues in screenshots image_8f6d43, 8f6d63, 8f6e01, 152425, 151623)
+   ========================================================================== */
+
+/* 1. 橫向螢幕固定 16:9 比例 (自動適應不同螢幕 固定大小比例) */
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(96vw, 1360px) !important;
+  max-height: 94vh !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+/* 2. 頂部資訊欄向下擴張 (高度擴張至 110px) */
+.mon2-frame.horizontal .mon2-header {
+  height: 110px !important;
+  min-height: 110px !important;
+  display: flex !important;
+  align-items: stretch !important;
+  border-bottom: 4px solid var(--ctb-divider-red) !important;
+}
+
+.mon2-frame.horizontal .mon2-main {
+  height: calc(100% - 110px) !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  overflow: hidden !important;
+}
+
+/* 3. 車長欄排版 2x2 格局:
+   X車長          員工編號
+   為你服務       xxxxx */
+.mon2-frame.horizontal .header-driver-box {
+  flex: 1.2 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 6px 18px !important;
+}
+
+.h-driver-grid {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  grid-template-rows: auto auto !important;
+  gap: 4px 22px !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.h-driver-cell-tl {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.h-driver-cell-tl .h-driver-name-zh {
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  color: #000000 !important;
+}
+
+.mode-cityflyer .h-driver-cell-tl .h-driver-name-zh {
+  color: #FFFFFF !important;
+}
+
+.h-driver-cell-tl .h-driver-name-en {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+}
+
+.mode-cityflyer .h-driver-cell-tl .h-driver-name-en {
+  color: #FEE2E2 !important;
+}
+
+.h-driver-cell-tr {
+  text-align: right !important;
+}
+
+.h-driver-cell-tr .h-id-label {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+}
+
+.mode-cityflyer .h-driver-cell-tr .h-id-label {
+  color: #FFFFFF !important;
+}
+
+.h-driver-cell-bl {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.h-driver-cell-bl .h-motto-badge {
+  background: #0022AA !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  padding: 2px 10px !important;
+  border-radius: 4px !important;
+}
+
+.mode-cityflyer .h-driver-cell-bl .h-motto-badge {
+  background: #EAB308 !important;
+  color: #000000 !important;
+}
+
+.h-driver-cell-br {
+  text-align: right !important;
+}
+
+.h-driver-cell-br .h-id-num {
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  color: #000000 !important;
+}
+
+.mode-cityflyer .h-driver-cell-br .h-id-num {
+  color: #FFFFFF !important;
+}
+
+/* 4. 三車站版面要每個車站加大至頁底 (3 Stations expand to fill entire page height) */
+.mon2-frame.horizontal .trio-stops-container {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .trio-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.mon2-frame.horizontal .trio-content-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .trio-row-item {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 24px !important;
+}
+
+.mon2-frame.horizontal .trio-main-name {
+  font-size: clamp(24px, 3vw, 36px) !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal .trio-sub-text {
+  font-size: clamp(14px, 1.5vw, 18px) !important;
+}
+
+.mon2-frame.horizontal .route-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .track-row-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+/* 5. 13頁車站 應該要到底 (13 Stations Ladder expands to fill entire page height) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+/* 6. 車費資料版面 車站編號位置要貼合車站名稱 車站名稱加大 */
+.mode3-stop-body-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  padding: 16px 20px !important;
+  flex: 1 !important;
+}
+
+.mode3-snug-circle {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: #FFFFFF !important;
+}
+
+.mode3-station-name-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mode3-station-name-col .m3-zh {
+  font-size: clamp(28px, 3.4vw, 42px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-col .m3-en {
+  font-size: clamp(15px, 1.8vw, 22px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin-top: 4px !important;
+  line-height: 1.15 !important;
+}
+
+/* Mode 3 Fare Base expands to fill right half completely */
+.mode3-split-card .mode3-fare-base {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.mode3-split-card .fare-stage-list {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mode3-split-card .fare-stage-row {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.mode3-split-card .stage-zh {
+  font-size: clamp(18px, 2.2vw, 26px) !important;
+  font-weight: 900 !important;
+}
+
+.mode3-split-card .stage-en {
+  font-size: clamp(11px, 1.3vw, 15px) !important;
+  font-weight: 700 !important;
+}
+
+.mode3-split-card .price-val {
+  font-size: clamp(24px, 2.8vw, 36px) !important;
+  font-weight: 900 !important;
+}
+
 </style>
 </head>
 <body>
@@ -7446,7 +7839,7 @@ class CitybusAPIService {
 
     // 1. Sightseeing Routes H1, H2, H3, H4 (落日飛車 / 人力車)
     if (code.startsWith("H")) {
-      if (code === "H3" || code === "H4") return "$41.8"; // 落日飛車單程 / 全日通
+      if (code.startsWith("H")) return "$41.8"; // 落日飛車單程 / 全日通
       return "$19.8";
     }
 
@@ -7454,7 +7847,7 @@ class CitybusAPIService {
     if (code.startsWith("A")) {
       if (name.includes("青嶼幹線") || name.includes("大嶼山") || seq > totalStops * 0.75) return "$17.8";
       if (name.includes("西區海底隧道") || name.includes("西隧")) return "$41.8";
-      if (code === "A10") return "$50.3";
+      if (code === "A10") return "$49.7"; // A10 $49.7 per user request
       if (code === "A12") return "$47.1";
       if (code === "A21") return (seq > totalStops * 0.55) ? "$8.0" : "$34.6";
       if (code === "A26" || code === "A28" || code === "A29") return "$44.0";
@@ -7727,24 +8120,22 @@ class Mon2Display {
               <div class="dest-en" id="dest-en">to Central (Ferry Piers)</div>
             </div>
 
-            <!-- Horizontal Screen Header Driver Card (Photo 2 / A12 Reference) -->
-            <div class="header-driver-box horizontal-only" id="header-driver-box" title="點擊切換 車長資訊 / Citybus App">
-              <div class="h-driver-wrap" id="h-driver-wrap">
-                <div class="h-driver-col col-name">
-                  <div class="h-driver-name-zh" id="h-driver-name-zh">陳車長</div>
-                  <div class="h-driver-name-en" id="h-driver-name-en">Bus Captain Chan</div>
+            <!-- Horizontal Screen Header Driver Card (Exact 2x2 Grid per user request) -->
+            <div class="header-driver-box horizontal-only" id="header-driver-box">
+              <div class="h-driver-grid" id="h-driver-grid">
+                <div class="h-driver-cell-tl">
+                  <span class="h-driver-name-zh" id="h-driver-name-zh">陳車長</span>
+                  <span class="h-driver-name-en" id="h-driver-name-en">Bus Captain Chan</span>
                 </div>
-                <div class="h-driver-col col-motto">
-                  <div class="h-motto-zh">為您服務</div>
-                  <div class="h-motto-en">is serving you</div>
+                <div class="h-driver-cell-tr">
+                  <span class="h-id-label">員工編號 Staff No.</span>
                 </div>
-                <div class="h-driver-col col-id">
-                  <div class="h-id-label">員工編號 Staff No.</div>
-                  <div class="h-id-num" id="h-driver-id">50179</div>
+                <div class="h-driver-cell-bl">
+                  <span class="h-motto-badge">為您服務 is serving you</span>
                 </div>
-              </div>
-              <div class="h-driver-app hidden" id="h-driver-app">
-                <span class="app-icon-mini">📱</span> 下載 Citybus App
+                <div class="h-driver-cell-br">
+                  <span class="h-id-num" id="h-driver-id">50179</span>
+                </div>
               </div>
             </div>
 
@@ -8691,25 +9082,21 @@ class Mon2Display {
 
       let tableHtml = `
         <div class="mode3-split-card">
-          <!-- Top Next Stop Box (as in photo 6ff992a6.png) -->
+          <!-- Top Next Stop Box: Circle adjacent to station name ("車站編號位置要貼合車站名稱 車站名稱加大") -->
           <div class="mode3-top-stop-banner">
-            <div class="mode3-stop-track">
-              <div class="track-bar-chevron"></div>
-              <div class="${isArrived ? 'track-circle-active' : 'track-circle-active'}">
+            <div class="mode3-stop-header-row">
+              <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
+              <div class="mode3-eta-label">
+                <div class="eta-icon-title">預計<br>ETA</div>
+                <div class="eta-value-box">&lt;1</div>
+                <div class="eta-unit-box">分鐘<br>min</div>
+              </div>
+            </div>
+            <div class="mode3-stop-body-row">
+              <div class="mode3-snug-circle ${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
                 ${stop.num}
               </div>
-              <div class="track-bar-point-bottom"></div>
-            </div>
-            <div class="mode3-stop-content">
-              <div class="mode3-stop-header-row">
-                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
-                <div class="mode3-eta-label">
-                  <div class="eta-icon-title">預計<br>ETA</div>
-                  <div class="eta-value-box">&lt;1</div>
-                  <div class="eta-unit-box">分鐘<br>min</div>
-                </div>
-              </div>
-              <div class="mode3-station-name-row">
+              <div class="mode3-station-name-col">
                 <div class="m3-zh">${this.cleanStopName(stop.zh)}</div>
                 <div class="m3-en">${this.cleanStopName(stop.en)}</div>
               </div>
@@ -8785,7 +9172,7 @@ class Mon2Display {
 
     // Accurate Citybus Fare Table by Route Code
     const FARE_TABLE = {
-      "A10": { full: "$50.3", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
+      "A10": { full: "$49.7", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
       "A11": { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "A12": { full: "$47.1", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
       "A21": { full: "$34.6", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
@@ -8822,6 +9209,9 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$41.8", stages: [] },
+      "77": { full: "$9.6", stages: [{ match: "模範邨", fare: "$4.6" }, { match: "琴行街", fare: "$4.6" }] },
+      "11": { full: "$8.6", stages: [{ match: "灣仔", fare: "$5.6" }] },
       "H3": { full: "$41.8", stages: [] },
       "H4": { full: "$41.8", stages: [] },
       "971": { full: "$13.1", stages: [{ match: "西區海底隧道", fare: "$7.7" }, { match: "薄扶林", fare: "$5.6" }] }

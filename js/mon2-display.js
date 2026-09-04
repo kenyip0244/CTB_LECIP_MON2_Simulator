@@ -132,24 +132,22 @@ class Mon2Display {
               <div class="dest-en" id="dest-en">to Central (Ferry Piers)</div>
             </div>
 
-            <!-- Horizontal Screen Header Driver Card (Photo 2 / A12 Reference) -->
-            <div class="header-driver-box horizontal-only" id="header-driver-box" title="點擊切換 車長資訊 / Citybus App">
-              <div class="h-driver-wrap" id="h-driver-wrap">
-                <div class="h-driver-col col-name">
-                  <div class="h-driver-name-zh" id="h-driver-name-zh">陳車長</div>
-                  <div class="h-driver-name-en" id="h-driver-name-en">Bus Captain Chan</div>
+            <!-- Horizontal Screen Header Driver Card (Exact 2x2 Grid per user request) -->
+            <div class="header-driver-box horizontal-only" id="header-driver-box">
+              <div class="h-driver-grid" id="h-driver-grid">
+                <div class="h-driver-cell-tl">
+                  <span class="h-driver-name-zh" id="h-driver-name-zh">陳車長</span>
+                  <span class="h-driver-name-en" id="h-driver-name-en">Bus Captain Chan</span>
                 </div>
-                <div class="h-driver-col col-motto">
-                  <div class="h-motto-zh">為您服務</div>
-                  <div class="h-motto-en">is serving you</div>
+                <div class="h-driver-cell-tr">
+                  <span class="h-id-label">員工編號 Staff No.</span>
                 </div>
-                <div class="h-driver-col col-id">
-                  <div class="h-id-label">員工編號 Staff No.</div>
-                  <div class="h-id-num" id="h-driver-id">50179</div>
+                <div class="h-driver-cell-bl">
+                  <span class="h-motto-badge">為您服務 is serving you</span>
                 </div>
-              </div>
-              <div class="h-driver-app hidden" id="h-driver-app">
-                <span class="app-icon-mini">📱</span> 下載 Citybus App
+                <div class="h-driver-cell-br">
+                  <span class="h-id-num" id="h-driver-id">50179</span>
+                </div>
               </div>
             </div>
 
@@ -1096,25 +1094,21 @@ class Mon2Display {
 
       let tableHtml = `
         <div class="mode3-split-card">
-          <!-- Top Next Stop Box (as in photo 6ff992a6.png) -->
+          <!-- Top Next Stop Box: Circle adjacent to station name ("車站編號位置要貼合車站名稱 車站名稱加大") -->
           <div class="mode3-top-stop-banner">
-            <div class="mode3-stop-track">
-              <div class="track-bar-chevron"></div>
-              <div class="${isArrived ? 'track-circle-active' : 'track-circle-active'}">
+            <div class="mode3-stop-header-row">
+              <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
+              <div class="mode3-eta-label">
+                <div class="eta-icon-title">預計<br>ETA</div>
+                <div class="eta-value-box">&lt;1</div>
+                <div class="eta-unit-box">分鐘<br>min</div>
+              </div>
+            </div>
+            <div class="mode3-stop-body-row">
+              <div class="mode3-snug-circle ${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
                 ${stop.num}
               </div>
-              <div class="track-bar-point-bottom"></div>
-            </div>
-            <div class="mode3-stop-content">
-              <div class="mode3-stop-header-row">
-                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
-                <div class="mode3-eta-label">
-                  <div class="eta-icon-title">預計<br>ETA</div>
-                  <div class="eta-value-box">&lt;1</div>
-                  <div class="eta-unit-box">分鐘<br>min</div>
-                </div>
-              </div>
-              <div class="mode3-station-name-row">
+              <div class="mode3-station-name-col">
                 <div class="m3-zh">${this.cleanStopName(stop.zh)}</div>
                 <div class="m3-en">${this.cleanStopName(stop.en)}</div>
               </div>
@@ -1190,7 +1184,7 @@ class Mon2Display {
 
     // Accurate Citybus Fare Table by Route Code
     const FARE_TABLE = {
-      "A10": { full: "$50.3", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
+      "A10": { full: "$49.7", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
       "A11": { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "A12": { full: "$47.1", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
       "A21": { full: "$34.6", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
@@ -1227,6 +1221,9 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$41.8", stages: [] },
+      "77": { full: "$9.6", stages: [{ match: "模範邨", fare: "$4.6" }, { match: "琴行街", fare: "$4.6" }] },
+      "11": { full: "$8.6", stages: [{ match: "灣仔", fare: "$5.6" }] },
       "H3": { full: "$41.8", stages: [] },
       "H4": { full: "$41.8", stages: [] },
       "971": { full: "$13.1", stages: [{ match: "西區海底隧道", fare: "$7.7" }, { match: "薄扶林", fare: "$5.6" }] }

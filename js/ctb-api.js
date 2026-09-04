@@ -310,7 +310,7 @@ class CitybusAPIService {
 
     // 1. Sightseeing Routes H1, H2, H3, H4 (落日飛車 / 人力車)
     if (code.startsWith("H")) {
-      if (code === "H3" || code === "H4") return "$41.8"; // 落日飛車單程 / 全日通
+      if (code.startsWith("H")) return "$41.8"; // 落日飛車單程 / 全日通
       return "$19.8";
     }
 
@@ -318,7 +318,7 @@ class CitybusAPIService {
     if (code.startsWith("A")) {
       if (name.includes("青嶼幹線") || name.includes("大嶼山") || seq > totalStops * 0.75) return "$17.8";
       if (name.includes("西區海底隧道") || name.includes("西隧")) return "$41.8";
-      if (code === "A10") return "$50.3";
+      if (code === "A10") return "$49.7"; // A10 $49.7 per user request
       if (code === "A12") return "$47.1";
       if (code === "A21") return (seq > totalStops * 0.55) ? "$8.0" : "$34.6";
       if (code === "A26" || code === "A28" || code === "A29") return "$44.0";

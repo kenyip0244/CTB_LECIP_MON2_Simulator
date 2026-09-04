@@ -6441,3 +6441,396 @@ body {
   justify-content: flex-end !important;
   padding-right: 14px !important;
 }
+
+
+/* ==========================================================================
+   FIXED ASPECT RATIO, TOP-ALIGNED STATIONS, STRETCH TO BOTTOM
+   ========================================================================== */
+/* 1. 固定大小比例 (Fixed Aspect Ratio 16:9 and 9:16) */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(92vw, calc(88vh * 16 / 9)) !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(90vh, calc(90vw * 16 / 9)) !important;
+  width: auto !important;
+  max-width: 90vw !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 (Top-aligned stations with fluid font sizes) */
+.mode3-station-name-row {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 12px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(22px, 3.2vw, 36px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(14px, 1.8vw, 20px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin-top: 4px !important;
+  line-height: 1.15 !important;
+}
+
+/* 3. 13頁車站 應該要到底 (13-stop rows stretch to the very bottom) */
+.ladder-wrapper,
+.ladder-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  overflow: hidden !important;
+}
+
+.ladder-stops-container {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+
+/* ==========================================================================
+   FIXED 16:9 RATIO, FILL TO BOTTOM & DRIVER GRID LAYOUT
+   (Addressing all issues in screenshots image_8f6d43, 8f6d63, 8f6e01, 152425, 151623)
+   ========================================================================== */
+
+/* 1. 橫向螢幕固定 16:9 比例 (自動適應不同螢幕 固定大小比例) */
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(96vw, 1360px) !important;
+  max-height: 94vh !important;
+  height: auto !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-shadow: 0 16px 48px rgba(0,0,0,0.6) !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+/* 2. 頂部資訊欄向下擴張 (高度擴張至 110px) */
+.mon2-frame.horizontal .mon2-header {
+  height: 110px !important;
+  min-height: 110px !important;
+  display: flex !important;
+  align-items: stretch !important;
+  border-bottom: 4px solid var(--ctb-divider-red) !important;
+}
+
+.mon2-frame.horizontal .mon2-main {
+  height: calc(100% - 110px) !important;
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  overflow: hidden !important;
+}
+
+/* 3. 車長欄排版 2x2 格局:
+   X車長          員工編號
+   為你服務       xxxxx */
+.mon2-frame.horizontal .header-driver-box {
+  flex: 1.2 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 6px 18px !important;
+}
+
+.h-driver-grid {
+  display: grid !important;
+  grid-template-columns: 1fr auto !important;
+  grid-template-rows: auto auto !important;
+  gap: 4px 22px !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.h-driver-cell-tl {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.h-driver-cell-tl .h-driver-name-zh {
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  color: #000000 !important;
+}
+
+.mode-cityflyer .h-driver-cell-tl .h-driver-name-zh {
+  color: #FFFFFF !important;
+}
+
+.h-driver-cell-tl .h-driver-name-en {
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+}
+
+.mode-cityflyer .h-driver-cell-tl .h-driver-name-en {
+  color: #FEE2E2 !important;
+}
+
+.h-driver-cell-tr {
+  text-align: right !important;
+}
+
+.h-driver-cell-tr .h-id-label {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+}
+
+.mode-cityflyer .h-driver-cell-tr .h-id-label {
+  color: #FFFFFF !important;
+}
+
+.h-driver-cell-bl {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.h-driver-cell-bl .h-motto-badge {
+  background: #0022AA !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  padding: 2px 10px !important;
+  border-radius: 4px !important;
+}
+
+.mode-cityflyer .h-driver-cell-bl .h-motto-badge {
+  background: #EAB308 !important;
+  color: #000000 !important;
+}
+
+.h-driver-cell-br {
+  text-align: right !important;
+}
+
+.h-driver-cell-br .h-id-num {
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  line-height: 1 !important;
+  color: #000000 !important;
+}
+
+.mode-cityflyer .h-driver-cell-br .h-id-num {
+  color: #FFFFFF !important;
+}
+
+/* 4. 三車站版面要每個車站加大至頁底 (3 Stations expand to fill entire page height) */
+.mon2-frame.horizontal .trio-stops-container {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .trio-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.mon2-frame.horizontal .trio-content-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .trio-row-item {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 24px !important;
+}
+
+.mon2-frame.horizontal .trio-main-name {
+  font-size: clamp(24px, 3vw, 36px) !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal .trio-sub-text {
+  font-size: clamp(14px, 1.5vw, 18px) !important;
+}
+
+.mon2-frame.horizontal .route-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.horizontal .track-row-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+/* 5. 13頁車站 應該要到底 (13 Stations Ladder expands to fill entire page height) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+/* 6. 車費資料版面 車站編號位置要貼合車站名稱 車站名稱加大 */
+.mode3-stop-body-row {
+  display: flex !important;
+  align-items: center !important;
+  gap: 16px !important;
+  padding: 16px 20px !important;
+  flex: 1 !important;
+}
+
+.mode3-snug-circle {
+  width: 44px !important;
+  height: 44px !important;
+  border-radius: 50% !important;
+  font-size: 22px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  color: #FFFFFF !important;
+}
+
+.mode3-station-name-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mode3-station-name-col .m3-zh {
+  font-size: clamp(28px, 3.4vw, 42px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-col .m3-en {
+  font-size: clamp(15px, 1.8vw, 22px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  margin-top: 4px !important;
+  line-height: 1.15 !important;
+}
+
+/* Mode 3 Fare Base expands to fill right half completely */
+.mode3-split-card .mode3-fare-base {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.mode3-split-card .fare-stage-list {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mode3-split-card .fare-stage-row {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.mode3-split-card .stage-zh {
+  font-size: clamp(18px, 2.2vw, 26px) !important;
+  font-weight: 900 !important;
+}
+
+.mode3-split-card .stage-en {
+  font-size: clamp(11px, 1.3vw, 15px) !important;
+  font-weight: 700 !important;
+}
+
+.mode3-split-card .price-val {
+  font-size: clamp(24px, 2.8vw, 36px) !important;
+  font-weight: 900 !important;
+}
