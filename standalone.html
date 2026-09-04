@@ -4997,6 +4997,241 @@ body {
   align-items: flex-start !important;
 }
 
+
+/* ==========================================================================
+   PERFECT COORDINATED LAYOUT & LINE RESTORATION
+   1. where is line -> Continuous solid blue/red navigation track bar in ALL modes
+   2. text Location are wrong -> Row-by-row synchronized flex in Mode 1 & 2
+   3. 車站名向上靠 自動適應大細 -> Top-aligned station names with responsive clamp
+   4. 13頁車站 應該要到底 -> 100% full height stretch to bottom
+   5. 固定大小比例 -> Fixed 16:9 / 9:16 aspect ratio, auto adapts to any screen
+   ========================================================================== */
+
+/* 1. Fixed Aspect Ratio Frames (Screen Zoom / Resize Auto-Adaptation) */
+.screen-housing,
+#mon2-display-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(88vh, calc(94vw * 16 / 9)) !important;
+  width: auto !important;
+  max-width: 440px !important;
+  margin: auto !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(960px, calc(88vh * 16 / 9), 96vw) !important;
+  height: auto !important;
+  max-height: 88vh !important;
+  margin: auto !important;
+}
+
+/* 2. SOLID NAVIGATION TRACK LINE (where is line? -> RESTORED & PROMINENT) */
+.route-nav-track-col,
+.ladder-nav-track-col {
+  width: 34px !important;
+  min-width: 34px !important;
+  max-width: 34px !important;
+  background: #0022AA !important; /* Solid Royal Blue Track Line */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  height: 100% !important;
+  margin: 0 0 0 8px !important;
+  padding: 0 !important;
+  position: relative !important;
+  flex-shrink: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.mode-cityflyer .route-nav-track-col,
+.mode-cityflyer .ladder-nav-track-col {
+  background: #B70028 !important; /* Solid Crimson Track Line for Cityflyer */
+}
+
+/* 3. 3-STOP MODE: ROW-BY-ROW EQUAL-FLEX COORDINATION (text Location are wrong -> FIXED) */
+.trio-layout-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+}
+
+.trio-layout-wrapper .track-subheader-cell,
+.trio-layout-wrapper .trio-subheader-row {
+  height: 42px !important;
+  min-height: 42px !important;
+  max-height: 42px !important;
+  flex: none !important;
+}
+
+.trio-layout-wrapper .track-row-cell {
+  flex: 1 1 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  background: transparent !important;
+}
+
+.trio-layout-wrapper .trio-content-col {
+  flex: 1 1 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.trio-layout-wrapper .trio-row-item {
+  flex: 1 1 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 0 16px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+.trio-layout-wrapper .trio-name-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+/* 4. MODE 5: 13-STOP FULL HEIGHT EXTENSION (13頁車站 應該要到底 & 車站名向上靠) */
+.ladder-layout-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+  flex: 1 !important;
+}
+
+.ladder-layout-wrapper .track-bar-chevron {
+  height: 24px !important;
+  flex: none !important;
+  margin-top: 4px !important;
+  margin-bottom: 4px !important;
+}
+
+.ladder-layout-wrapper .ladder-track-cell {
+  flex: 1 1 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.ladder-layout-wrapper .ladder-dots-cell {
+  flex: 0.7 1 0 !important;
+}
+
+.ladder-rows-col {
+  flex: 1 1 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.ladder-name-row {
+  flex: 1 1 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 10px 0 8px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.05) !important;
+  box-sizing: border-box !important;
+}
+
+.ladder-name-row.row-dots-spacer {
+  flex: 0.7 1 0 !important;
+}
+
+/* 車站名向上靠、自動適應大細 */
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  padding-top: 2px !important;
+  overflow: hidden !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: clamp(14px, 2.1vh, 18px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: clamp(9.5px, 1.35vh, 12px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+  margin-top: 1px !important;
+}
+
+/* 5. MODE 3 FARE OVERLAY PREVENTION (No Overlap) */
+.mon2-frame.vertical #panel-mode-3 {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+}
+
+.mon2-frame.vertical .mode3-split-card {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  position: relative !important;
+}
+
+.mon2-frame.vertical .mode3-top-stop-banner {
+  flex: 0.38 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  border-bottom: 3px solid #0022AA !important;
+}
+
+.mon2-frame.vertical .mode3-fare-base {
+  flex: 0.62 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
 </style>
 </head>
 <body>
@@ -7731,7 +7966,7 @@ class Mon2Display {
     const totalStops = stops.length;
     const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // 「13頁車站 應該要到底」: 13 站每頁，高度伸展到底
+    // 13 站每頁，高度伸展到底
     const STOPS_PER_PAGE = 13;
     if (totalStops <= STOPS_PER_PAGE) {
       this.Mon2_Page_Totel = 1;
@@ -7754,10 +7989,10 @@ class Mon2Display {
     }
 
     const isPageOne = (this.Mon2_Page_Now === 1);
+    let trackHtml = `<div class="track-bar-chevron"></div>`;
     let rowsHtml = "";
 
     if (isPageOne) {
-      // PAGE 1: 13 站一體化行，車站號碼與站名 100% 高度對齊
       const pageList = stops.slice(0, STOPS_PER_PAGE);
 
       pageList.forEach((s, idx) => {
@@ -7779,13 +8014,16 @@ class Mon2Display {
           circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
         }
 
-        rowsHtml += `
-          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-track-cell">
-              <div class="${circleClass}">
-                ${s.num}
-              </div>
+        trackHtml += `
+          <div class="ladder-track-cell">
+            <div class="${circleClass}">
+              ${s.num}
             </div>
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
               <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
@@ -7798,29 +8036,34 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-unified-wrapper">
-          <div class="ladder-rows-container">
-            ${rowsHtml}
+        <div class="ladder-layout-wrapper">
+          <div class="ladder-nav-track-col arrow-rounded">
+            ${trackHtml}
           </div>
-          <div class="ladder-eta-footer-label">
-            <span>預計(分鐘) ETA(min)</span>
+          <div class="ladder-rows-col">
+            ${rowsHtml}
+            <div class="ladder-eta-footer-label">
+              <span>預計(分鐘) ETA(min)</span>
+            </div>
           </div>
         </div>
       `;
     } else {
-      // PAGE 2+: 起點站 + 3 白點省略號 + 12 車站
+      // Page 2+: 1 Origin Stop + 3 Dots in Track + 12 Stops
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
       const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
       const pageList = stops.slice(startIdx, startIdx + 12);
 
-      // Row 1: 起點站
-      rowsHtml += `
-        <div class="ladder-unified-row row-yellow">
-          <div class="ladder-track-cell">
-            <div class="track-circle-upcoming">
-              ${firstStop.num}
-            </div>
+      // Origin stop
+      trackHtml += `
+        <div class="ladder-track-cell">
+          <div class="track-circle-upcoming">
+            ${firstStop.num}
           </div>
+        </div>
+      `;
+      rowsHtml += `
+        <div class="ladder-name-row row-yellow">
           <div class="ladder-names-cell">
             <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
             <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
@@ -7829,22 +8072,24 @@ class Mon2Display {
         </div>
       `;
 
-      // 3 白點槽位
-      rowsHtml += `
-        <div class="ladder-unified-row ladder-dots-row">
-          <div class="ladder-track-cell ladder-dots-cell">
-            <div class="track-dots-group">
-              <span class="track-dot"></span>
-              <span class="track-dot"></span>
-              <span class="track-dot"></span>
-            </div>
+      // 3 Dots
+      trackHtml += `
+        <div class="ladder-track-cell ladder-dots-cell">
+          <div class="track-dots-group">
+            <span class="track-dot"></span>
+            <span class="track-dot"></span>
+            <span class="track-dot"></span>
           </div>
+        </div>
+      `;
+      rowsHtml += `
+        <div class="ladder-name-row row-dots-spacer">
           <div class="ladder-names-cell"></div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // 隨後 12 站
+      // Subsequent 12 stops
       pageList.forEach((s, idx) => {
         const globalIdx = startIdx + idx;
         const isCurrent = (globalIdx === curIdx);
@@ -7865,13 +8110,16 @@ class Mon2Display {
           circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
         }
 
-        rowsHtml += `
-          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-track-cell">
-              <div class="${circleClass}">
-                ${s.num}
-              </div>
+        trackHtml += `
+          <div class="ladder-track-cell">
+            <div class="${circleClass}">
+              ${s.num}
             </div>
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
               <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
@@ -7884,12 +8132,15 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-unified-wrapper">
-          <div class="ladder-rows-container">
-            ${rowsHtml}
+        <div class="ladder-layout-wrapper">
+          <div class="ladder-nav-track-col arrow-pointed">
+            ${trackHtml}
           </div>
-          <div class="ladder-eta-footer-label">
-            <span>預計(分鐘) ETA(min)</span>
+          <div class="ladder-rows-col">
+            ${rowsHtml}
+            <div class="ladder-eta-footer-label">
+              <span>預計(分鐘) ETA(min)</span>
+            </div>
           </div>
         </div>
       `;
