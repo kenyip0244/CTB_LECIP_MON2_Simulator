@@ -19,10 +19,13 @@
  */
 
 class Mon2Display {
-  // Helper: 車站名 “,” 或之後的文字不用顯示 (Strip street suffix after comma)
+  // Helper: 車站名 “,” 或之後文字不顯示，且「九巴龍運車站不顯示 (XXXX)」
   cleanStopName(name) {
     if (!name) return "";
-    return name.split(/[,，]/)[0].trim();
+    let clean = name.split(/[,，]/)[0].trim();
+    // 移除尾部括號代號 (XXXX) / (B1) / (N28) / (002598) 等九巴龍運代號
+    clean = clean.replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim();
+    return clean;
   }
 
   constructor(containerEl) {

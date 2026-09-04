@@ -54,8 +54,8 @@ class CitybusAPIService {
             return {
               num: item.seq,
               stopId: item.stop,
-              zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-              en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+              zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+              en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
               lat: parseFloat(stopInfo.lat) || 0,
               long: parseFloat(stopInfo.long) || 0,
               subZh: "",
@@ -245,8 +245,8 @@ class CitybusAPIService {
           return {
             num: parseInt(item.seq, 10),
             stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",
@@ -433,8 +433,8 @@ class CitybusAPIService {
           return {
             num: item.seq,
             stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",
@@ -667,8 +667,8 @@ class CitybusAPIService {
           return {
             num: parseInt(item.seq, 10),
             stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",

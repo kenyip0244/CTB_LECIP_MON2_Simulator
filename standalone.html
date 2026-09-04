@@ -8099,6 +8099,102 @@ body {
   margin-top: 2px !important;
 }
 
+
+/* ==========================================================================
+   USER FIXES:
+   1. 固定大小比例 (16:9 for Horizontal, 9:16 for Vertical)
+   2. 車站名向上靠 自動適應大細 (Top-aligned, dynamic font scaling)
+   3. 13頁車站 應該要到底 (Ladder rows expand evenly to bottom)
+   ========================================================================== */
+
+/* 1. 螢幕固定 16:9 與 9:16 比例，適應任何放大縮小螢幕 */
+.mon2-viewport-area {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal {
+  width: min(980px, 94vw) !important;
+  aspect-ratio: 16 / 9 !important;
+  max-height: 92vh !important;
+  height: auto !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.mon2-frame.vertical {
+  height: min(780px, 92vh) !important;
+  aspect-ratio: 9 / 16 !important;
+  max-width: 94vw !important;
+  width: auto !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 */
+.mode3-station-name-row {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 向上靠！ */
+  align-items: flex-start !important;
+  padding-top: 14px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(24px, 3.5vw, 36px) !important;
+  font-weight: 900 !important;
+  color: #0F172A !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(14px, 2vw, 18px) !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+  line-height: 1.15 !important;
+  margin-top: 4px !important;
+}
+
+/* 3. 13頁車站 應該要到底 (Rows expand to occupy 100% of height) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important; /* 每一行自動等比拉伸到底！ */
+  min-height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important; /* 導航軌道格同步拉伸到底！ */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 </style>
 </head>
 <body>
@@ -8837,8 +8933,8 @@ class CitybusAPIService {
             return {
               num: item.seq,
               stopId: item.stop,
-              zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-              en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+              zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+              en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
               lat: parseFloat(stopInfo.lat) || 0,
               long: parseFloat(stopInfo.long) || 0,
               subZh: "",
@@ -9028,8 +9124,8 @@ class CitybusAPIService {
           return {
             num: parseInt(item.seq, 10),
             stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",
@@ -9216,8 +9312,8 @@ class CitybusAPIService {
           return {
             num: item.seq,
             stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",
@@ -9450,8 +9546,8 @@ class CitybusAPIService {
           return {
             num: parseInt(item.seq, 10),
             stopId: item.stop,
-            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
-            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+            zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
+            en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
             subZh: "",
@@ -9613,10 +9709,13 @@ class Mon2AudioSystem {
  */
 
 class Mon2Display {
-  // Helper: 車站名 “,” 或之後的文字不用顯示 (Strip street suffix after comma)
+  // Helper: 車站名 “,” 或之後文字不顯示，且「九巴龍運車站不顯示 (XXXX)」
   cleanStopName(name) {
     if (!name) return "";
-    return name.split(/[,，]/)[0].trim();
+    let clean = name.split(/[,，]/)[0].trim();
+    // 移除尾部括號代號 (XXXX) / (B1) / (N28) / (002598) 等九巴龍運代號
+    clean = clean.replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim();
+    return clean;
   }
 
   constructor(containerEl) {
