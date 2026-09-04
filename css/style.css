@@ -4524,3 +4524,248 @@ body {
   line-height: 1.1 !important;
   margin-top: 1px !important;
 }
+
+
+/* ==========================================================================
+   PERFECT REAL-BUS SPECIFICATIONS FOR MODE 5 & TIME BOX (Based on photo image.png)
+   ========================================================================== */
+.ladder-unified-wrapper {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+.ladder-unified-row {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  min-height: 38px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 10px 0 6px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+  box-sizing: border-box !important;
+}
+
+/* Full Width Alternating Colors (No White Gaps on the left!) */
+.ladder-unified-row.row-yellow {
+  background-color: #FFF04D !important;
+}
+
+.ladder-unified-row.row-iceblue {
+  background-color: #CEE7FE !important;
+}
+
+.ladder-unified-row.row-current {
+  box-shadow: inset 0 0 0 2px #16A34A !important;
+}
+
+/* Track cell sits on row background seamlessly */
+.ladder-track-cell {
+  width: 38px !important;
+  min-width: 38px !important;
+  background: transparent !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 8px 0 0 !important;
+  padding: 0 !important;
+}
+
+.ladder-track-cell .track-circle-active {
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  background: #FF0000 !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  margin: 0 !important;
+}
+
+.ladder-track-cell .track-circle-arrived-green {
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  background: #16A34A !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+  margin: 0 !important;
+}
+
+.ladder-track-cell .track-circle-upcoming {
+  width: 25px !important;
+  height: 25px !important;
+  border-radius: 50% !important;
+  background: #FFFFFF !important;
+  border: 2px solid #0022AA !important;
+  color: #0022AA !important;
+  font-size: 12.5px !important;
+  font-weight: 900 !important;
+  margin: 0 !important;
+}
+
+.mode-cityflyer .ladder-track-cell .track-circle-upcoming {
+  border-color: var(--cityflyer-crimson) !important;
+  color: var(--cityflyer-crimson) !important;
+}
+
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.15 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+  margin-top: 1px !important;
+}
+
+/* Time box refinement */
+.header-time-box {
+  width: 96px !important;
+  min-width: 96px !important;
+  padding: 3px 6px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  line-height: 1.1 !important;
+}
+
+.time-label-zh {
+  font-size: 10.5px !important;
+  font-weight: 800 !important;
+  color: #334155 !important;
+  line-height: 1.1 !important;
+}
+
+.time-label-en {
+  font-size: 9px !important;
+  font-weight: 700 !important;
+  color: #475569 !important;
+  line-height: 1.05 !important;
+}
+
+.time-value {
+  font-size: 21px !important;
+  font-weight: 900 !important;
+  color: #0F172A !important;
+  line-height: 1.1 !important;
+}
+
+
+/* ==========================================================================
+   OFFICIAL CITYBUS PHOTO ACCURATE LAYOUT & STYLES
+   (Based on IMG_20260214_204745, 204731, 203355, 203337, 193717, 191912, 191907, 191800, 174750, 174736)
+   ========================================================================== */
+
+/* 1. Mode 5: Alternating Yellow (#FFF04D) and White (#FFFFFF) */
+.ladder-unified-row.row-yellow {
+  background-color: #FFF04D !important;
+  color: #000000 !important;
+}
+
+.ladder-unified-row.row-white {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+.ladder-eta-col {
+  width: 50px !important;
+  min-width: 50px !important;
+  text-align: right !important;
+  padding-right: 14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+}
+
+.ladder-eta-col .eta-val-num {
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  font-family: var(--font-english) !important;
+}
+
+.ladder-eta-footer-label {
+  width: 100% !important;
+  text-align: right !important;
+  padding: 3px 14px 5px 0 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  color: #000000 !important;
+  font-family: var(--font-english) !important;
+  background: #FFFFFF !important;
+  border-top: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+/* 2. Horizontal 3-Stop Mode (IMG_20260214_204731, 191800): Alternating White and Light Blue */
+.mon2-frame.horizontal .trio-row-item:nth-child(even) {
+  background-color: #D6ECFC !important;
+}
+
+.mon2-frame.horizontal .trio-row-item:nth-child(odd) {
+  background-color: #FFFFFF !important;
+}
+
+/* 3. Horizontal Split Screen Mode 3 (IMG_20260214_204745, 193717): 50/50 Split */
+.mon2-frame.horizontal .mode3-split-card {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  padding: 6px !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.mon2-frame.horizontal .mode3-top-stop-banner {
+  flex: 1 !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  border: 2px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  background: #FFFFFF !important;
+  border-bottom: none !important;
+}
+
+.mon2-frame.horizontal .mode3-fare-base {
+  flex: 1 !important;
+  height: 100% !important;
+  border: 2px solid #0022AA !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .mode3-fare-base {
+  border-color: var(--cityflyer-crimson) !important;
+}

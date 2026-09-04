@@ -102,9 +102,25 @@
         </div>
       </div>
 
-      <!-- 2. Fully Automated Trip Engine (全自動行駛進度，無任何手動按鍵) -->
+      <!-- 2. Trip Engine: Auto GPS vs Manual Mode ("可選手動mode 手動mode 不會顯示「此站」") -->
       <div class="console-section">
-        <div class="section-label">全自動行駛狀態 (Automated Journey)</div>
+        <div class="section-label">行駛與報站模式 (Operation Mode)</div>
+
+        <div class="form-row">
+          <label>模式選擇：</label>
+          <div class="speed-buttons-group">
+            <button class="btn-pill pill-active" id="btn-mode-auto" title="全自動 GPS 定位 / 計時巡航">自動 Auto (含「此站」)</button>
+            <button class="btn-pill" id="btn-mode-manual" title="手動報站模式，永遠只顯示「下一站」，不顯示「此站」">手動 Manual (無「此站」)</button>
+          </div>
+        </div>
+
+        <div class="form-row" id="manual-controls-row" style="display: none; margin-top: 8px;">
+          <label>手動操作：</label>
+          <div class="speed-buttons-group">
+            <button class="btn-pill" id="btn-manual-prev" style="background:#334155;">⏮ 上一站 Prev</button>
+            <button class="btn-pill" id="btn-manual-next" style="background:#0284C7; font-weight:900; color:#FFF;">⏭ 下一站 Next</button>
+          </div>
+        </div>
         <div style="font-size: 11px; color: #38BDF8; font-weight: bold; margin-bottom: 4px;">
           * 系統全自動報站、開車、巡航與停站，無須手動按鍵
         </div>

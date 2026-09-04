@@ -31,6 +31,8 @@ class Mon2Controller {
     // Real GPS & Dynamic Target Distance ("目標站距：實時動態顯示距離下一個目標站點的剩餘米數。是時間計算的")
     this.useRealGPS = false;
     this.gpsWatchId = null;
+    this.hasAutoLocatedNearest = false;
+    this.operationMode = "auto"; // 'auto' or 'manual' ("可選手動mode 手動mode 不會顯示「此站」")
     this.targetDistanceMeters = 850;
     this.legTotalDistance = 850;
     this.currentSpeedKmh = 36;
@@ -45,6 +47,41 @@ class Mon2Controller {
   bindDOM() {
     // 0. Route Search Input & Dropdown ("Api獲取所有路線資料 然後選擇路線可以搜尋")
     this.setupRouteSearch();
+
+    // Mode Selector: Auto vs Manual ("可選手動mode 手動mode 不會顯示「此站」")
+    const btnModeAuto = document.getElementById("btn-mode-auto");
+    const btnModeManual = document.getElementById("btn-mode-manual");
+    const manualRow = document.getElementById("manual-controls-row");
+    const btnManualPrev = document.getElementById("btn-manual-prev");
+    const btnManualNext = document.getElementById("btn-manual-next");
+
+    if (btnModeAuto && btnModeManual) {
+      btnModeAuto.addEventListener("click", () => {
+        this.setOperationMode("auto");
+        btnModeAuto.classList.add("pill-active");
+        btnModeManual.classList.remove("pill-active");
+        if (manualRow) manualRow.style.display = "none";
+      });
+
+      btnModeManual.addEventListener("click", () => {
+        this.setOperationMode("manual");
+        btnModeManual.classList.add("pill-active");
+        btnModeAuto.classList.remove("pill-active");
+        if (manualRow) manualRow.style.display = "flex";
+      });
+    }
+
+    if (btnManualNext) {
+      btnManualNext.addEventListener("click", () => {
+        this.manualAdvanceStop(1);
+      });
+    }
+
+    if (btnManualPrev) {
+      btnManualPrev.addEventListener("click", () => {
+        this.manualAdvanceStop(-1);
+      });
+    }
 
     // 0.1 Real GPS Toggle ("Use real GPS")
     const gpsToggle = document.getElementById("ctrl-real-gps-toggle");
@@ -205,20 +242,24 @@ class Mon2Controller {
     }
   }
 
-  // --- Step 1: Load Routes list from Citybus Open Data API ---
+  // --- Step 1: 首次聯網自動從 API 線上導入所有資料 (路線走法、停站位置、價錢、到站時間) ---
   async loadRoutesFromAPI() {
     const statusBadge = document.getElementById("api-status-badge");
     if (statusBadge) {
-      statusBadge.innerHTML = `<span class="spinner-dot"></span> 正在連接城巴 Open Data API...`;
+      statusBadge.innerHTML = `<span class="spinner-dot"></span> 首次聯網：正在從 DATA.GOV.HK 導入全港路線、走法、停站座標、票價與 ETA...`;
     }
 
-    this.routesList = await this.api.getRoutes();
+    this.routesList = await this.api.autoImportAllOnlineData((msg) => {
+      if (statusBadge) {
+        statusBadge.innerHTML = `<span class="spinner-dot"></span> ${msg}`;
+      }
+    });
 
     if (statusBadge) {
       if (this.api.apiOnline) {
-        statusBadge.innerHTML = `<span style="color:#22C55E">●</span> 城巴 API 即時連線 (DATA.GOV.HK)`;
+        statusBadge.innerHTML = `<span style="color:#22C55E">●</span> 已成功從 DATA.GOV.HK API 線上導入全港資料 (路線走法 · 停站位置 · 票價 · 到站時間)`;
       } else {
-        statusBadge.innerHTML = `<span style="color:#EAB308">●</span> 離線備份資料庫模式 (包含實車 780, 905, A12 等)`;
+        statusBadge.innerHTML = `<span style="color:#EAB308">●</span> 離線備用模式 (已備存路線資料)`;
       }
     }
 
@@ -302,6 +343,7 @@ class Mon2Controller {
     };
 
     // Load into display
+    this.hasAutoLocatedNearest = false;
     this.display.setRoute(routeData, 0);
 
     // Fetch ETA Trips for first stop
@@ -391,6 +433,8 @@ class Mon2Controller {
         targetDistEl.textContent = `距離下一站: ${this.targetDistanceMeters}m`;
       }
     }
+
+    if (this.operationMode === "manual") return;
 
     if (this.tripStatus === "departing") {
       // When approaching stop (under 100 meters or time threshold) -> trigger 'arriving'
@@ -544,6 +588,7 @@ class Mon2Controller {
   // --- Real GPS Tracking Engine ("Use real GPS") ---
   toggleRealGPS(enable) {
     this.useRealGPS = enable;
+    this.hasAutoLocatedNearest = false; // Reset so GPS immediately snaps to nearest stop
     const statusEl = document.getElementById("gps-status-indicator");
 
     if (enable) {
@@ -584,6 +629,12 @@ class Mon2Controller {
     this.currentGPSCoords = { lat, lon, acc, speedKmh };
     this.currentSpeedKmh = speedKmh;
 
+    // GPS邏輯: 自動定位至最近車站開始
+    if (!this.hasAutoLocatedNearest && this.currentStops && this.currentStops.length > 0) {
+      this.autoLocateNearestStop(lat, lon);
+      this.hasAutoLocatedNearest = true;
+    }
+
     const statusEl = document.getElementById("gps-status-indicator");
     const coordsEl = document.getElementById("gps-coords-display");
     const speedEl = document.getElementById("gps-speed-kmh");
@@ -612,7 +663,7 @@ class Mon2Controller {
       }
 
       // Real-life auto arrival detection
-      if (this.targetDistanceMeters <= 100 && this.tripStatus === "departing") {
+      if (this.operationMode !== "manual" && this.targetDistanceMeters <= 100 && this.tripStatus === "departing") {
         this.tripStatus = "arriving";
         this.display.arriveStop();
         this.audio.playChime();
@@ -654,6 +705,73 @@ class Mon2Controller {
     return R * c;
   }
 
+
+// --- GPS: 自動定位至最近車站開始 ---
+  autoLocateNearestStop(lat, lon) {
+    if (!this.currentStops || this.currentStops.length === 0) return;
+
+    let nearestIdx = 0;
+    let minDistance = Infinity;
+
+    this.currentStops.forEach((stop, idx) => {
+      if (stop.lat && stop.long) {
+        const d = this.getHaversineDistance(lat, lon, stop.lat, stop.long);
+        if (d < minDistance) {
+          minDistance = d;
+          nearestIdx = idx;
+        }
+      }
+    });
+
+    const nearestStop = this.currentStops[nearestIdx];
+    this.currentStopIndex = nearestIdx;
+    this.tripStatus = "departing";
+    this.timeInPhase = 0;
+
+    // 「自動定位至最近車站開始」
+    this.display.telargo_busarrivingstop = 0;
+    this.display.setStopIndex(nearestIdx, "next");
+    this.updateTripProgressUI();
+
+    const statusEl = document.getElementById("gps-status-indicator");
+    if (statusEl && nearestStop) {
+      statusEl.innerHTML = `<span style="color:#22C55E">●</span> GPS 已自動就近定位至第 ${nearestIdx + 1} 站：<strong>${nearestStop.zh}</strong> (距 ${Math.round(minDistance)}m)`;
+    }
+  }
+
+  // --- 手動 Mode 切換: 「可選手動mode 手動mode 不會顯示『此站』」 ---
+  setOperationMode(mode) {
+    this.operationMode = mode;
+    if (mode === "manual") {
+      // 「手動mode 不會顯示『此站』」
+      this.display.manualModeNoArrive = true;
+      this.display.telargo_busarrivingstop = 0;
+      this.tripStatus = "departing";
+      this.display.renderAllPanels();
+      this.updateTripProgressUI();
+    } else {
+      this.display.manualModeNoArrive = false;
+      this.hasAutoLocatedNearest = false;
+      if (this.currentGPSCoords) {
+        this.autoLocateNearestStop(this.currentGPSCoords.lat, this.currentGPSCoords.lon);
+      }
+    }
+  }
+
+  manualAdvanceStop(delta) {
+    if (!this.currentStops || this.currentStops.length === 0) return;
+
+    const newIdx = Math.max(0, Math.min(this.currentStops.length - 1, this.currentStopIndex + delta));
+    this.currentStopIndex = newIdx;
+    this.timeInPhase = 0;
+
+    // In manual mode, strictly NEVER show "此站" (telargo_busarrivingstop = 0)
+    this.display.telargo_busarrivingstop = 0;
+    this.tripStatus = "departing";
+    this.display.setStopIndex(newIdx, "next");
+    this.audio.playChime();
+    this.updateTripProgressUI();
+  }
 }
 
 window.Mon2Controller = Mon2Controller;
