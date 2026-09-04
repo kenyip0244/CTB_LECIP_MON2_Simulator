@@ -288,7 +288,7 @@ class Mon2Controller {
       const opt = document.createElement("option");
       opt.value = r.route;
       const isAirport = r.route.startsWith("A") || r.route.startsWith("NA");
-      const badge = isAirport ? "【機場快線】" : (r.route.startsWith("H") ? "【人力車】" : "【城巴】");
+      const badge = r.co === "KMB" ? "【九巴】" : (isAirport ? "【機場快線】" : "【城巴】");
       opt.textContent = `${badge} ${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
       select.appendChild(opt);
     });
@@ -313,8 +313,8 @@ class Mon2Controller {
     // Update direction dropdown text
     const dirSelect = document.getElementById("api-dir-select");
     if (dirSelect) {
-      dirSelect.options[0].textContent = `去程 Outbound (往 ${routeMeta.dest_tc})`;
-      dirSelect.options[1].textContent = `回程 Inbound (往 ${routeMeta.orig_tc})`;
+      dirSelect.options[0].textContent = `去程 Outbound (往 ${routeMeta.dest_tc || "總站"})`;
+      dirSelect.options[1].textContent = `回程 Inbound (往 ${routeMeta.orig_tc || "總站"})`;
     }
 
     // Fetch stops from API
@@ -556,7 +556,7 @@ class Mon2Controller {
         item.className = "route-search-item";
         item.innerHTML = `
           <div>
-            <span class="route-badge-mini">${r.route}</span>
+            <span class="route-badge-mini" style="${r.co === 'KMB' ? 'background:#E1251B;' : ''}">${r.route}</span>
             <strong style="margin-left: 6px;">${r.orig_tc || ''} ➔ ${r.dest_tc || ''}</strong>
           </div>
           <small style="color: #94A3B8;">${r.orig_en || ''} ➔ ${r.dest_en || ''}</small>
@@ -573,7 +573,7 @@ class Mon2Controller {
             if (!opt) {
               opt = document.createElement("option");
               opt.value = r.route;
-              opt.textContent = `【城巴】${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
+              opt.textContent = `${r.co === "KMB" ? "【九巴】" : "【城巴】"}${r.route} (${r.orig_tc} ➔ ${r.dest_tc})`;
               select.appendChild(opt);
             }
             select.value = r.route;

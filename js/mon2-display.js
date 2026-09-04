@@ -1227,7 +1227,11 @@ class Mon2Display {
       "971": { full: "$13.1", stages: [{ match: "西區海底隧道", fare: "$7.7" }, { match: "薄扶林", fare: "$5.6" }] }
     };
 
-    let config = FARE_TABLE[code];
+    const cleanRouteCode = code.replace(/[^A-Z0-9]/g, "");
+    let config = FARE_TABLE[cleanRouteCode] || FARE_TABLE[code];
+    if (!config && cleanRouteCode.startsWith("H")) {
+      config = { full: "$41.8", stages: [{ match: "赤柱", fare: "$19.8" }, { match: "淺水灣", fare: "$30.8" }] };
+    }
     if (!config) {
       if (code.startsWith("A")) {
         config = { full: "$41.9", stages: [{ match: "青嶼幹線", fare: "$17.8" }] };
