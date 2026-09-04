@@ -1222,7 +1222,10 @@ class Mon2Display {
       "1P": { full: "$4.8", stages: [] },
       "2": { full: "$4.8", stages: [] },
       "H1": { full: "$19.8", stages: [] },
-      "H2": { full: "$19.8", stages: [] }
+      "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$41.8", stages: [] },
+      "H4": { full: "$41.8", stages: [] },
+      "971": { full: "$13.1", stages: [{ match: "西區海底隧道", fare: "$7.7" }, { match: "薄扶林", fare: "$5.6" }] }
     };
 
     let config = FARE_TABLE[code];

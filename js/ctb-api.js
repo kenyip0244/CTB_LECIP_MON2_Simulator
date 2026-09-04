@@ -308,25 +308,31 @@ class CitybusAPIService {
     const code = (routeCode || "").toUpperCase();
     const name = stopName || "";
 
-    // A Routes (Airport Express)
+    // 1. Sightseeing Routes H1, H2, H3, H4 (落日飛車 / 人力車)
+    if (code.startsWith("H")) {
+      if (code === "H3" || code === "H4") return "$41.8"; // 落日飛車單程 / 全日通
+      return "$19.8";
+    }
+
+    // 2. Airport Express A Routes
     if (code.startsWith("A")) {
       if (name.includes("青嶼幹線") || name.includes("大嶼山") || seq > totalStops * 0.75) return "$17.8";
       if (name.includes("西區海底隧道") || name.includes("西隧")) return "$41.8";
       if (code === "A10") return "$50.3";
       if (code === "A12") return "$47.1";
-      if (code === "A21") return "$34.6";
-      if (code === "A29" || code === "A26") return "$44.0";
+      if (code === "A21") return (seq > totalStops * 0.55) ? "$8.0" : "$34.6";
+      if (code === "A26" || code === "A28" || code === "A29") return "$44.0";
       return "$41.9";
     }
 
-    // NA Routes (Overnight Airport Express)
+    // 3. Overnight Airport NA Routes
     if (code.startsWith("NA")) {
       if (name.includes("青嶼幹線") || seq > totalStops * 0.75) return "$40.2";
       if (code === "NA10" || code === "NA12") return "$60.7";
       return "$54.4";
     }
 
-    // E Routes (North Lantau External)
+    // 4. North Lantau External E Routes
     if (code.startsWith("E")) {
       if (name.includes("東涌") || seq > totalStops * 0.8) return "$4.0";
       if (name.includes("青嶼幹線") || name.includes("青馬")) return "$8.2";
@@ -334,7 +340,7 @@ class CitybusAPIService {
       return "$18.9";
     }
 
-    // Cross-Harbour Routes (9xx, 1xx, 6xx, 3xx)
+    // 5. Cross-Harbour Routes (9xx, 1xx, 6xx, 3xx)
     if (code.startsWith("9") || code.startsWith("1") || code.startsWith("6") || code.startsWith("3")) {
       if (code === "930" || code === "930X") {
         if (name.includes("西消防街") || seq > totalStops * 0.7) return "$7.7";
@@ -346,28 +352,31 @@ class CitybusAPIService {
         if (name.includes("高樂花園") || seq > totalStops * 0.25) return "$8.1";
         return "$18.1";
       }
+      if (code === "971") {
+        if (name.includes("薄扶林") || seq > totalStops * 0.75) return "$5.6";
+        if (name.includes("西區海底隧道") || name.includes("西隧") || seq > totalStops * 0.4) return "$7.7";
+        return "$13.1";
+      }
       if (name.includes("西區海底隧道") || name.includes("海底隧道") || name.includes("東區海底隧道") || seq > totalStops * 0.6) {
         return "$6.9";
       }
       return "$11.4";
     }
 
-    // Island Express 7xx
+    // 6. Island Express 7xx
     if (code.startsWith("7")) {
       if (name.includes("舊灣仔警署") || name.includes("分域街") || seq > totalStops * 0.7) return "$4.4";
       if (code === "702") return "$4.4";
       return "$7.7";
     }
 
-    // Local routes
+    // 7. Local & Boundary Routes
     if (code === "S1") return "$3.7";
     if (code === "8P") return (seq > totalStops * 0.6) ? "$4.8" : "$7.0";
-    if (code === "B8") return "$16.1";
-    if (code === "H1" || code === "H2") return "$19.8";
+    if (code === "B8") return (seq > totalStops * 0.5) ? "$8.9" : "$16.1";
 
     return "$6.5";
   }
-
 }
 
 window.ctbAPI = new CitybusAPIService();

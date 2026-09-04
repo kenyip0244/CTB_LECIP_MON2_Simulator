@@ -6020,3 +6020,123 @@ body {
   color: #000000 !important;
   margin-top: 2px !important;
 }
+
+
+/* ==========================================================================
+   FIXED ASPECT RATIO, SCREEN ADAPTATION & TOP-ALIGNED STATIONS
+   (User requirements: 固定大小比例、車站名向上靠、13頁車站應該要到底)
+   ========================================================================== */
+
+/* 1. 應該要自動適應不同螢幕 固定大小比例 (16:9 & 9:16 Fixed Aspect Ratio) */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(96vw, calc(92vh * 16 / 9)) !important;
+  height: min(92vh, calc(96vw * 9 / 16)) !important;
+  max-width: 1280px !important;
+  max-height: 720px !important;
+  margin: auto !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(92vh, calc(96vw * 16 / 9)) !important;
+  width: min(96vw, calc(92vh * 9 / 16)) !important;
+  max-height: 840px !important;
+  max-width: 472px !important;
+  margin: auto !important;
+}
+
+/* Fullscreen letterboxing maintaining exact aspect ratio */
+:fullscreen .mon2-frame.horizontal {
+  width: min(100vw, calc(100vh * 16 / 9)) !important;
+  height: min(100vh, calc(100vw * 9 / 16)) !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+:fullscreen .mon2-frame.vertical {
+  height: min(100vh, calc(100vw * 9 / 16)) !important;
+  width: min(100vw, calc(100vh * 9 / 16)) !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 (Top-aligned & Auto-fit Font Sizes) */
+.mon2-frame.horizontal .trio-content-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 車站名向上靠 */
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal .trio-row-item {
+  flex: 0 0 auto !important;
+  min-height: 80px !important;
+  max-height: 96px !important;
+  height: 84px !important;
+}
+
+.mon2-frame.horizontal .route-nav-track-col {
+  justify-content: flex-start !important;
+}
+
+.mon2-frame.horizontal .track-row-cell {
+  flex: 0 0 auto !important;
+  height: 84px !important;
+  min-height: 84px !important;
+}
+
+/* Auto-adapting station name font size */
+.mon2-frame.horizontal .trio-main-name {
+  font-size: clamp(22px, 3.2vw, 36px) !important;
+  line-height: 1.15 !important;
+}
+
+.mon2-frame.horizontal .dest-zh {
+  font-size: clamp(20px, 2.6vw, 28px) !important;
+}
+
+/* 3. 13頁車站 應該要到底 (Mode 5 ladder rows reach the bottom!) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+/* Every row expands proportionally to fill 100% of height to bottom! */
+.ladder-name-row {
+  flex: 1 1 0px !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 1 0px !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}

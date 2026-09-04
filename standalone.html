@@ -6031,6 +6031,126 @@ body {
   margin-top: 2px !important;
 }
 
+
+/* ==========================================================================
+   FIXED ASPECT RATIO, SCREEN ADAPTATION & TOP-ALIGNED STATIONS
+   (User requirements: 固定大小比例、車站名向上靠、13頁車站應該要到底)
+   ========================================================================== */
+
+/* 1. 應該要自動適應不同螢幕 固定大小比例 (16:9 & 9:16 Fixed Aspect Ratio) */
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(96vw, calc(92vh * 16 / 9)) !important;
+  height: min(92vh, calc(96vw * 9 / 16)) !important;
+  max-width: 1280px !important;
+  max-height: 720px !important;
+  margin: auto !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(92vh, calc(96vw * 16 / 9)) !important;
+  width: min(96vw, calc(92vh * 9 / 16)) !important;
+  max-height: 840px !important;
+  max-width: 472px !important;
+  margin: auto !important;
+}
+
+/* Fullscreen letterboxing maintaining exact aspect ratio */
+:fullscreen .mon2-frame.horizontal {
+  width: min(100vw, calc(100vh * 16 / 9)) !important;
+  height: min(100vh, calc(100vw * 9 / 16)) !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+:fullscreen .mon2-frame.vertical {
+  height: min(100vh, calc(100vw * 9 / 16)) !important;
+  width: min(100vw, calc(100vh * 9 / 16)) !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 (Top-aligned & Auto-fit Font Sizes) */
+.mon2-frame.horizontal .trio-content-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 車站名向上靠 */
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal .trio-row-item {
+  flex: 0 0 auto !important;
+  min-height: 80px !important;
+  max-height: 96px !important;
+  height: 84px !important;
+}
+
+.mon2-frame.horizontal .route-nav-track-col {
+  justify-content: flex-start !important;
+}
+
+.mon2-frame.horizontal .track-row-cell {
+  flex: 0 0 auto !important;
+  height: 84px !important;
+  min-height: 84px !important;
+}
+
+/* Auto-adapting station name font size */
+.mon2-frame.horizontal .trio-main-name {
+  font-size: clamp(22px, 3.2vw, 36px) !important;
+  line-height: 1.15 !important;
+}
+
+.mon2-frame.horizontal .dest-zh {
+  font-size: clamp(20px, 2.6vw, 28px) !important;
+}
+
+/* 3. 13頁車站 應該要到底 (Mode 5 ladder rows reach the bottom!) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-rows-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 !important;
+}
+
+/* Every row expands proportionally to fill 100% of height to bottom! */
+.ladder-name-row {
+  flex: 1 1 0px !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 1 0px !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
 </style>
 </head>
 <body>
@@ -7023,25 +7143,31 @@ class CitybusAPIService {
     const code = (routeCode || "").toUpperCase();
     const name = stopName || "";
 
-    // A Routes (Airport Express)
+    // 1. Sightseeing Routes H1, H2, H3, H4 (落日飛車 / 人力車)
+    if (code.startsWith("H")) {
+      if (code === "H3" || code === "H4") return "$41.8"; // 落日飛車單程 / 全日通
+      return "$19.8";
+    }
+
+    // 2. Airport Express A Routes
     if (code.startsWith("A")) {
       if (name.includes("青嶼幹線") || name.includes("大嶼山") || seq > totalStops * 0.75) return "$17.8";
       if (name.includes("西區海底隧道") || name.includes("西隧")) return "$41.8";
       if (code === "A10") return "$50.3";
       if (code === "A12") return "$47.1";
-      if (code === "A21") return "$34.6";
-      if (code === "A29" || code === "A26") return "$44.0";
+      if (code === "A21") return (seq > totalStops * 0.55) ? "$8.0" : "$34.6";
+      if (code === "A26" || code === "A28" || code === "A29") return "$44.0";
       return "$41.9";
     }
 
-    // NA Routes (Overnight Airport Express)
+    // 3. Overnight Airport NA Routes
     if (code.startsWith("NA")) {
       if (name.includes("青嶼幹線") || seq > totalStops * 0.75) return "$40.2";
       if (code === "NA10" || code === "NA12") return "$60.7";
       return "$54.4";
     }
 
-    // E Routes (North Lantau External)
+    // 4. North Lantau External E Routes
     if (code.startsWith("E")) {
       if (name.includes("東涌") || seq > totalStops * 0.8) return "$4.0";
       if (name.includes("青嶼幹線") || name.includes("青馬")) return "$8.2";
@@ -7049,7 +7175,7 @@ class CitybusAPIService {
       return "$18.9";
     }
 
-    // Cross-Harbour Routes (9xx, 1xx, 6xx, 3xx)
+    // 5. Cross-Harbour Routes (9xx, 1xx, 6xx, 3xx)
     if (code.startsWith("9") || code.startsWith("1") || code.startsWith("6") || code.startsWith("3")) {
       if (code === "930" || code === "930X") {
         if (name.includes("西消防街") || seq > totalStops * 0.7) return "$7.7";
@@ -7061,28 +7187,31 @@ class CitybusAPIService {
         if (name.includes("高樂花園") || seq > totalStops * 0.25) return "$8.1";
         return "$18.1";
       }
+      if (code === "971") {
+        if (name.includes("薄扶林") || seq > totalStops * 0.75) return "$5.6";
+        if (name.includes("西區海底隧道") || name.includes("西隧") || seq > totalStops * 0.4) return "$7.7";
+        return "$13.1";
+      }
       if (name.includes("西區海底隧道") || name.includes("海底隧道") || name.includes("東區海底隧道") || seq > totalStops * 0.6) {
         return "$6.9";
       }
       return "$11.4";
     }
 
-    // Island Express 7xx
+    // 6. Island Express 7xx
     if (code.startsWith("7")) {
       if (name.includes("舊灣仔警署") || name.includes("分域街") || seq > totalStops * 0.7) return "$4.4";
       if (code === "702") return "$4.4";
       return "$7.7";
     }
 
-    // Local routes
+    // 7. Local & Boundary Routes
     if (code === "S1") return "$3.7";
     if (code === "8P") return (seq > totalStops * 0.6) ? "$4.8" : "$7.0";
-    if (code === "B8") return "$16.1";
-    if (code === "H1" || code === "H2") return "$19.8";
+    if (code === "B8") return (seq > totalStops * 0.5) ? "$8.9" : "$16.1";
 
     return "$6.5";
   }
-
 }
 
 window.ctbAPI = new CitybusAPIService();
@@ -8387,7 +8516,10 @@ class Mon2Display {
       "1P": { full: "$4.8", stages: [] },
       "2": { full: "$4.8", stages: [] },
       "H1": { full: "$19.8", stages: [] },
-      "H2": { full: "$19.8", stages: [] }
+      "H2": { full: "$19.8", stages: [] },
+      "H3": { full: "$41.8", stages: [] },
+      "H4": { full: "$41.8", stages: [] },
+      "971": { full: "$13.1", stages: [{ match: "西區海底隧道", fare: "$7.7" }, { match: "薄扶林", fare: "$5.6" }] }
     };
 
     let config = FARE_TABLE[code];
