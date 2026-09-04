@@ -4780,6 +4780,419 @@ body {
   border-color: var(--cityflyer-crimson) !important;
 }
 
+
+/* ==========================================================================
+   RESTORE SOLID BLUE NAVIGATION LINE (Where is line)
+   (Based on user uploaded vertical blue line assets 1.png - 9.png)
+   ========================================================================== */
+.ladder-layout-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  height: 100% !important;
+  width: 100% !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+}
+
+/* 1. Solid Royal Blue Vertical Track Line (Where is line) */
+.ladder-nav-track-col {
+  width: 44px !important;
+  min-width: 44px !important;
+  background: #0022AA !important; /* Royal Blue Track Line */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  margin: 0 0 0 8px !important;
+  padding: 4px 0 0 0 !important;
+  flex-shrink: 0 !important;
+  position: relative !important;
+  border-bottom-left-radius: 22px !important;
+  border-bottom-right-radius: 22px !important;
+}
+
+.mode-cityflyer .ladder-nav-track-col {
+  background: var(--cityflyer-crimson) !important;
+}
+
+.ladder-nav-track-col .track-bar-chevron {
+  width: 32px !important;
+  height: 22px !important;
+  background: #EA580C !important;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 65%, 50% 100%, 0% 65%) !important;
+  margin-bottom: 2px !important;
+  flex-shrink: 0 !important;
+}
+
+.ladder-track-cell {
+  width: 100% !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.ladder-dots-cell {
+  min-height: 20px !important;
+  flex: 0.55 !important;
+}
+
+.ladder-track-cell .track-circle-active {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  background: #FF0000 !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.ladder-track-cell .track-circle-arrived-green {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  background: #16A34A !important;
+  border: 2px solid #FFFFFF !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 900 !important;
+}
+
+.ladder-track-cell .track-circle-upcoming {
+  width: 26px !important;
+  height: 26px !important;
+  border-radius: 50% !important;
+  background: #FFFFFF !important;
+  border: 1.5px solid #94A3B8 !important;
+  color: #0022AA !important;
+  font-size: 12.5px !important;
+  font-weight: 900 !important;
+}
+
+.mode-cityflyer .ladder-track-cell .track-circle-upcoming {
+  color: var(--cityflyer-crimson) !important;
+}
+
+/* 2. Station Rows Column on the Right */
+.ladder-rows-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.ladder-name-row {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  min-height: 38px !important;
+  padding: 0 10px 0 8px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
+
+.ladder-name-row.row-yellow {
+  background-color: #FFF04D !important;
+  color: #000000 !important;
+}
+
+.ladder-name-row.row-white {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+.ladder-name-row.row-current {
+  box-shadow: inset 0 0 0 2px #16A34A !important;
+}
+
+.ladder-name-row.row-dots-spacer {
+  min-height: 20px !important;
+  flex: 0.55 !important;
+  background: #FFFFFF !important;
+}
+
+
+/* ==========================================================================
+   CITYFLYER HORIZONTAL LAYOUT SPECIFICATIONS (A26 Photos 174057, 172754, etc.)
+   ========================================================================== */
+
+/* 1. Header: Red background with diagonal gold accent */
+.mon2-frame.horizontal.mode-cityflyer .mon2-header {
+  height: 72px !important;
+  min-height: 72px !important;
+  background: linear-gradient(115deg, #B70028 0%, #D8262C 48%, #EAB308 48.5%, #B70028 50%, #9E0020 100%) !important;
+  border-bottom: 3.5px solid #F59E0B !important;
+  display: flex !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-route-badge {
+  width: 125px !important;
+  min-width: 125px !important;
+  font-size: 50px !important;
+  font-weight: 900 !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-dest-box {
+  background: transparent !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  padding-left: 6px !important;
+  min-width: 180px !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-zh {
+  color: #FFFFFF !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-en {
+  color: #FFFFFF !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+}
+
+/* 2. Mode 1 & 2 Horizontal: Red track line & Ice-blue row alternation (Photo 174057, 170753) */
+.mon2-frame.horizontal.mode-cityflyer .route-nav-track-col {
+  background: #B70028 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .trio-row-item:nth-child(odd) {
+  background-color: #CEE7FE !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .trio-row-item:nth-child(even) {
+  background-color: #E6F3FD !important;
+}
+
+/* 3. Mode 5 Horizontal: Alternating White & Ice Blue with ETA column (Photo 170726, 170728) */
+.mon2-frame.horizontal.mode-cityflyer .ladder-nav-track-col {
+  background: #B70028 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .ladder-name-row.row-white {
+  background-color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .ladder-name-row.row-yellow {
+  background-color: #D6ECFC !important; /* Soft ice-blue for Cityflyer */
+  color: #000000 !important;
+}
+
+/* 4. Mode 3 Horizontal: Split Card (Photo 172754) */
+.mon2-frame.horizontal.mode-cityflyer .mode3-split-card {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  padding: 6px !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .mode3-top-stop-banner {
+  flex: 0.9 !important;
+  height: 100% !important;
+  border: 2px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  background: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .mode3-fare-base {
+  flex: 1.1 !important;
+  height: 100% !important;
+  border: 2.5px solid #B70028 !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+
+/* ==========================================================================
+   CITYBUS NORMAL HORIZONTAL LAYOUT (Photos 930 & 933 Exact Alignment)
+   ========================================================================== */
+
+/* 1. Header: Blue route square, Yellow destination box, Yellow/Blue driver wedge, White time box */
+.mon2-frame.horizontal.mode-ctb .mon2-header {
+  height: 72px !important;
+  min-height: 72px !important;
+  background: #FFFFFF !important;
+  border-bottom: 3.5px solid var(--ctb-divider-red) !important;
+  display: flex !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  width: 120px !important;
+  min-width: 120px !important;
+  font-size: 52px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-dest-box {
+  background: var(--ctb-bright-yellow) !important;
+  padding: 4px 14px !important;
+  min-width: 220px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-zh {
+  color: #000000 !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-en {
+  color: #1E293B !important;
+  font-size: 13.5px !important;
+  font-weight: 700 !important;
+}
+
+/* Driver Box with Yellow top and Blue bottom wedge as in photos 930 & 933 */
+.mon2-frame.horizontal.mode-ctb .header-driver-box {
+  background: var(--ctb-bright-yellow) !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 4px 12px 0 12px !important;
+  border: none !important;
+  position: relative !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-wrap {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-zh {
+  color: #0F172A !important;
+  font-size: 15px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-en {
+  color: #334155 !important;
+  font-size: 11px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-label {
+  color: #334155 !important;
+  font-size: 11px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-num {
+  color: #0F172A !important;
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-col.col-motto {
+  background: var(--ctb-royal-blue) !important;
+  clip-path: polygon(14px 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+  padding: 3px 18px 3px 22px !important;
+  margin-top: 2px !important;
+  margin-left: -12px !important;
+  margin-right: -12px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-motto-zh,
+.mon2-frame.horizontal.mode-ctb .h-motto-en {
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  font-size: 12px !important;
+}
+
+/* Time Box on the far right */
+.mon2-frame.horizontal.mode-ctb .header-time-box {
+  width: 100px !important;
+  min-width: 100px !important;
+  background: #FFFFFF !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-left: 1px solid #CBD5E1 !important;
+}
+
+/* 2. Horizontal Mode 1 & 2: Alternating White & Light Ice-Blue rows (Photo 193703, 081944) */
+.mon2-frame.horizontal.mode-ctb .route-nav-track-col {
+  background: var(--ctb-royal-blue) !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-row-item:nth-child(odd) {
+  background-color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .trio-row-item:nth-child(even) {
+  background-color: #D8ECFD !important; /* Soft Ice-Blue from real photo */
+}
+
+/* 3. Horizontal Mode 5: Alternating Yellow (#FFF04D) and White (#FFFFFF) (Photo cc28dd60) */
+.mon2-frame.horizontal.mode-ctb .ladder-nav-track-col {
+  background: var(--ctb-royal-blue) !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .ladder-name-row.row-yellow {
+  background-color: #FFF04D !important;
+  color: #000000 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .ladder-name-row.row-white {
+  background-color: #FFFFFF !important;
+  color: #000000 !important;
+}
+
+/* 4. Horizontal Mode 3: 50/50 Split Screen (Photo 804ec7d8, 081416) */
+.mon2-frame.horizontal.mode-ctb .mode3-split-card {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 8px !important;
+  padding: 6px !important;
+  height: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .mode3-top-stop-banner {
+  flex: 0.9 !important;
+  height: 100% !important;
+  border: 2px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  background: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .mode3-fare-base {
+  flex: 1.1 !important;
+  height: 100% !important;
+  border: 2px solid var(--ctb-royal-blue) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
 </style>
 </head>
 <body>
@@ -7211,21 +7624,20 @@ class Mon2Display {
 
     const stops = this.currentRoute.stops;
     const totalStops = stops.length;
-    const isArrived = !this.manualModeNoArrive && (this.telargo_busarrivingstop === 1);
-    const isHorizontal = (this.DirectionV === 0);
+    const isArrived = (this.telargo_busarrivingstop === 1);
 
-    // Stops per page: 13 stops as in photo 5fb64742.jpeg
-    if (totalStops <= 13) {
+    // 「One page show 13 stops」: 每頁嚴格顯示 13 個車站
+    const STOPS_PER_PAGE = 13;
+    if (totalStops <= STOPS_PER_PAGE) {
       this.Mon2_Page_Totel = 1;
     } else {
-      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - 13) / 11);
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - STOPS_PER_PAGE) / 12);
     }
 
     if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
       this.Mon2_Page_Now = this.Mon2_Page_Totel;
     }
 
-    // Subheader: 下一站 Next stop (or 此站 This stop) + Page indicator
     const headerTitleEl = document.querySelector(".ladder-header-title");
     if (headerTitleEl) {
       headerTitleEl.textContent = isArrived ? "此站 This stop" : "下一站 Next stop";
@@ -7237,11 +7649,12 @@ class Mon2Display {
     }
 
     const isPageOne = (this.Mon2_Page_Now === 1);
+    let trackHtml = `<div class="track-bar-chevron"></div>`;
     let rowsHtml = "";
 
     if (isPageOne) {
-      // Page 1: 13 stops, alternating Yellow (#FFF04D) and White (#FFFFFF) as in photo 5fb64742.jpeg
-      const pageList = stops.slice(0, 13);
+      // PAGE 1: 剛好顯示 13 個車站 (One page show 13 stops)
+      const pageList = stops.slice(0, STOPS_PER_PAGE);
 
       pageList.forEach((s, idx) => {
         const isCurrent = (idx === curIdx);
@@ -7257,19 +7670,21 @@ class Mon2Display {
           minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
         }
 
-        // Circle: Green when arrived, Red when active next stop, White with blue border otherwise
         let circleClass = "track-circle-upcoming";
         if (isCurrent) {
           circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
         }
 
-        rowsHtml += `
-          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-track-cell">
-              <div class="${circleClass}">
-                ${s.num}
-              </div>
+        trackHtml += `
+          <div class="ladder-track-cell">
+            <div class="${circleClass}">
+              ${s.num}
             </div>
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
               <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
@@ -7282,27 +7697,34 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-unified-wrapper">
-          ${rowsHtml}
-          <div class="ladder-eta-footer-label">
-            <span>預計(分鐘) ETA(min)</span>
+        <div class="ladder-layout-wrapper">
+          <div class="ladder-nav-track-col arrow-rounded">
+            ${trackHtml}
+          </div>
+          <div class="ladder-rows-col">
+            ${rowsHtml}
+            <div class="ladder-eta-footer-label">
+              <span>預計(分鐘) ETA(min)</span>
+            </div>
           </div>
         </div>
       `;
     } else {
-      // Page 2+: Origin stop + 3 dots in track + Page stops (as in photo c3d4b60b.jpeg)
+      // PAGE 2+: 1 起點站 + 3 白點省略號 + 12 車站 = 共 13 站
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
-      const startIdx = 13 + (this.Mon2_Page_Now - 2) * 11;
-      const pageList = stops.slice(startIdx, startIdx + 11);
+      const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
+      const pageList = stops.slice(startIdx, startIdx + 12);
 
-      // Row 1: Origin Stop
-      rowsHtml += `
-        <div class="ladder-unified-row row-yellow">
-          <div class="ladder-track-cell">
-            <div class="track-circle-upcoming">
-              ${firstStop.num}
-            </div>
+      // Row 1: 起點總站
+      trackHtml += `
+        <div class="ladder-track-cell">
+          <div class="track-circle-upcoming">
+            ${firstStop.num}
           </div>
+        </div>
+      `;
+      rowsHtml += `
+        <div class="ladder-name-row row-yellow">
           <div class="ladder-names-cell">
             <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
             <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
@@ -7311,22 +7733,24 @@ class Mon2Display {
         </div>
       `;
 
-      // 3 Dots spacer row
-      rowsHtml += `
-        <div class="ladder-unified-row ladder-dots-row">
-          <div class="ladder-track-cell">
-            <div class="track-dots-group">
-              <span class="track-dot"></span>
-              <span class="track-dot"></span>
-              <span class="track-dot"></span>
-            </div>
+      // 3 白點省略號 (對應素材 12.png)
+      trackHtml += `
+        <div class="ladder-track-cell ladder-dots-cell">
+          <div class="track-dots-group">
+            <span class="track-dot"></span>
+            <span class="track-dot"></span>
+            <span class="track-dot"></span>
           </div>
+        </div>
+      `;
+      rowsHtml += `
+        <div class="ladder-name-row row-dots-spacer">
           <div class="ladder-names-cell"></div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // Page stops
+      // 隨後 12 個車站
       pageList.forEach((s, idx) => {
         const globalIdx = startIdx + idx;
         const isCurrent = (globalIdx === curIdx);
@@ -7347,13 +7771,16 @@ class Mon2Display {
           circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
         }
 
-        rowsHtml += `
-          <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-track-cell">
-              <div class="${circleClass}">
-                ${s.num}
-              </div>
+        trackHtml += `
+          <div class="ladder-track-cell">
+            <div class="${circleClass}">
+              ${s.num}
             </div>
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
               <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
@@ -7366,10 +7793,15 @@ class Mon2Display {
       });
 
       listEl.innerHTML = `
-        <div class="ladder-unified-wrapper">
-          ${rowsHtml}
-          <div class="ladder-eta-footer-label">
-            <span>預計(分鐘) ETA(min)</span>
+        <div class="ladder-layout-wrapper">
+          <div class="ladder-nav-track-col arrow-pointed">
+            ${trackHtml}
+          </div>
+          <div class="ladder-rows-col">
+            ${rowsHtml}
+            <div class="ladder-eta-footer-label">
+              <span>預計(分鐘) ETA(min)</span>
+            </div>
           </div>
         </div>
       `;
