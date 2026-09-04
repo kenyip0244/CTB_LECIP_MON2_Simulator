@@ -933,7 +933,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${this.cleanStopName(s.zh)} </div>
+            <div class="trio-main-name" style="${s.zh.length > 10 ? 'font-size: 22px; line-height: 1.15;' : (s.zh.length > 6 ? 'font-size: 26px; line-height: 1.15;' : 'font-size: 32px; line-height: 1.15;')}">${this.cleanStopName(s.zh)} </div>
             ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -1025,7 +1025,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${this.cleanStopName(s.en)} </div>
+            <div class="trio-main-name" style="${s.en.length > 25 ? 'font-size: 14px; line-height: 1.15;' : (s.en.length > 18 ? 'font-size: 17px; line-height: 1.15;' : 'font-size: 21px; line-height: 1.15;')}">${this.cleanStopName(s.en)} </div>
             ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
           </div>
           <div class="trio-eta-col">

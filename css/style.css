@@ -4838,3 +4838,151 @@ body {
   font-weight: 800 !important;
   margin-top: 4px !important;
 }
+
+
+/* ==========================================================================
+   STRICT FIXED ASPECT RATIO & 100% BOTTOM FILL (固定大小比例, 13站到底, 車站名向上靠)
+   ========================================================================== */
+
+/* 1. 嚴格固定大小比例 (Fixed Aspect Ratio: 16:9 Horizontal, 9:16 Vertical) */
+.display-viewport-container {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  overflow: auto !important;
+}
+
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #18191C !important;
+  padding: 14px !important;
+  border-radius: 16px !important;
+  box-sizing: border-box !important;
+}
+
+/* Horizontal: Fixed 800x450 (16:9) - NEVER stretch arbitrarily! */
+.mon2-frame.horizontal {
+  width: 800px !important;
+  height: 450px !important;
+  min-width: 800px !important;
+  min-height: 450px !important;
+  max-width: 800px !important;
+  max-height: 450px !important;
+  aspect-ratio: 16 / 9 !important;
+  margin: auto !important;
+  border-radius: 6px !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Vertical: Fixed 420x750 (9:16) */
+.mon2-frame.vertical {
+  width: 420px !important;
+  height: 750px !important;
+  min-width: 420px !important;
+  min-height: 750px !important;
+  max-width: 420px !important;
+  max-height: 750px !important;
+  aspect-ratio: 9 / 16 !important;
+  margin: auto !important;
+  border-radius: 6px !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+}
+
+/* Fullscreen Letterboxing: Keep 16:9 and 9:16 aspect ratio with black borders */
+#mon2-frame.horizontal:fullscreen,
+.mon2-frame.horizontal:fullscreen {
+  width: min(100vw, calc(100vh * 16 / 9)) !important;
+  height: min(100vh, calc(100vw * 9 / 16)) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  aspect-ratio: 16 / 9 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+}
+
+#mon2-frame.vertical:fullscreen,
+.mon2-frame.vertical:fullscreen {
+  width: min(100vw, calc(100vh * 9 / 16)) !important;
+  height: min(100vh, calc(100vw * 16 / 9)) !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  aspect-ratio: 9 / 16 !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  margin: 0 !important;
+}
+
+/* 2. 13頁車站 應該要到底 (Fill 100% height to bottom with zero empty gap) */
+.ladder-wrapper,
+.ladder-layout-wrapper {
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex: 1 !important;
+  overflow: hidden !important;
+}
+
+.ladder-rows-col,
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* 3. 車站名向上靠 自動適應大細 (Top-aligned station names) */
+.trio-content-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.trio-row-item {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: flex-start !important; /* 車站名向上靠 */
+  padding-top: 14px !important;
+}
+
+.trio-name-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 向上靠 */
+  align-items: flex-start !important;
+}
