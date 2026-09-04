@@ -318,7 +318,12 @@ class Mon2Controller {
     }
 
     // Fetch stops from API
-    const stops = await this.api.getRouteStops(routeCode, direction);
+    let stops = null;
+    if (routeMeta.isKMB) {
+      stops = await this.api.getKMBRouteStops(routeCode, direction, routeMeta.service_type || "1");
+    } else {
+      stops = await this.api.getRouteStops(routeCode, direction);
+    }
     this.currentStops = stops || [];
 
     // Construct route object for Mon2Display
@@ -348,7 +353,12 @@ class Mon2Controller {
 
     // Fetch ETA Trips for first stop
     const firstStopId = this.currentStops[0]?.stopId || "001";
-    const trips = await this.api.getTripsETA(firstStopId, routeCode);
+    let trips = [];
+    if (routeMeta.isKMB) {
+      trips = await this.api.getKMBTripsETA(firstStopId, routeCode, routeMeta.service_type || "1");
+    } else {
+      trips = await this.api.getTripsETA(firstStopId, routeCode);
+    }
     this.populateTripSelect(trips);
 
     // Automatically start journey progression!

@@ -642,11 +642,9 @@ class Mon2Display {
 
     let targetTheme = this.themeOverride;
     if (targetTheme === "auto") {
-      if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
-        targetTheme = "cityflyer";
-      } else {
-        targetTheme = "ctb"; // 只保留城巴普通線與城巴機場快線
-      }
+      // 「只有A線跟cityFlyer 其他城巴普通路線排版」
+      const isALine = (r.code || "").toUpperCase().startsWith("A");
+      targetTheme = isALine ? "cityflyer" : "ctb";
     }
 
     if (targetTheme === "cityflyer") {
@@ -1383,8 +1381,8 @@ class Mon2Display {
       rowsHtml += `
         <div class="ladder-name-row row-yellow">
           <div class="ladder-names-cell">
-            <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
-            <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
+            <span class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</span>
+            <span class="ladder-en-col">${this.cleanStopName(firstStop.en)}</span>
           </div>
           <div class="ladder-eta-col"></div>
         </div>

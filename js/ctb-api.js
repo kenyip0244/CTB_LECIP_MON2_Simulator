@@ -13,6 +13,120 @@
  */
 
 class CitybusAPIService {
+  // --- KMB / LWB Open Data API Integration (加入九巴龍運路線資料) ---
+  async getKMBRoutes() {
+    if (this.kmbRouteCache) return this.kmbRouteCache;
+    try {
+      const resp = await fetch("https://data.etabus.gov.hk/v1/transport/kmb/route/");
+      if (resp.ok) {
+        const json = await resp.json();
+        if (json && json.data) {
+          const list = json.data.map(r => ({
+            co: r.bound === "O" ? "KMB" : "KMB",
+            route: r.route,
+            orig_tc: r.orig_tc,
+            dest_tc: r.dest_tc,
+            orig_en: r.orig_en,
+            dest_en: r.dest_en,
+            service_type: r.service_type || "1",
+            bound: r.bound === "O" ? "outbound" : "inbound",
+            isKMB: true
+          }));
+          this.kmbRouteCache = list;
+          return list;
+        }
+      }
+    } catch (e) {
+      console.warn("Could not fetch KMB routes:", e);
+    }
+    return [];
+  }
+
+  async getKMBRouteStops(route, direction = "outbound", serviceType = "1") {
+    const boundKey = direction === "outbound" ? "outbound" : "inbound";
+    try {
+      const resp = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/route-stop/${encodeURIComponent(route)}/${boundKey}/${serviceType}`);
+      if (resp.ok) {
+        const json = await resp.json();
+        if (json && json.data && json.data.length > 0) {
+          const stopPromises = json.data.map(async (item) => {
+            const stopInfo = await this.getKMBStopInfo(item.stop);
+            return {
+              num: item.seq,
+              stopId: item.stop,
+              zh: (stopInfo.name_tc || `車站 ${item.seq}`).split(/[,，]/)[0].trim(),
+              en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].trim(),
+              lat: parseFloat(stopInfo.lat) || 0,
+              long: parseFloat(stopInfo.long) || 0,
+              subZh: "",
+              subEn: "",
+              fare: this.calculateStopFare(route, item.seq, json.data.length, stopInfo.name_tc),
+              isTerminus: item.seq === json.data.length,
+              isKMB: true
+            };
+          });
+          return await Promise.all(stopPromises);
+        }
+      }
+    } catch (e) {
+      console.warn(`KMB route-stop ${route} failed:`, e);
+    }
+    return null;
+  }
+
+  async getKMBStopInfo(stopId) {
+    if (this.stopCache.has(`kmb_${stopId}`)) {
+      return this.stopCache.get(`kmb_${stopId}`);
+    }
+    try {
+      const resp = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/stop/${stopId}`);
+      if (resp.ok) {
+        const json = await resp.json();
+        if (json && json.data) {
+          this.stopCache.set(`kmb_${stopId}`, json.data);
+          return json.data;
+        }
+      }
+    } catch (e) {}
+    return { stop: stopId, name_tc: `巴士站 ${stopId}`, name_en: `Bus Stop ${stopId}` };
+  }
+
+  async getKMBTripsETA(stopId, route, serviceType = "1") {
+    try {
+      const resp = await fetch(`https://data.etabus.gov.hk/v1/transport/kmb/eta/${stopId}/${encodeURIComponent(route)}/${serviceType}`);
+      if (resp.ok) {
+        const json = await resp.json();
+        if (json && json.data && json.data.length > 0) {
+          const now = new Date();
+          return json.data.map((item, idx) => {
+            let diffMins = 0;
+            let timeLabel = "";
+            if (item.eta) {
+              const etaDate = new Date(item.eta);
+              diffMins = Math.max(0, Math.round((etaDate - now) / 60000));
+              const h = String(etaDate.getHours()).padStart(2, "0");
+              const m = String(etaDate.getMinutes()).padStart(2, "0");
+              timeLabel = `${h}:${m} (${diffMins === 0 ? "即將開出" : `${diffMins} 分鐘`})`;
+            } else {
+              timeLabel = `班次 #${idx + 1}`;
+              diffMins = idx * 10 + 3;
+            }
+            return {
+              tripId: `kmb_trip_${idx + 1}`,
+              seq: idx + 1,
+              timeLabel: timeLabel,
+              etaDate: item.eta,
+              diffMins: diffMins,
+              remarkZh: item.rmk_tc || (idx === 0 ? "正在行駛班次" : "預計開出班次"),
+              remarkEn: item.rmk_en || "Scheduled Trip"
+            };
+          });
+        }
+      }
+    } catch (e) {}
+    return [];
+  }
+
 
   // --- 首次聯網自動從 API 線上導入所有資料 (路線走法、停站位置、價錢、到站時間) ---
   async autoImportAllOnlineData(onProgress) {
@@ -20,6 +134,8 @@ class CitybusAPIService {
 
     // 1. 路線資料 (Routes Catalogue)
     const routes = await this.getRoutes();
+    const kmbRoutes = await this.getKMBRoutes();
+    if (onProgress) onProgress(`成功導入 ${routes.length} 條城巴路線與 ${kmbRoutes.length} 條九巴龍運路線！`);
     if (onProgress) onProgress(`成功導入 ${routes.length} 條城巴路線資料！正在獲取即時票價數據...`);
 
     // 2. 票價資料 (Fare Table)
@@ -130,7 +246,9 @@ class CitybusAPIService {
 
   // Search routes by keyword (e.g. "914", "A12", "780", "海麗", "銅鑼灣")
   async searchRoutes(query) {
-    const all = await this.getRoutes();
+    const ctbRoutes = await this.getRoutes();
+    const kmbRoutes = await this.getKMBRoutes();
+    const all = [...ctbRoutes, ...kmbRoutes];
     if (!query || !query.trim()) return all.slice(0, 30);
     const q = query.trim().toUpperCase();
     return all.filter(r => 

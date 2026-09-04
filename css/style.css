@@ -6834,3 +6834,363 @@ body {
   font-size: clamp(24px, 2.8vw, 36px) !important;
   font-weight: 900 !important;
 }
+
+
+/* ==========================================================================
+   FIXED 16:9 ASPECT RATIO & RESPONSIVE SCALING (固定大小比例 自動適應不同螢幕)
+   ========================================================================== */
+.screen-viewport {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
+
+.screen-housing {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+#mon2-display-container {
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* Horizontal screen locked to fixed 16:9 ratio, auto adapting to any screen */
+.mon2-frame.horizontal {
+  width: 100% !important;
+  max-width: 960px !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  max-height: calc(100vh - 120px) !important;
+  margin: auto !important;
+  position: relative !important;
+}
+
+/* 1. 車站名向上靠 自動適應大細 (Station names align to top & auto adapt font size) */
+.mode3-station-name-row,
+.mon2-frame.horizontal .mode3-station-name-row,
+.mon2-frame.horizontal .trio-name-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding-top: 14px !important;
+}
+
+.mode3-station-name-row .m3-zh,
+.mon2-frame.horizontal .trio-main-name {
+  font-size: clamp(22px, 3.2vw, 36px) !important;
+  line-height: 1.15 !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.mode3-station-name-row .m3-en,
+.mon2-frame.horizontal .trio-sub-text {
+  font-size: clamp(13px, 1.6vw, 18px) !important;
+  line-height: 1.15 !important;
+  font-weight: 700 !important;
+  margin-top: 4px !important;
+}
+
+/* 2. 13頁車站 應該要到底 (Ladder rows stretch all the way down to bottom) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.ladder-name-row {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* KMB Badge Styling in route search */
+.badge-kmb {
+  background: #DC2626 !important;
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+}
+
+
+/* ==========================================================================
+   FINAL REAL-BUS FIXES:
+   1. 車站名稱高度/行貼合車站編號 (Name vertically aligned with circle)
+   2. 13站橫向: 中文站名  英文站名 (Two-column layout across row)
+   3. 13站到底 (Rows stretch 100% to bottom)
+   4. 車費資料排版修復 (Fix Fare Information card layout & borders)
+   ========================================================================== */
+
+/* Mode 3 Top Stop Banner: Clean horizontal alignment */
+.mode3-top-stop-banner {
+  display: flex !important;
+  flex-direction: column !important;
+  background: #FFFFFF !important;
+  border: 2px solid #CBD5E1 !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+}
+
+.mode3-stop-header-row {
+  height: 38px !important;
+  min-height: 38px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 0 12px !important;
+  background: #FFFFFF !important;
+  border-bottom: 2px solid #CBD5E1 !important;
+}
+
+.mode3-header-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.mode3-header-left .track-bar-chevron {
+  margin: 0 !important;
+  width: 28px !important;
+  height: 20px !important;
+}
+
+.mode3-status-label {
+  font-size: 19px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.mode3-stop-main-body {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  background: #FFFFFF !important;
+}
+
+.mode3-stop-track {
+  width: 50px !important;
+  min-width: 50px !important;
+  background: #0022AA !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  position: relative !important;
+  margin: 0 !important;
+  padding-top: 16px !important;
+}
+
+.mode-cityflyer .mode3-stop-track {
+  background: #D8262C !important;
+}
+
+.mode3-stop-track .track-bar-point-bottom {
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 20px !important;
+  background: inherit !important;
+  clip-path: polygon(0% 0%, 100% 0%, 50% 100%) !important;
+}
+
+.mode3-station-name-row {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  padding: 12px 18px 0 18px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(24px, 3.2vw, 36px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(14px, 1.8vw, 20px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.2 !important;
+  margin-top: 4px !important;
+}
+
+/* Fix Fare Information Table on Right */
+.mode3-fare-base {
+  background: #FFFFFF !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.mode3-fare-base .section-title-bar {
+  background: #0022AA !important;
+  color: #FFFFFF !important;
+  padding: 6px 14px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  font-size: 16px !important;
+  font-weight: 900 !important;
+}
+
+.mode-cityflyer .mode3-fare-base .section-title-bar {
+  background: #B70028 !important;
+}
+
+.fare-black-header {
+  background: #000000 !important;
+  color: #FFFFFF !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 6px 16px !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+}
+
+.fare-stage-list {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow-y: auto !important;
+}
+
+.fare-stage-row {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 10px 18px !important;
+  border-bottom: 1.5px solid #F1F5F9 !important;
+}
+
+.stage-zh {
+  font-size: 18px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+}
+
+.stage-en {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+
+.price-val {
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  color: #0022AA !important;
+  font-family: var(--font-english) !important;
+}
+
+.mode-cityflyer .price-val {
+  color: #B70028 !important;
+}
+
+.fare-bottom-notice {
+  background: #F8FAFC !important;
+  padding: 6px 14px !important;
+  border-top: 1px solid #E2E8F0 !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+
+.fare-bottom-notice .notice-text {
+  font-size: 11px !important;
+  color: #475569 !important;
+  line-height: 1.25 !important;
+}
+
+/* 13-Stops Mode 5 Horizontal: 中文站名 (左) 与 英文站名 (中) 横向平铺 */
+.mon2-frame.horizontal .ladder-names-cell {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 32px !important;
+  flex: 1 !important;
+}
+
+.mon2-frame.horizontal .ladder-names-cell .ladder-zh-col {
+  font-size: 21px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  min-width: 220px !important;
+  white-space: nowrap !important;
+}
+
+.mon2-frame.horizontal .ladder-names-cell .ladder-en-col {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  white-space: nowrap !important;
+}
+
+/* 13-Stops Rows Stretch to 100% Bottom */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+}
+
+.ladder-name-row {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-track-cell {
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
