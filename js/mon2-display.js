@@ -1274,6 +1274,8 @@ class Mon2Display {
         config = { full: "$18.9", stages: [{ match: "東涌", fare: "$4.0" }] };
       } else if (code.startsWith("9") || code.startsWith("1") || code.startsWith("6")) {
         config = { full: "$11.4", stages: [{ match: "隧道", fare: "$6.9" }] };
+      } else if (code.startsWith("H")) {
+        config = { full: "$19.8", stages: [{ match: "中環", fare: "$19.8" }] };
       } else if (code.startsWith("7")) {
         config = { full: "$7.7", stages: [{ match: "灣仔", fare: "$4.4" }] };
       } else {
