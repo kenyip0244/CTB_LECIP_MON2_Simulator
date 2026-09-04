@@ -644,44 +644,26 @@ class Mon2Display {
 
     let targetTheme = this.themeOverride;
     if (targetTheme === "auto") {
-      if (r.code.startsWith("H") || r.isRickshaw) {
-        targetTheme = "rickshaw";
-      } else if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
+      if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
         targetTheme = "cityflyer";
-      } else if (r.company === "NWFB") {
-        targetTheme = "nwfb";
       } else {
-        targetTheme = "ctb";
+        targetTheme = "ctb"; // 只保留城巴普通線與城巴機場快線
       }
     }
 
     if (targetTheme === "cityflyer") {
-      this.Mon2_Tex_Mode = 1; // CTB CityFlyer
+      this.Mon2_Tex_Mode = 1; // 城巴機場快線
       frame.classList.add("mode-cityflyer");
       if (badge) {
         badge.style.backgroundColor = "transparent";
         badge.style.color = "#FFFFFF";
       }
-    } else if (targetTheme === "rickshaw") {
-      this.Mon2_Tex_Mode = 2; // NWFB RSB
-      frame.classList.add("mode-rickshaw");
-      if (badge) {
-        badge.style.backgroundColor = "#8B1E1E";
-        badge.style.color = "#FFD700";
-      }
-    } else if (targetTheme === "nwfb") {
-      this.Mon2_Tex_Mode = 0; // NWFB Normal
-      frame.classList.add("mode-nwfb");
-      if (badge) {
-        badge.style.backgroundColor = "#FF6600";
-        badge.style.color = "#FFFFFF";
-      }
     } else {
-      this.Mon2_Tex_Mode = 0; // CTB Normal
+      this.Mon2_Tex_Mode = 0; // 城巴普通路線
       frame.classList.add("mode-ctb");
       if (badge) {
-        badge.style.backgroundColor = r.colorHex || "#004B87";
-        badge.style.color = r.textColor || "#FFFFFF";
+        badge.style.backgroundColor = "#0022AA";
+        badge.style.color = "#FFFFFF";
       }
     }
   }
@@ -931,7 +913,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${this.cleanStopName(s.zh)} </div>
             ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -1023,7 +1005,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${this.cleanStopName(s.en)} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${this.cleanStopName(s.en)} </div>
             ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -1357,7 +1339,7 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} </div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
@@ -1453,7 +1435,7 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} </div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">

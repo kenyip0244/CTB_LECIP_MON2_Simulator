@@ -5193,6 +5193,372 @@ body {
   overflow: hidden !important;
 }
 
+
+/* ==========================================================================
+   USER REFINEMENTS:
+   1. 線條唔使咁粗 (Slimmer navigation track: 32px instead of 44px)
+   2. 嗰三粒點被擋住咗 (3 dots fully visible and unobstructed)
+   3. 取消總站卡片 (No [總站] / [Terminus] red tag)
+   4. 只保留城巴普通線與城巴機場快線 (Only Citybus Normal & Cityflyer)
+   ========================================================================== */
+
+/* 1. 線條唔使咁粗 (Slimmer Track Line) */
+.ladder-nav-track-col,
+.route-nav-track-col {
+  width: 32px !important;
+  min-width: 32px !important;
+  margin: 0 0 0 6px !important;
+  border-bottom-left-radius: 16px !important;
+  border-bottom-right-radius: 16px !important;
+}
+
+.ladder-track-cell {
+  width: 32px !important;
+  min-width: 32px !important;
+}
+
+/* Slimmer circles to fit refined track */
+.ladder-track-cell .track-circle-active,
+.ladder-track-cell .track-circle-arrived-green,
+.ladder-track-cell .track-circle-upcoming,
+.route-nav-track-col .track-circle-active,
+.route-nav-track-col .track-circle-arrived-green,
+.route-nav-track-col .track-circle-upcoming {
+  width: 23px !important;
+  height: 23px !important;
+  font-size: 11.5px !important;
+}
+
+.track-bar-chevron {
+  width: 24px !important;
+  height: 18px !important;
+}
+
+/* 2. 嗰三粒點被擋住咗 (3 dots unobstructed & clear) */
+.ladder-dots-cell {
+  height: 32px !important;
+  min-height: 32px !important;
+  flex: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent !important;
+}
+
+.row-dots-spacer {
+  height: 32px !important;
+  min-height: 32px !important;
+  flex: none !important;
+  background: #FFFFFF !important;
+}
+
+.track-dots-group {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  margin: 0 !important;
+  padding: 2px 0 !important;
+  z-index: 10 !important;
+}
+
+.track-dot {
+  width: 5.5px !important;
+  height: 5.5px !important;
+  border-radius: 50% !important;
+  background: #FFFFFF !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+  display: block !important;
+}
+
+/* 3. 取消總站卡片 (Completely eliminate [總站] / [Terminus] red tag) */
+.tag-term {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* Refined station names spacing */
+.ladder-name-row {
+  padding-left: 8px !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-size: 17.5px !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-size: 12px !important;
+}
+
+
+/* ==========================================================================
+   HORIZONTAL SCREEN: ENLARGED TOP HEADER (加大頂部 - 930 & A10 Photos 6fc273ae & 151656)
+   ========================================================================== */
+.mon2-frame.horizontal .mon2-header {
+  height: 90px !important;
+  min-height: 90px !important;
+  display: flex !important;
+  align-items: stretch !important;
+  padding: 0 !important;
+  border-bottom: 4px solid var(--ctb-divider-red) !important;
+}
+
+.mon2-frame.horizontal .mon2-main {
+  height: calc(100% - 90px) !important;
+}
+
+/* 1. 城巴普通路線 (Citybus Normal - Photo 6fc273ae: 930) */
+.mon2-frame.horizontal.mode-ctb .mon2-header {
+  background: #FFFFFF !important;
+  border-bottom: 4px solid #D92525 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-route-badge {
+  background: var(--ctb-royal-blue) !important;
+  color: #FFFFFF !important;
+  width: 140px !important;
+  min-width: 140px !important;
+  font-size: 58px !important;
+  font-weight: 900 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-route-badge .route-num {
+  font-size: 58px !important;
+  line-height: 1 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .header-dest-box {
+  background: var(--ctb-bright-yellow) !important;
+  padding: 6px 18px !important;
+  min-width: 250px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-zh {
+  color: #000000 !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.01em !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .dest-en {
+  color: #1E293B !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  margin-top: 2px !important;
+}
+
+/* Normal Header Driver Box: Yellow top with blue bottom wedge */
+.mon2-frame.horizontal.mode-ctb .header-driver-box {
+  background: var(--ctb-bright-yellow) !important;
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  padding: 6px 14px 0 14px !important;
+  border: none !important;
+  position: relative !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-wrap {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-zh {
+  color: #000000 !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-name-en {
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-label {
+  color: #334155 !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-id-num {
+  color: #000000 !important;
+  font-size: 24px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-driver-col.col-motto {
+  background: var(--ctb-royal-blue) !important;
+  clip-path: polygon(16px 0%, 100% 0%, 100% 100%, 0% 100%) !important;
+  padding: 4px 22px !important;
+  margin-top: 2px !important;
+  margin-left: -14px !important;
+  margin-right: -14px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .h-motto-zh,
+.mon2-frame.horizontal.mode-ctb .h-motto-en {
+  color: #FFFFFF !important;
+  font-weight: 900 !important;
+  font-size: 13.5px !important;
+}
+
+/* Time box on the far right */
+.mon2-frame.horizontal.mode-ctb .header-time-box {
+  width: 115px !important;
+  min-width: 115px !important;
+  background: #FFFFFF !important;
+  border-left: 1.5px solid #CBD5E1 !important;
+  padding: 4px 8px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .time-label-zh {
+  font-size: 12px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .time-label-en {
+  font-size: 10.5px !important;
+}
+
+.mon2-frame.horizontal.mode-ctb .time-value {
+  font-size: 25px !important;
+  font-weight: 900 !important;
+}
+
+/* 2. 城巴機場快線 (Cityflyer - Photo IMG_20260207_151656: A10) */
+.mon2-frame.horizontal.mode-cityflyer .mon2-header {
+  height: 90px !important;
+  min-height: 90px !important;
+  background: linear-gradient(112deg, #D8262C 0%, #B70028 46%, #EAB308 46.5%, #B70028 48.5%, #9E0020 100%) !important;
+  border-bottom: 4px solid #F59E0B !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-route-badge {
+  width: 140px !important;
+  min-width: 140px !important;
+  font-size: 58px !important;
+  font-weight: 900 !important;
+  background: transparent !important;
+  color: #FFFFFF !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-route-badge .route-num {
+  font-size: 58px !important;
+  line-height: 1 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-dest-box {
+  background: transparent !important;
+  padding: 6px 16px !important;
+  min-width: 240px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-zh {
+  color: #FFFFFF !important;
+  font-size: 28px !important;
+  font-weight: 900 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .dest-en {
+  color: #FFFFFF !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  margin-top: 2px !important;
+}
+
+/* Cityflyer Header Driver Box */
+.mon2-frame.horizontal.mode-cityflyer .header-driver-box {
+  background: transparent !important;
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  padding: 0 16px !important;
+  border: none !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-wrap {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-around !important;
+  width: 100% !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-name-zh {
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-driver-name-en {
+  font-size: 12px !important;
+  color: #FEE2E2 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-motto-zh {
+  font-size: 15px !important;
+  font-weight: 900 !important;
+  color: #FDE047 !important; /* Gold text */
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-motto-en {
+  font-size: 11.5px !important;
+  color: #FDE047 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-id-label {
+  font-size: 12px !important;
+  color: #FFFFFF !important;
+  font-weight: 700 !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .h-id-num {
+  font-size: 26px !important;
+  font-weight: 900 !important;
+  color: #FFFFFF !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .header-time-box {
+  width: 115px !important;
+  min-width: 115px !important;
+  background: #F1F5F9 !important;
+  border-left: 1.5px solid #CBD5E1 !important;
+  padding: 4px 8px !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .time-label-zh {
+  font-size: 12px !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .time-label-en {
+  font-size: 10.5px !important;
+}
+
+.mon2-frame.horizontal.mode-cityflyer .time-value {
+  font-size: 25px !important;
+  font-weight: 900 !important;
+}
+
 </style>
 </head>
 <body>
@@ -5392,10 +5758,8 @@ body {
           <label for="ctrl-theme-base">車載主題基底 (Base Theme)：</label>
           <select id="ctrl-theme-base" class="form-select">
             <option value="auto" selected>自動 (依路線判定 Auto)</option>
-            <option value="cityflyer">Cityflyer 機場快線紅金基底 (Cityflyer Base)</option>
-            <option value="ctb">城巴市區藍黃基底 (Citybus Normal Base)</option>
-            <option value="nwfb">新巴市區橙綠基底 (NWFB Normal Base)</option>
-            <option value="rickshaw">人力車觀光紅金基底 (Rickshaw Base)</option>
+            <option value="ctb">城巴普通路線 (Citybus Normal)</option>
+            <option value="cityflyer">城巴機場快線 (Citybus Cityflyer)</option>
           </select>
         </div>
         <div class="form-row">
@@ -6973,44 +7337,26 @@ class Mon2Display {
 
     let targetTheme = this.themeOverride;
     if (targetTheme === "auto") {
-      if (r.code.startsWith("H") || r.isRickshaw) {
-        targetTheme = "rickshaw";
-      } else if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
+      if (r.code.startsWith("A") || r.code.startsWith("NA") || r.isAirport) {
         targetTheme = "cityflyer";
-      } else if (r.company === "NWFB") {
-        targetTheme = "nwfb";
       } else {
-        targetTheme = "ctb";
+        targetTheme = "ctb"; // 只保留城巴普通線與城巴機場快線
       }
     }
 
     if (targetTheme === "cityflyer") {
-      this.Mon2_Tex_Mode = 1; // CTB CityFlyer
+      this.Mon2_Tex_Mode = 1; // 城巴機場快線
       frame.classList.add("mode-cityflyer");
       if (badge) {
         badge.style.backgroundColor = "transparent";
         badge.style.color = "#FFFFFF";
       }
-    } else if (targetTheme === "rickshaw") {
-      this.Mon2_Tex_Mode = 2; // NWFB RSB
-      frame.classList.add("mode-rickshaw");
-      if (badge) {
-        badge.style.backgroundColor = "#8B1E1E";
-        badge.style.color = "#FFD700";
-      }
-    } else if (targetTheme === "nwfb") {
-      this.Mon2_Tex_Mode = 0; // NWFB Normal
-      frame.classList.add("mode-nwfb");
-      if (badge) {
-        badge.style.backgroundColor = "#FF6600";
-        badge.style.color = "#FFFFFF";
-      }
     } else {
-      this.Mon2_Tex_Mode = 0; // CTB Normal
+      this.Mon2_Tex_Mode = 0; // 城巴普通路線
       frame.classList.add("mode-ctb");
       if (badge) {
-        badge.style.backgroundColor = r.colorHex || "#004B87";
-        badge.style.color = r.textColor || "#FFFFFF";
+        badge.style.backgroundColor = "#0022AA";
+        badge.style.color = "#FFFFFF";
       }
     }
   }
@@ -7260,7 +7606,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.zh.length > 8 ? 'font-size: 20px; line-height: 1.15;' : ''}">${this.cleanStopName(s.zh)} </div>
             ${s.subZh || (s.landmarks && s.landmarks[0]) ? `<div class="trio-sub-text">${s.subZh || s.landmarks[0]}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -7352,7 +7698,7 @@ class Mon2Display {
       rowsHtml += `
         <div class="trio-row-item ${isFirst ? 'row-active' : ''}">
           <div class="trio-name-col">
-            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${this.cleanStopName(s.en)} ${s.isTerminus ? '<span class="tag-term">Terminus</span>' : ''}</div>
+            <div class="trio-main-name" style="${s.en.length > 20 ? 'font-size: 18px; line-height: 1.15;' : ''}">${this.cleanStopName(s.en)} </div>
             ${s.subEn ? `<div class="trio-sub-text">${s.subEn}</div>` : ''}
           </div>
           <div class="trio-eta-col">
@@ -7686,7 +8032,7 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} </div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
@@ -7782,7 +8128,7 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} ${s.isTerminus ? '<span class="tag-term">總站</span>' : ''}</div>
+              <div class="ladder-zh-col">${this.cleanStopName(s.zh)} </div>
               <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
