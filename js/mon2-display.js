@@ -1325,18 +1325,15 @@ class Mon2Display {
     if (!listEl || !this.currentRoute) return;
 
     const stops = this.currentRoute.stops;
-    const isArrived = (this.telargo_busarrivingstop === 1);
+    const totalStops = stops.length;
+    const isArrived = !this.manualModeNoArrive && (this.telargo_busarrivingstop === 1);
 
-    // 「已過車站不顯示」: 嚴格從當前車站 (curIdx) 開始向後切片，絕不顯示前方已駛過的車站！
-    const remainingStops = stops.slice(curIdx);
-    const totalRemaining = remainingStops.length;
-
-    // 「One page show 13 stops」: 每頁顯示 13 個隨後車站
+    // Stops per page: 13 stops
     const STOPS_PER_PAGE = 13;
-    if (totalRemaining <= STOPS_PER_PAGE) {
+    if (totalStops <= STOPS_PER_PAGE) {
       this.Mon2_Page_Totel = 1;
     } else {
-      this.Mon2_Page_Totel = 1 + Math.ceil((totalRemaining - STOPS_PER_PAGE) / 12);
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - STOPS_PER_PAGE) / 12);
     }
 
     if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
@@ -1345,7 +1342,7 @@ class Mon2Display {
 
     const headerTitleEl = document.querySelector(".ladder-header-title");
     if (headerTitleEl) {
-      headerTitleEl.textContent = isArrived ? "此站 This stop" : "隨後車站 Next stops";
+      headerTitleEl.textContent = isArrived ? "此站 This stop" : "下一站 Next stop";
     }
 
     const pageEl = document.getElementById("allstop-page-indicator");
@@ -1358,24 +1355,28 @@ class Mon2Display {
     let rowsHtml = "";
 
     if (isPageOne) {
-      // PAGE 1: 嚴格從當前站 (remainingStops[0]) 開始顯示隨後最多 13 站
-      const pageList = remainingStops.slice(0, STOPS_PER_PAGE);
+      // PAGE 1: Up to 13 stops
+      const pageList = stops.slice(0, STOPS_PER_PAGE);
 
       pageList.forEach((s, idx) => {
-        const isCurrent = (idx === 0);
+        const isCurrent = (idx === curIdx);
         const isYellow = (idx % 2 === 0);
-        let minsDiff = idx * 2;
+        let minsDiff = (idx - curIdx) * 2;
         let minsHtml = "";
 
-        if (isCurrent) {
+        if (idx < curIdx) {
+          minsHtml = "";
+        } else if (idx === curIdx) {
           minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
         } else {
           minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
         }
 
-        let circleClass = isCurrent
-          ? (isArrived ? "track-circle-arrived-green" : "track-circle-active")
-          : "track-circle-upcoming";
+        // 「車站號碼圓形框底色: 下一站 紅色, 此站 綠色」
+        let circleClass = "track-circle-upcoming";
+        if (isCurrent) {
+          circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
+        }
 
         trackHtml += `
           <div class="ladder-track-cell">
@@ -1388,8 +1389,8 @@ class Mon2Display {
         rowsHtml += `
           <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
+              <div class="ladder-zh-col ${s.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(s.zh)}</div>
+              <div class="ladder-en-col ${s.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
               ${minsHtml}
@@ -1412,12 +1413,12 @@ class Mon2Display {
         </div>
       `;
     } else {
-      // PAGE 2+: 1 路線起點總站 + 3 白點省略號 + 隨後 12 個未過車站
+      // PAGE 2+: Origin stop + 3 dots + subsequent stops (Strict 1-to-1 matching, no extra circles!)
       const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
-      const startInRemaining = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
-      const pageList = remainingStops.slice(startInRemaining, startInRemaining + 12);
+      const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
+      const pageList = stops.slice(startIdx, startIdx + 12);
 
-      // Row 1: 起點總站
+      // Row 1: Origin Stop
       trackHtml += `
         <div class="ladder-track-cell">
           <div class="track-circle-upcoming">
@@ -1428,14 +1429,14 @@ class Mon2Display {
       rowsHtml += `
         <div class="ladder-name-row row-yellow">
           <div class="ladder-names-cell">
-            <div class="ladder-zh-col">${this.cleanStopName(firstStop.zh)}</div>
-            <div class="ladder-en-col">${this.cleanStopName(firstStop.en)}</div>
+            <div class="ladder-zh-col ${firstStop.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(firstStop.zh)}</div>
+            <div class="ladder-en-col ${firstStop.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(firstStop.en)}</div>
           </div>
           <div class="ladder-eta-col"></div>
         </div>
       `;
 
-      // 3 白點省略號
+      // 3 Dots spacer in Track + Spacer row in Names
       trackHtml += `
         <div class="ladder-track-cell ladder-dots-cell">
           <div class="track-dots-group">
@@ -1452,36 +1453,51 @@ class Mon2Display {
         </div>
       `;
 
-      // 隨後車站
       pageList.forEach((s, idx) => {
+        const globalIdx = startIdx + idx;
+        const isCurrent = (globalIdx === curIdx);
         const isYellow = ((idx + 1) % 2 === 0);
-        const globalIdxInRemaining = startInRemaining + idx;
-        let minsDiff = globalIdxInRemaining * 2;
+        let minsDiff = (globalIdx - curIdx) * 2;
+        let minsHtml = "";
+
+        if (globalIdx < curIdx) {
+          minsHtml = "";
+        } else if (globalIdx === curIdx) {
+          minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
+        } else {
+          minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
+        }
+
+        let circleClass = "track-circle-upcoming";
+        if (isCurrent) {
+          circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
+        }
 
         trackHtml += `
           <div class="ladder-track-cell">
-            <div class="track-circle-upcoming">
+            <div class="${circleClass}">
               ${s.num}
             </div>
           </div>
         `;
 
         rowsHtml += `
-          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'}">
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
             <div class="ladder-names-cell">
-              <div class="ladder-zh-col">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col">${this.cleanStopName(s.en)}</div>
+              <div class="ladder-zh-col ${s.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(s.zh)}</div>
+              <div class="ladder-en-col ${s.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(s.en)}</div>
             </div>
             <div class="ladder-eta-col">
-              <span class="eta-val-num">${minsDiff}</span>
+              ${minsHtml}
             </div>
           </div>
         `;
       });
 
+      const isFinalPage = (this.Mon2_Page_Now === this.Mon2_Page_Totel);
       listEl.innerHTML = `
         <div class="ladder-layout-wrapper">
-          <div class="ladder-nav-track-col arrow-pointed">
+          <div class="ladder-nav-track-col ${isFinalPage ? 'arrow-rounded' : 'arrow-pointed'}">
             ${trackHtml}
           </div>
           <div class="ladder-rows-col">
