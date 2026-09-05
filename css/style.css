@@ -6116,3 +6116,138 @@ body {
   margin-top: 4px !important;
   line-height: 1.15 !important;
 }
+
+
+/* ==========================================================================
+   USER CRITICAL LAYOUT SPECIFICATIONS:
+   1. 車站名向上靠 自動適應大細
+   2. 橫向螢幕 放大後 排版混亂 -> 自動適應不同螢幕 固定大小比例 (16:9 / 9:16)
+   3. 13 站車站名字框對齊 車站號碼圓形框高度 英文站名放在中文站名的右邊
+   4. 13頁車站 應該要到底
+   ========================================================================== */
+
+/* 1. 自動適應不同螢幕 固定大小比例 (Strict 16:9 and 9:16 Aspect Ratios) */
+.mon2-viewport-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(94vw, calc(90vh * 16 / 9)) !important;
+  height: min(calc(94vw * 9 / 16), 90vh) !important;
+  max-width: 1150px !important;
+  max-height: 647px !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  width: min(94vw, calc(88vh * 9 / 16)) !important;
+  height: min(calc(94vw * 16 / 9), 88vh) !important;
+  max-width: 440px !important;
+  max-height: 782px !important;
+  margin: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 (Top-aligned Station Names in Split Screen) */
+.mode3-stop-content {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 向上靠 */
+  align-items: stretch !important;
+  padding: 8px 14px !important;
+}
+
+.mode3-station-name-row {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 向上靠 */
+  align-items: flex-start !important;
+  margin-top: 14px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(22px, 3.2vw, 32px) !important; /* 自動適應大細 */
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.18 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(13px, 1.8vw, 18px) !important; /* 自動適應大細 */
+  font-weight: 700 !important;
+  color: #334155 !important;
+  line-height: 1.15 !important;
+  margin-top: 4px !important;
+}
+
+/* 3. 13 站車站名字框對齊 車站號碼圓形框高度 英文站名放在中文站名的右邊 */
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: row !important; /* 英文站名放在中文站名的右邊 (同一行) */
+  align-items: center !important; /* 對齊圓形框高度 */
+  justify-content: flex-start !important;
+  height: 100% !important;
+  padding: 0 10px 0 6px !important;
+  overflow: hidden !important;
+  gap: 8px !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-family: var(--font-chinese) !important;
+  font-size: 17px !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  white-space: nowrap !important;
+  flex-shrink: 0 !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-family: var(--font-english) !important;
+  font-size: 12.5px !important;
+  font-weight: 700 !important;
+  color: #334155 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: clip !important;
+}
+
+/* 4. 13頁車站 應該要到底 (Stretch all 13 rows to the very bottom) */
+.ladder-layout-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  background: #FFFFFF !important;
+  overflow: hidden !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100% !important;
+  justify-content: space-between !important; /* 伸展到底 */
+  overflow: hidden !important;
+}
+
+.ladder-name-row {
+  display: flex !important;
+  align-items: center !important;
+  flex: 1 !important;
+  min-height: 0 !important; /* Allow uniform distribution to the bottom */
+  padding: 0 8px !important;
+  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+}
