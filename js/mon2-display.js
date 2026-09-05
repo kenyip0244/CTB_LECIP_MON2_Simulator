@@ -19,6 +19,26 @@
  */
 
 class Mon2Display {
+
+  // --- 應該要自動適應不同螢幕 固定大小比例 ---
+  initViewportScale() {
+    const updateScale = () => {
+      const frame = document.getElementById("mon2-frame");
+      if (!frame) return;
+
+      const isHorizontal = (this.DirectionV === 0);
+      const targetWidth = isHorizontal ? 800 : 420;
+      const targetHeight = isHorizontal ? 450 : 750;
+
+      frame.style.width = `${targetWidth}px`;
+      frame.style.height = `${targetHeight}px`;
+    };
+
+    window.addEventListener("resize", updateScale);
+    document.addEventListener("fullscreenchange", updateScale);
+    updateScale();
+  }
+
   // Helper: 車站名 “,” 或之後文字不顯示，且「九巴龍運車站不顯示 (XXXX)」
   cleanStopName(name) {
     if (!name) return "";

@@ -6684,3 +6684,85 @@ body {
 .mon2-frame.horizontal.mode-cityflyer .mode3-fare-base {
   border-color: var(--cityflyer-crimson) !important;
 }
+
+
+/* ==========================================================================
+   FIXED ASPECT RATIO RESPONSIVE SCALING & 13-STOPS FILLING TO BOTTOM
+   (「應該要自動適應不同螢幕 固定大小比例 13頁車站 應該要到底 車站名向上靠 自動適應大細」)
+   ========================================================================== */
+.screen-housing {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  width: 100% !important;
+  padding: 10px 0 !important;
+  overflow: hidden !important;
+}
+
+/* Fixed 16:9 Aspect Ratio for Horizontal Screen (Never distorts when maximized!) */
+.mon2-frame.horizontal {
+  width: 800px !important;
+  height: 450px !important;
+  aspect-ratio: 16 / 9 !important;
+  max-width: 95vw !important;
+  max-height: 85vh !important;
+  flex-shrink: 0 !important;
+}
+
+/* Fixed 9:16 Aspect Ratio for Vertical Screen */
+.mon2-frame.vertical {
+  width: 420px !important;
+  height: 750px !important;
+  aspect-ratio: 9 / 16 !important;
+  max-height: 88vh !important;
+  flex-shrink: 0 !important;
+}
+
+/* 13-Stops Ladder Fills All The Way to Bottom (13頁車站 應該要到底) */
+.ladder-wrapper,
+.ladder-stops-container,
+.ladder-layout-wrapper,
+.ladder-rows-col,
+.ladder-nav-track-col {
+  height: 100% !important;
+  min-height: 100% !important;
+}
+
+.ladder-rows-col {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+/* 車站名向上靠 自動適應大細 */
+.ladder-names-cell {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  padding-left: 8px !important;
+  overflow: hidden !important;
+}
+
+.ladder-names-cell .ladder-zh-col {
+  font-size: clamp(15px, 2.2vw, 19px) !important;
+  font-weight: 900 !important;
+  line-height: 1.15 !important;
+  text-align: left !important;
+}
+
+.ladder-names-cell .ladder-en-col {
+  font-size: clamp(10px, 1.4vw, 12.5px) !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  text-align: left !important;
+  margin-top: 1px !important;
+}
