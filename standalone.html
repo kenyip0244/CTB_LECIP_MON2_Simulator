@@ -6262,521 +6262,6 @@ body {
   border-bottom: 1px solid rgba(0,0,0,0.06) !important;
 }
 
-
-/* ==========================================================================
-   FIXED ASPECT RATIO & RESPONSIVE SCREEN ADAPTATION
-   (應該要自動適應不同螢幕 固定大小比例 - 16:9 for Horizontal, 9:16 for Vertical)
-   ========================================================================== */
-
-/* 1. 橫向螢幕固定 16:9 比例 (無論放大或不同螢幕尺寸絕不跑版拉伸) */
-.mon2-frame.horizontal {
-  aspect-ratio: 16 / 9 !important;
-  width: min(94vw, calc((90vh - 40px) * 16 / 9)) !important;
-  height: min(calc(94vw * 9 / 16), calc(90vh - 40px)) !important;
-  max-width: 1200px !important;
-  max-height: 675px !important;
-  margin: 0 auto !important;
-  position: relative !important;
-}
-
-/* 2. 直向螢幕固定 9:16 比例 */
-.mon2-frame.vertical {
-  aspect-ratio: 9 / 16 !important;
-  width: min(90vw, calc((92vh - 40px) * 9 / 16)) !important;
-  height: min(calc(90vw * 16 / 9), calc(92vh - 40px)) !important;
-  max-width: 440px !important;
-  margin: 0 auto !important;
-}
-
-/* 3. 車站名向上靠 自動適應大細 (Top-aligned & Auto font scaling) */
-.mode3-station-name-row {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important; /* 向上靠 */
-  padding-top: 16px !important;
-  padding-left: 14px !important;
-}
-
-.mode3-station-name-row .m3-zh {
-  font-size: clamp(24px, 3.8vw, 36px) !important; /* 自動適應大細 */
-  font-weight: 900 !important;
-  color: #0F172A !important;
-  line-height: 1.15 !important;
-}
-
-.mode3-station-name-row .m3-en {
-  font-size: clamp(13px, 1.8vw, 18px) !important;
-  font-weight: 700 !important;
-  color: #334155 !important;
-  margin-top: 4px !important;
-  line-height: 1.15 !important;
-}
-
-/* 4. 13 站全覽表到底 (13 頁車站 應該要到底) */
-.ladder-layout-wrapper {
-  height: 100% !important;
-}
-
-.ladder-rows-col {
-  height: 100% !important;
-}
-
-.ladder-name-row {
-  height: calc((100% - 24px) / 13) !important;
-  min-height: 0 !important;
-  box-sizing: border-box !important;
-}
-
-.ladder-track-cell {
-  height: calc((100% - 24px) / 13) !important;
-  min-height: 0 !important;
-}
-
-.ladder-name-row.empty-row {
-  border-bottom: 1px solid rgba(0,0,0,0.03) !important;
-}
-
-
-/* ==========================================================================
-   FIXED ASPECT RATIO RESPONSIVE AUTO-SCALING & 13 STOPS STRETCH TO BOTTOM
-   ========================================================================== */
-#mon2-display-container {
-  width: 100% !important;
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  overflow: hidden !important;
-  position: relative !important;
-}
-
-/* Fixed Base Viewport Canvas */
-.mon2-frame.vertical {
-  width: 440px !important;
-  height: 800px !important;
-  flex-shrink: 0 !important;
-}
-
-.mon2-frame.horizontal {
-  width: 800px !important;
-  height: 450px !important;
-  flex-shrink: 0 !important;
-}
-
-/* 13頁車站 應該要到底 (13-Stop Ladder stretches all the way to the bottom) */
-.ladder-layout-wrapper {
-  height: 100% !important;
-  width: 100% !important;
-  display: flex !important;
-  flex-direction: row !important;
-}
-
-.ladder-nav-track-col {
-  height: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.ladder-rows-col {
-  height: 100% !important;
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-}
-
-.ladder-name-row {
-  flex: 1 !important;
-  min-height: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-}
-
-.ladder-track-cell {
-  flex: 1 !important;
-  min-height: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-/* 車站名向上靠 自動適應大細 */
-.trio-content-col {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important;
-}
-
-.trio-main-name {
-  font-size: clamp(20px, 3.5vw, 32px) !important;
-  line-height: 1.15 !important;
-}
-
-
-/* ==========================================================================
-   FIXED ASPECT RATIO & PERFECT RESPONSIVE SCALING
-   (橫向螢幕 放大後 排版混亂 應該要自動適應不同螢幕 固定大小比例)
-   ========================================================================== */
-
-/* Fixed Aspect Ratio Monitor Frame */
-.mon2-frame {
-  box-sizing: border-box !important;
-  position: relative !important;
-  overflow: hidden !important;
-  margin: 0 auto !important;
-}
-
-/* Vertical Monitor (9:16) */
-.mon2-frame.vertical {
-  width: auto !important;
-  height: min(92vh, 880px) !important;
-  aspect-ratio: 9 / 16 !important;
-  max-width: 95vw !important;
-  border-radius: 8px !important;
-}
-
-/* Horizontal Monitor (16:9) */
-.mon2-frame.horizontal {
-  width: min(94vw, 1100px) !important;
-  height: auto !important;
-  aspect-ratio: 16 / 9 !important;
-  max-height: 90vh !important;
-  border-radius: 8px !important;
-}
-
-/* Fullscreen Mode: Strict Pillarbox / Letterbox keeping 16:9 or 9:16 untouched! */
-.mon2-frame:fullscreen,
-.mon2-frame:-webkit-full-screen {
-  background-color: #000000 !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  border-radius: 0 !important;
-}
-
-.mon2-frame.horizontal:fullscreen,
-.mon2-frame.horizontal:-webkit-full-screen {
-  width: min(100vw, calc(100vh * 16 / 9)) !important;
-  height: min(100vh, calc(100vw * 9 / 16)) !important;
-  aspect-ratio: 16 / 9 !important;
-  max-width: none !important;
-  max-height: none !important;
-  margin: auto !important;
-}
-
-.mon2-frame.vertical:fullscreen,
-.mon2-frame.vertical:-webkit-full-screen {
-  width: min(100vw, calc(100vh * 9 / 16)) !important;
-  height: min(100vh, calc(100vw * 16 / 9)) !important;
-  aspect-ratio: 9 / 16 !important;
-  max-width: none !important;
-  max-height: none !important;
-  margin: auto !important;
-}
-
-/* ==========================================================================
-   MODE 5: 13-STOP LADDER STRETCHES ALL THE WAY TO THE BOTTOM (13頁車站 應該要到底)
-   AND CIRCLES 100% HORIZONTALLY ALIGNED WITH STATION NAMES (車站號碼和車站名稱要對齊)
-   ========================================================================== */
-.ladder-unified-wrapper {
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  width: 100% !important;
-  background: #FFFFFF !important;
-  overflow: hidden !important;
-}
-
-.ladder-rows-container {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  height: 100% !important;
-  width: 100% !important;
-  overflow: hidden !important;
-}
-
-/* Each row takes equal flex height so the rows reach the bottom divider line! */
-.ladder-unified-row {
-  flex: 1 !important;
-  min-height: 0 !important;
-  display: flex !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin: 0 !important;
-  padding: 0 14px 0 0 !important;
-  border-bottom: 1px solid rgba(0,0,0,0.06) !important;
-  box-sizing: border-box !important;
-  position: relative !important;
-}
-
-.ladder-unified-row.row-yellow {
-  background-color: #FFF04D !important;
-}
-
-.ladder-unified-row.row-white {
-  background-color: #FFFFFF !important;
-}
-
-.ladder-unified-row.row-current {
-  box-shadow: inset 0 0 0 2.5px #16A34A !important;
-}
-
-/* Left Circle Cell: Circle and Station Name in SAME Row (100% Locked Alignment) */
-.ladder-circle-cell {
-  width: 46px !important;
-  min-width: 46px !important;
-  height: 100% !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  position: relative !important;
-  flex-shrink: 0 !important;
-  margin-right: 8px !important;
-}
-
-/* Continuous Blue or Crimson Track Line running down the left */
-.ladder-circle-cell::before {
-  content: "" !important;
-  position: absolute !important;
-  top: 0 !important;
-  bottom: 0 !important;
-  left: 6px !important;
-  right: 6px !important;
-  background: #0022AA !important; /* CTB Blue Track */
-  z-index: 1 !important;
-}
-
-.mode-cityflyer .ladder-circle-cell::before {
-  background: var(--cityflyer-crimson) !important;
-}
-
-.ladder-circle-cell .track-circle-active,
-.ladder-circle-cell .track-circle-arrived-green,
-.ladder-circle-cell .track-circle-upcoming {
-  position: relative !important;
-  z-index: 2 !important;
-  width: 24px !important;
-  height: 24px !important;
-  font-size: 12px !important;
-  margin: auto 0 !important;
-}
-
-.ladder-name-cell {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-  overflow: hidden !important;
-  line-height: 1.15 !important;
-}
-
-.ladder-name-cell .name-zh {
-  font-family: var(--font-chinese) !important;
-  font-size: clamp(14px, 2.2vh, 18px) !important;
-  font-weight: 900 !important;
-  color: #000000 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: clip !important;
-}
-
-.ladder-name-cell .name-en {
-  font-family: var(--font-english) !important;
-  font-size: clamp(10px, 1.5vh, 12px) !important;
-  font-weight: 700 !important;
-  color: #1E293B !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: clip !important;
-  margin-top: 1px !important;
-}
-
-.ladder-eta-cell {
-  width: 48px !important;
-  min-width: 48px !important;
-  text-align: right !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: flex-end !important;
-}
-
-.ladder-eta-cell .eta-val-num {
-  font-size: clamp(14px, 2.2vh, 18px) !important;
-  font-weight: 900 !important;
-  color: #000000 !important;
-}
-
-/* ==========================================================================
-   MODE 3 HORIZONTAL: STATION NAMES TOP-ALIGNED (車站名向上靠 自動適應大細)
-   ========================================================================== */
-.mon2-frame.horizontal .mode3-split-card {
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 10px !important;
-  padding: 8px !important;
-  height: 100% !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-.mon2-frame.horizontal .mode3-top-stop-banner {
-  flex: 0.95 !important;
-  height: 100% !important;
-  display: flex !important;
-  flex-direction: row !important;
-  border: 2px solid #CBD5E1 !important;
-  border-radius: 6px !important;
-  background: #FFFFFF !important;
-  overflow: hidden !important;
-}
-
-.mon2-frame.horizontal .mode3-stop-track {
-  width: 54px !important;
-  min-width: 54px !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  position: relative !important;
-}
-
-.mon2-frame.horizontal .mode3-stop-content {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important; /* 「車站名向上靠」 */
-  padding: 10px 16px !important;
-  overflow: hidden !important;
-}
-
-.mon2-frame.horizontal .mode3-stop-header-row {
-  display: flex !important;
-  justify-content: space-between !important;
-  align-items: center !important;
-  border-bottom: 2px solid #CBD5E1 !important;
-  padding-bottom: 6px !important;
-  margin-bottom: 12px !important;
-}
-
-.mon2-frame.horizontal .mode3-station-name-row {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: flex-start !important; /* 「車站名向上靠」 */
-  align-items: flex-start !important;
-  gap: 4px !important;
-}
-
-.mon2-frame.horizontal .mode3-station-name-row .m3-zh {
-  font-size: clamp(22px, 3.8vh, 32px) !important; /* 「自動適應大細」 */
-  font-weight: 900 !important;
-  color: #000000 !important;
-  line-height: 1.15 !important;
-}
-
-.mon2-frame.horizontal .mode3-station-name-row .m3-en {
-  font-size: clamp(13px, 2.0vh, 17px) !important;
-  font-weight: 700 !important;
-  color: #334155 !important;
-  line-height: 1.15 !important;
-}
-
-.mon2-frame.horizontal .mode3-fare-base {
-  flex: 1.05 !important;
-  height: 100% !important;
-  display: flex !important;
-  flex-direction: column !important;
-  border: 2px solid #0022AA !important;
-  border-radius: 6px !important;
-  overflow: hidden !important;
-}
-
-.mon2-frame.horizontal.mode-cityflyer .mode3-fare-base {
-  border-color: var(--cityflyer-crimson) !important;
-}
-
-
-/* ==========================================================================
-   FIXED ASPECT RATIO RESPONSIVE SCALING & 13-STOPS FILLING TO BOTTOM
-   (「應該要自動適應不同螢幕 固定大小比例 13頁車站 應該要到底 車站名向上靠 自動適應大細」)
-   ========================================================================== */
-.screen-housing {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  width: 100% !important;
-  padding: 10px 0 !important;
-  overflow: hidden !important;
-}
-
-/* Fixed 16:9 Aspect Ratio for Horizontal Screen (Never distorts when maximized!) */
-.mon2-frame.horizontal {
-  width: 800px !important;
-  height: 450px !important;
-  aspect-ratio: 16 / 9 !important;
-  max-width: 95vw !important;
-  max-height: 85vh !important;
-  flex-shrink: 0 !important;
-}
-
-/* Fixed 9:16 Aspect Ratio for Vertical Screen */
-.mon2-frame.vertical {
-  width: 420px !important;
-  height: 750px !important;
-  aspect-ratio: 9 / 16 !important;
-  max-height: 88vh !important;
-  flex-shrink: 0 !important;
-}
-
-/* 13-Stops Ladder Fills All The Way to Bottom (13頁車站 應該要到底) */
-.ladder-wrapper,
-.ladder-stops-container,
-.ladder-layout-wrapper,
-.ladder-rows-col,
-.ladder-nav-track-col {
-  height: 100% !important;
-  min-height: 100% !important;
-}
-
-.ladder-rows-col {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-}
-
-.ladder-name-row {
-  flex: 1 !important;
-  display: flex !important;
-  align-items: center !important;
-  box-sizing: border-box !important;
-}
-
-/* 車站名向上靠 自動適應大細 */
-.ladder-names-cell {
-  flex: 1 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: center !important;
-  align-items: flex-start !important;
-  padding-left: 8px !important;
-  overflow: hidden !important;
-}
-
-.ladder-names-cell .ladder-zh-col {
-  font-size: clamp(15px, 2.2vw, 19px) !important;
-  font-weight: 900 !important;
-  line-height: 1.15 !important;
-  text-align: left !important;
-}
-
-.ladder-names-cell .ladder-en-col {
-  font-size: clamp(10px, 1.4vw, 12.5px) !important;
-  font-weight: 700 !important;
-  line-height: 1.1 !important;
-  text-align: left !important;
-  margin-top: 1px !important;
-}
-
 </style>
 </head>
 <body>
@@ -8050,14 +7535,6 @@ class CitybusAPIService {
       return "$19.8";
     }
 
-    // 2. Specific Route Fares
-    if (code === "73X" || code === "73" || code === "73P") return "$7.5";
-    if (code === "E32" || code === "E32A") {
-      if (name.includes("東涌") || seq >= totalStops * 0.75) return "$4.5";
-      return "$11.6";
-    }
-    if (code === "H3") return "$19.8";
-
     // 2. Specific Route Fares from authentic Citybus photos
     if (code === "720") {
       if (name.includes("國際調解院") || seq >= totalStops * 0.7) return "$5.5";
@@ -8218,26 +7695,6 @@ class Mon2AudioSystem {
  */
 
 class Mon2Display {
-
-  // --- 應該要自動適應不同螢幕 固定大小比例 ---
-  initViewportScale() {
-    const updateScale = () => {
-      const frame = document.getElementById("mon2-frame");
-      if (!frame) return;
-
-      const isHorizontal = (this.DirectionV === 0);
-      const targetWidth = isHorizontal ? 800 : 420;
-      const targetHeight = isHorizontal ? 450 : 750;
-
-      frame.style.width = `${targetWidth}px`;
-      frame.style.height = `${targetHeight}px`;
-    };
-
-    window.addEventListener("resize", updateScale);
-    document.addEventListener("fullscreenchange", updateScale);
-    updateScale();
-  }
-
   // Helper: 車站名 “,” 或之後文字不顯示，且「九巴龍運車站不顯示 (XXXX)」
   cleanStopName(name) {
     if (!name) return "";
@@ -8308,7 +7765,6 @@ class Mon2Display {
     this.initDOM();
     this.startClock();
     this.startScriptFSM();
-    this.initViewportScale();
   }
 
   initDOM() {
@@ -9276,57 +8732,26 @@ class Mon2Display {
     if (!wrap) return;
 
     wrap.innerHTML = "";
+    const leftStop = Math.max(1, (this.currentRoute ? this.currentRoute.stops.length : 1) - (this.telargo_busstop - 1));
     const isArrived = !this.manualModeNoArrive && (this.telargo_busarrivingstop === 1);
-    const isTransferStation = /轉乘|轉車|收費廣場|BBI|Interchange/i.test(stop.zh) || /Interchange|BBI|Toll Plaza/i.test(stop.en);
 
-    // If stop is transfer station and has interchange routes
+    // If stop has interchange routes -> Render Interchange Table
+    const isTransferStation = /轉乘|轉車|收費廣場|BBI|Interchange/i.test(stop.zh) || /Interchange|BBI|Toll Plaza/i.test(stop.en);
+    // 「轉乘路線頁面只適用於 轉乘站」
     if (isTransferStation && stop.interchanges && stop.interchanges.length > 0) {
       if (titleZh) titleZh.textContent = "轉乘路線";
       if (titleEn) titleEn.textContent = "Interchange routes";
       if (pageNum) pageNum.textContent = "1/1";
 
       let tableHtml = `
-        <div class="mode3-split-card">
-          <!-- Left: Current Stop Information (Top-aligned! 「車站名向上靠」) -->
-          <div class="mode3-top-stop-banner">
-            <div class="mode3-stop-track">
-              <div class="track-bar-chevron"></div>
-              <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
-                ${stop.num}
-              </div>
-              <div class="track-bar-point-bottom"></div>
-            </div>
-            <div class="mode3-stop-content">
-              <div class="mode3-stop-header-row">
-                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
-                <div class="mode3-eta-label">
-                  <div class="eta-icon-title">預計<br>ETA</div>
-                  <div class="eta-value-box">&lt;1</div>
-                  <div class="eta-unit-box">分鐘<br>min</div>
-                </div>
-              </div>
-              <div class="mode3-station-name-row">
-                <div class="m3-zh">${this.cleanStopName(stop.zh)}</div>
-                <div class="m3-en">${this.cleanStopName(stop.en)}</div>
-              </div>
-            </div>
+        <div class="mode3-fare-base interchange-style">
+          <div class="fare-black-header">
+            <div class="col-route">路線<br><small>Route</small></div>
+            <div class="col-direction">方向<br><small>Direction</small></div>
+            <div class="col-fare-eta" style="text-align: right;">抵站時間<br><small>ETA</small></div>
           </div>
-
-          <!-- Right: Interchange Routes Table -->
-          <div class="mode3-fare-base interchange-style">
-            <div class="section-title-bar">
-              <span class="bar-zh">轉乘路線</span>
-              <span class="bar-en">Interchange routes</span>
-              <span class="page-indicator">1/1</span>
-            </div>
-            <div class="fare-black-header">
-              <div class="col-route">路線<br><small>Route</small></div>
-              <div class="col-direction">方向<br><small>Direction</small></div>
-              <div class="col-fare-eta" style="text-align: right;">抵站時間<br><small>ETA</small></div>
-            </div>
-            <div class="fare-stage-list">
+          <div class="fare-stage-list">
       `;
-
       stop.interchanges.forEach(ic => {
         tableHtml += `
           <div class="fare-stage-row">
@@ -9341,43 +8766,44 @@ class Mon2Display {
           </div>
         `;
       });
-
       tableHtml += `
+          </div>
+          <div class="fare-bottom-notice">
+            <div class="notice-text">
+              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
+              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
             </div>
-            <div class="fare-bottom-notice">
-              <div class="notice-text">
-                車費優惠與巴士轉乘計劃詳情，請參閱城巴網頁<br>
-                <small>Please refer to Citybus website for fare concession and Bus-Bus Interchange details.</small>
-              </div>
-              <div class="notice-qr"><div class="qr-code-box"></div></div>
+            <div class="notice-qr">
+              <div class="qr-code-box"></div>
             </div>
           </div>
         </div>
       `;
       wrap.innerHTML = tableHtml;
     } else {
-      // BASE CASE: Authentic Mode 3 Split Card (Left Stop top-aligned, Right Fare table)
+      // BASE CASE: Authentic Split Screen Mode 3 as in real photo 6ff992a6.png!
+      // Top Half: Next stop indicator with track and ETA (<1 min)
+      // Bottom Half: Fare Information table with section fares
       if (titleZh) titleZh.textContent = "車費資料";
       if (titleEn) titleEn.textContent = "Fare information";
       if (pageNum) pageNum.textContent = "1/1";
 
       const fareStages = this.getSectionFareStages();
-      const zhName = this.cleanStopName(stop.zh);
-      const enName = this.cleanStopName(stop.en);
-      const zhStyle = zhName.length > 10 ? 'font-size: clamp(18px, 3vh, 26px);' : '';
-      const enStyle = enName.length > 25 ? 'font-size: clamp(12px, 1.8vh, 16px);' : '';
 
       let tableHtml = `
         <div class="mode3-split-card">
-          <!-- Left: Current Stop Information (Top-aligned! 「車站名向上靠」) -->
+          <!-- Top Next Stop Box: Circle adjacent to station name ("車站編號位置要貼合車站名稱 車站名稱加大") -->
           <div class="mode3-top-stop-banner">
-            <div class="mode3-stop-track">
-              <div class="track-bar-chevron"></div>
-              <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
-                ${stop.num}
+            <!-- Left Navigation Track Line in Mode 3 ("Losted line" -> RESTORED) -->
+            <div class="route-nav-track-col arrow-pointed mode3-nav-track">
+              <div class="track-subheader-cell"><div class="track-bar-chevron"></div></div>
+              <div class="track-row-cell">
+                <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">${stop.num}</div>
+                <div class="track-bar-point-bottom"></div>
               </div>
-              <div class="track-bar-point-bottom"></div>
             </div>
+
+            <!-- Right Content of Top Banner -->
             <div class="mode3-stop-content">
               <div class="mode3-stop-header-row">
                 <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
@@ -9387,16 +8813,14 @@ class Mon2Display {
                   <div class="eta-unit-box">分鐘<br>min</div>
                 </div>
               </div>
-              <div class="mode3-station-name-row">
-                <div class="m3-zh" style="${zhStyle}">${zhName}</div>
-                ${stop.subZh || (stop.landmarks && stop.landmarks[0]) ? `<div class="m3-landmark-zh">${stop.subZh || stop.landmarks[0]}</div>` : ''}
-                <div class="m3-en" style="${enStyle}">${enName}</div>
-                ${stop.subEn ? `<div class="m3-landmark-en">${stop.subEn}</div>` : ''}
+              <div class="mode3-station-name-row align-top">
+                <div class="m3-zh autofit-text">${this.cleanStopName(stop.zh)}</div>
+                <div class="m3-en autofit-text">${this.cleanStopName(stop.en)}</div>
               </div>
             </div>
           </div>
 
-          <!-- Right: Fare Information Table -->
+          <!-- Bottom Fare Information Box (as in photo 6ff992a6.png) -->
           <div class="mode3-fare-base">
             <div class="section-title-bar">
               <span class="bar-zh">車費資料</span>
@@ -9437,12 +8861,15 @@ class Mon2Display {
       tableHtml += `
             </div>
 
+            <!-- Bottom Notice with QR code as in photo 6ff992a6.png -->
             <div class="fare-bottom-notice">
               <div class="notice-text">
                 車費優惠與巴士轉乘計劃詳情，請參閱城巴網頁<br>
                 <small>Please refer to Citybus website for fare concession and Bus-Bus Interchange details.</small>
               </div>
-              <div class="notice-qr"><div class="qr-code-box"></div></div>
+              <div class="notice-qr">
+                <div class="qr-code-box"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -9462,7 +8889,7 @@ class Mon2Display {
 
     // Accurate Citybus Fare Table by Route Code
     const FARE_TABLE = {
-      "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
+      "H3": { full: "$41.8", stages: [{ match: "香港摩天輪", fare: "$41.8" }, { match: "赤柱", fare: "$19.8" }] },
       "H1": { full: "$41.8", stages: [{ match: "中環", fare: "$41.8" }, { match: "尖沙咀", fare: "$19.8" }] },
       "H2": { full: "$41.8", stages: [{ match: "中環", fare: "$41.8" }, { match: "尖沙咀", fare: "$19.8" }] },
       "A10": { full: "$49.7", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
@@ -9506,7 +8933,7 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
-      "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
+      "H3": { full: "$47.6", stages: [{ match: "中環", fare: "$47.6" }, { match: "金鐘", fare: "$47.6" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "720": { full: "$8.7", stages: [{ match: "國際調解院", fare: "$5.5" }] },
       "H3": { full: "$41.8", stages: [] },
@@ -9573,13 +9000,17 @@ class Mon2Display {
     const listEl = document.getElementById("allstop-stops-list");
     if (!listEl || !this.currentRoute) return;
 
-    const stops = this.currentRoute.stops || [];
+    const stops = this.currentRoute.stops;
     const totalStops = stops.length;
     const isArrived = !this.manualModeNoArrive && (this.telargo_busarrivingstop === 1);
 
-    // 「13頁車站 應該要到底」: 嚴格以每頁 13 站計算總頁數，例如 26 站剛好為 2 頁！
+    // Stops per page: 13 stops
     const STOPS_PER_PAGE = 13;
-    this.Mon2_Page_Totel = Math.max(1, Math.ceil(totalStops / STOPS_PER_PAGE));
+    if (totalStops <= STOPS_PER_PAGE) {
+      this.Mon2_Page_Totel = 1;
+    } else {
+      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - STOPS_PER_PAGE) / 12);
+    }
 
     if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
       this.Mon2_Page_Now = this.Mon2_Page_Totel;
@@ -9595,70 +9026,167 @@ class Mon2Display {
       pageEl.textContent = `${this.Mon2_Page_Now}/${this.Mon2_Page_Totel} ⏱`;
     }
 
-    // Calculate start index for current page
-    const startIdx = (this.Mon2_Page_Now - 1) * STOPS_PER_PAGE;
-    const pageStops = stops.slice(startIdx, startIdx + STOPS_PER_PAGE);
-    const visibleCount = pageStops.length;
-
+    const isPageOne = (this.Mon2_Page_Now === 1);
+    let trackHtml = `<div class="track-bar-chevron"></div>`;
     let rowsHtml = "";
 
-    // Render stops in unified rows: Circle and Station Name in SAME row (100% locked alignment!)
-    pageStops.forEach((s, i) => {
-      const globalIdx = startIdx + i;
-      const isCurrent = (globalIdx === curIdx);
-      const isYellow = (i % 2 === 0);
-      let minsDiff = (globalIdx - curIdx) * 2;
-      let minsHtml = "";
+    if (isPageOne) {
+      // PAGE 1: Up to 13 stops
+      const pageList = stops.slice(0, STOPS_PER_PAGE);
 
-      if (globalIdx < curIdx) {
-        minsHtml = "";
-      } else if (globalIdx === curIdx) {
-        minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
-      } else {
-        minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
-      }
+      pageList.forEach((s, idx) => {
+        const isCurrent = (idx === curIdx);
+        const isYellow = (idx % 2 === 0);
+        let minsDiff = (idx - curIdx) * 2;
+        let minsHtml = "";
 
-      let circleClass = "track-circle-upcoming";
-      if (isCurrent) {
-        circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
-      }
+        if (idx < curIdx) {
+          minsHtml = "";
+        } else if (idx === curIdx) {
+          minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
+        } else {
+          minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
+        }
 
-      const zhName = this.cleanStopName(s.zh);
-      const enName = this.cleanStopName(s.en);
+        // 「車站號碼圓形框底色: 下一站 紅色, 此站 綠色」
+        let circleClass = "track-circle-upcoming";
+        if (isCurrent) {
+          circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
+        }
 
-      // Auto-adapt font size based on text length ("自動適應大細")
-      const zhStyle = zhName.length > 10 ? 'font-size: clamp(12px, 1.8vh, 15px);' : (zhName.length > 7 ? 'font-size: clamp(14px, 2.1vh, 18px);' : '');
-      const enStyle = enName.length > 22 ? 'font-size: clamp(9px, 1.3vh, 11px);' : '';
-
-      rowsHtml += `
-        <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-          <div class="ladder-circle-cell">
+        trackHtml += `
+          <div class="ladder-track-cell">
             <div class="${circleClass}">
               ${s.num}
             </div>
           </div>
-          <div class="ladder-name-cell">
-            <div class="name-zh" style="${zhStyle}">${zhName}</div>
-            <div class="name-en" style="${enStyle}">${enName}</div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+            <div class="ladder-names-cell">
+              <div class="ladder-zh-col ${s.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(s.zh)}</div>
+              <div class="ladder-en-col ${s.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(s.en)}</div>
+            </div>
+            <div class="ladder-eta-col">
+              ${minsHtml}
+            </div>
           </div>
-          <div class="ladder-eta-cell">
-            ${minsHtml}
+        `;
+      });
+
+      listEl.innerHTML = `
+        <div class="ladder-layout-wrapper">
+          <div class="ladder-nav-track-col arrow-rounded">
+            ${trackHtml}
+          </div>
+          <div class="ladder-rows-col">
+            ${rowsHtml}
+            <div class="ladder-eta-footer-label">
+              <span>預計(分鐘) ETA(min)</span>
+            </div>
           </div>
         </div>
       `;
-    });
+    } else {
+      // PAGE 2+: Origin stop + 3 dots + subsequent stops (Strict 1-to-1 matching, no extra circles!)
+      const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
+      const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
+      const pageList = stops.slice(startIdx, startIdx + 12);
 
-    listEl.innerHTML = `
-      <div class="ladder-unified-wrapper">
-        <div class="ladder-rows-container">
-          ${rowsHtml}
+      // Row 1: Origin Stop
+      trackHtml += `
+        <div class="ladder-track-cell">
+          <div class="track-circle-upcoming">
+            ${firstStop.num}
+          </div>
         </div>
-        <div class="ladder-eta-footer-label">
-          <span>預計(分鐘) ETA(min)</span>
+      `;
+      rowsHtml += `
+        <div class="ladder-name-row row-yellow">
+          <div class="ladder-names-cell">
+            <div class="ladder-zh-col ${firstStop.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(firstStop.zh)}</div>
+            <div class="ladder-en-col ${firstStop.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(firstStop.en)}</div>
+          </div>
+          <div class="ladder-eta-col"></div>
         </div>
-      </div>
-    `;
+      `;
+
+      // 3 Dots spacer in Track + Spacer row in Names
+      trackHtml += `
+        <div class="ladder-track-cell ladder-dots-cell">
+          <div class="track-dots-group">
+            <span class="track-dot"></span>
+            <span class="track-dot"></span>
+            <span class="track-dot"></span>
+          </div>
+        </div>
+      `;
+      rowsHtml += `
+        <div class="ladder-name-row row-dots-spacer">
+          <div class="ladder-names-cell"></div>
+          <div class="ladder-eta-col"></div>
+        </div>
+      `;
+
+      pageList.forEach((s, idx) => {
+        const globalIdx = startIdx + idx;
+        const isCurrent = (globalIdx === curIdx);
+        const isYellow = ((idx + 1) % 2 === 0);
+        let minsDiff = (globalIdx - curIdx) * 2;
+        let minsHtml = "";
+
+        if (globalIdx < curIdx) {
+          minsHtml = "";
+        } else if (globalIdx === curIdx) {
+          minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
+        } else {
+          minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
+        }
+
+        let circleClass = "track-circle-upcoming";
+        if (isCurrent) {
+          circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
+        }
+
+        trackHtml += `
+          <div class="ladder-track-cell">
+            <div class="${circleClass}">
+              ${s.num}
+            </div>
+          </div>
+        `;
+
+        rowsHtml += `
+          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+            <div class="ladder-names-cell">
+              <div class="ladder-zh-col ${s.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(s.zh)}</div>
+              <div class="ladder-en-col ${s.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(s.en)}</div>
+            </div>
+            <div class="ladder-eta-col">
+              ${minsHtml}
+            </div>
+          </div>
+        `;
+      });
+
+      const isFinalPage = (this.Mon2_Page_Now === this.Mon2_Page_Totel);
+      listEl.innerHTML = `
+        <div class="ladder-layout-wrapper">
+          <div class="ladder-nav-track-col ${isFinalPage ? 'arrow-rounded' : 'arrow-pointed'}">
+            ${trackHtml}
+          </div>
+          <div class="ladder-rows-col">
+            ${rowsHtml}
+            <div class="ladder-eta-footer-label">
+              <span>預計(分鐘) ETA(min)</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
   }
+
   setTargetDistance(meters) {
     this.targetDistanceMeters = meters;
     const badgeZh = document.getElementById("hud-target-dist-zh");

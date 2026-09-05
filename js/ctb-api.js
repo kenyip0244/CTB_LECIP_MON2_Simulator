@@ -589,14 +589,6 @@ class CitybusAPIService {
       return "$19.8";
     }
 
-    // 2. Specific Route Fares
-    if (code === "73X" || code === "73" || code === "73P") return "$7.5";
-    if (code === "E32" || code === "E32A") {
-      if (name.includes("東涌") || seq >= totalStops * 0.75) return "$4.5";
-      return "$11.6";
-    }
-    if (code === "H3") return "$19.8";
-
     // 2. Specific Route Fares from authentic Citybus photos
     if (code === "720") {
       if (name.includes("國際調解院") || seq >= totalStops * 0.7) return "$5.5";
