@@ -5634,3 +5634,122 @@ body {
   flex-direction: column !important;
   justify-content: flex-start !important;
 }
+
+
+/* ==========================================================================
+   USER REFINEMENTS:
+   1. 車站名向上靠 自動適應大細 (Align station names to top with responsive clamp)
+   2. 橫向螢幕 放大後 排版混亂 應該要自動適應不同螢幕 固定大小比例 (16:9 Aspect Ratio Lock)
+   3. 13頁車站 應該要到底 (Stretch ladder rows & track 100% to the bottom border)
+   4. 已過車站不顯示 (Passed stations strictly hidden, only upcoming stations)
+   ========================================================================== */
+
+/* 1. 橫向螢幕自動適應固定比例 16:9 (Aspect Ratio Lock at any resolution or fullscreen) */
+.mon2-frame.horizontal {
+  aspect-ratio: 16 / 9 !important;
+  width: min(96vw, 177.78vh) !important;
+  max-width: min(96vw, 177.78vh) !important;
+  height: auto !important;
+  max-height: 92vh !important;
+  margin: auto !important;
+  box-sizing: border-box !important;
+}
+
+.mon2-frame.vertical {
+  aspect-ratio: 9 / 16 !important;
+  height: min(90vh, 177.78vw) !important;
+  width: auto !important;
+  max-width: 95vw !important;
+  margin: auto !important;
+  box-sizing: border-box !important;
+}
+
+/* 2. 車站名向上靠 自動適應大細 (Mode 3 Next Stop Top Card) */
+.mode3-station-name-row.align-top-dynamic {
+  flex: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important; /* 向上靠！ */
+  padding-top: 10px !important;
+  gap: 4px !important;
+}
+
+.mode3-station-name-row .m3-zh {
+  font-size: clamp(24px, 3.2vw, 36px) !important;
+  font-weight: 900 !important;
+  color: #000000 !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-sub-zh {
+  font-size: clamp(14px, 1.8vw, 18px) !important;
+  font-weight: 800 !important;
+  color: #B70028 !important;
+}
+
+.mode3-station-name-row .m3-en {
+  font-size: clamp(14px, 1.8vw, 19px) !important;
+  font-weight: 700 !important;
+  color: #1E293B !important;
+  line-height: 1.15 !important;
+}
+
+.mode3-station-name-row .m3-sub-en {
+  font-size: clamp(12px, 1.4vw, 15px) !important;
+  font-weight: 600 !important;
+  color: #475569 !important;
+}
+
+/* 3. 13頁車站 應該要到底 (Ladder Rows & Track fill 100% height to bottom) */
+.ladder-wrapper,
+#panel-mode-5 .ladder-wrapper {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-stops-container,
+#allstop-stops-list {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-layout-wrapper {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100% !important;
+}
+
+.ladder-nav-track-col {
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.ladder-track-cell {
+  flex: 1 !important;
+  min-height: 0 !important;
+}
+
+.ladder-rows-col {
+  flex: 1 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: stretch !important;
+}
+
+.ladder-name-row {
+  flex: 1 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+.ladder-eta-footer-label {
+  flex-shrink: 0 !important;
+}
