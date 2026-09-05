@@ -89,6 +89,7 @@ class Mon2Display {
     this.initDOM();
     this.startClock();
     this.startScriptFSM();
+    this.initViewportScale();
   }
 
   initDOM() {
@@ -1056,26 +1057,57 @@ class Mon2Display {
     if (!wrap) return;
 
     wrap.innerHTML = "";
-    const leftStop = Math.max(1, (this.currentRoute ? this.currentRoute.stops.length : 1) - (this.telargo_busstop - 1));
     const isArrived = !this.manualModeNoArrive && (this.telargo_busarrivingstop === 1);
-
-    // If stop has interchange routes -> Render Interchange Table
     const isTransferStation = /轉乘|轉車|收費廣場|BBI|Interchange/i.test(stop.zh) || /Interchange|BBI|Toll Plaza/i.test(stop.en);
-    // 「轉乘路線頁面只適用於 轉乘站」
+
+    // If stop is transfer station and has interchange routes
     if (isTransferStation && stop.interchanges && stop.interchanges.length > 0) {
       if (titleZh) titleZh.textContent = "轉乘路線";
       if (titleEn) titleEn.textContent = "Interchange routes";
       if (pageNum) pageNum.textContent = "1/1";
 
       let tableHtml = `
-        <div class="mode3-fare-base interchange-style">
-          <div class="fare-black-header">
-            <div class="col-route">路線<br><small>Route</small></div>
-            <div class="col-direction">方向<br><small>Direction</small></div>
-            <div class="col-fare-eta" style="text-align: right;">抵站時間<br><small>ETA</small></div>
+        <div class="mode3-split-card">
+          <!-- Left: Current Stop Information (Top-aligned! 「車站名向上靠」) -->
+          <div class="mode3-top-stop-banner">
+            <div class="mode3-stop-track">
+              <div class="track-bar-chevron"></div>
+              <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
+                ${stop.num}
+              </div>
+              <div class="track-bar-point-bottom"></div>
+            </div>
+            <div class="mode3-stop-content">
+              <div class="mode3-stop-header-row">
+                <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
+                <div class="mode3-eta-label">
+                  <div class="eta-icon-title">預計<br>ETA</div>
+                  <div class="eta-value-box">&lt;1</div>
+                  <div class="eta-unit-box">分鐘<br>min</div>
+                </div>
+              </div>
+              <div class="mode3-station-name-row">
+                <div class="m3-zh">${this.cleanStopName(stop.zh)}</div>
+                <div class="m3-en">${this.cleanStopName(stop.en)}</div>
+              </div>
+            </div>
           </div>
-          <div class="fare-stage-list">
+
+          <!-- Right: Interchange Routes Table -->
+          <div class="mode3-fare-base interchange-style">
+            <div class="section-title-bar">
+              <span class="bar-zh">轉乘路線</span>
+              <span class="bar-en">Interchange routes</span>
+              <span class="page-indicator">1/1</span>
+            </div>
+            <div class="fare-black-header">
+              <div class="col-route">路線<br><small>Route</small></div>
+              <div class="col-direction">方向<br><small>Direction</small></div>
+              <div class="col-fare-eta" style="text-align: right;">抵站時間<br><small>ETA</small></div>
+            </div>
+            <div class="fare-stage-list">
       `;
+
       stop.interchanges.forEach(ic => {
         tableHtml += `
           <div class="fare-stage-row">
@@ -1090,44 +1122,43 @@ class Mon2Display {
           </div>
         `;
       });
+
       tableHtml += `
-          </div>
-          <div class="fare-bottom-notice">
-            <div class="notice-text">
-              車費優惠與巴士轉乘計劃詳情，請參閱新巴城巴網頁<br>
-              <small>Please refer to Citybus NWFB website for fare concession and Bus-Bus Interchange details.</small>
             </div>
-            <div class="notice-qr">
-              <div class="qr-code-box"></div>
+            <div class="fare-bottom-notice">
+              <div class="notice-text">
+                車費優惠與巴士轉乘計劃詳情，請參閱城巴網頁<br>
+                <small>Please refer to Citybus website for fare concession and Bus-Bus Interchange details.</small>
+              </div>
+              <div class="notice-qr"><div class="qr-code-box"></div></div>
             </div>
           </div>
         </div>
       `;
       wrap.innerHTML = tableHtml;
     } else {
-      // BASE CASE: Authentic Split Screen Mode 3 as in real photo 6ff992a6.png!
-      // Top Half: Next stop indicator with track and ETA (<1 min)
-      // Bottom Half: Fare Information table with section fares
+      // BASE CASE: Authentic Mode 3 Split Card (Left Stop top-aligned, Right Fare table)
       if (titleZh) titleZh.textContent = "車費資料";
       if (titleEn) titleEn.textContent = "Fare information";
       if (pageNum) pageNum.textContent = "1/1";
 
       const fareStages = this.getSectionFareStages();
+      const zhName = this.cleanStopName(stop.zh);
+      const enName = this.cleanStopName(stop.en);
+      const zhStyle = zhName.length > 10 ? 'font-size: clamp(18px, 3vh, 26px);' : '';
+      const enStyle = enName.length > 25 ? 'font-size: clamp(12px, 1.8vh, 16px);' : '';
 
       let tableHtml = `
         <div class="mode3-split-card">
-          <!-- Top Next Stop Box: Circle adjacent to station name ("車站編號位置要貼合車站名稱 車站名稱加大") -->
+          <!-- Left: Current Stop Information (Top-aligned! 「車站名向上靠」) -->
           <div class="mode3-top-stop-banner">
-            <!-- Left Navigation Track Line in Mode 3 ("Losted line" -> RESTORED) -->
-            <div class="route-nav-track-col arrow-pointed mode3-nav-track">
-              <div class="track-subheader-cell"><div class="track-bar-chevron"></div></div>
-              <div class="track-row-cell">
-                <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">${stop.num}</div>
-                <div class="track-bar-point-bottom"></div>
+            <div class="mode3-stop-track">
+              <div class="track-bar-chevron"></div>
+              <div class="${isArrived ? 'track-circle-arrived-green' : 'track-circle-active'}">
+                ${stop.num}
               </div>
+              <div class="track-bar-point-bottom"></div>
             </div>
-
-            <!-- Right Content of Top Banner -->
             <div class="mode3-stop-content">
               <div class="mode3-stop-header-row">
                 <div class="mode3-status-label">${isArrived ? "此站 This stop" : "下一站 Next stop"}</div>
@@ -1137,14 +1168,16 @@ class Mon2Display {
                   <div class="eta-unit-box">分鐘<br>min</div>
                 </div>
               </div>
-              <div class="mode3-station-name-row align-top">
-                <div class="m3-zh autofit-text">${this.cleanStopName(stop.zh)}</div>
-                <div class="m3-en autofit-text">${this.cleanStopName(stop.en)}</div>
+              <div class="mode3-station-name-row">
+                <div class="m3-zh" style="${zhStyle}">${zhName}</div>
+                ${stop.subZh || (stop.landmarks && stop.landmarks[0]) ? `<div class="m3-landmark-zh">${stop.subZh || stop.landmarks[0]}</div>` : ''}
+                <div class="m3-en" style="${enStyle}">${enName}</div>
+                ${stop.subEn ? `<div class="m3-landmark-en">${stop.subEn}</div>` : ''}
               </div>
             </div>
           </div>
 
-          <!-- Bottom Fare Information Box (as in photo 6ff992a6.png) -->
+          <!-- Right: Fare Information Table -->
           <div class="mode3-fare-base">
             <div class="section-title-bar">
               <span class="bar-zh">車費資料</span>
@@ -1185,15 +1218,12 @@ class Mon2Display {
       tableHtml += `
             </div>
 
-            <!-- Bottom Notice with QR code as in photo 6ff992a6.png -->
             <div class="fare-bottom-notice">
               <div class="notice-text">
                 車費優惠與巴士轉乘計劃詳情，請參閱城巴網頁<br>
                 <small>Please refer to Citybus website for fare concession and Bus-Bus Interchange details.</small>
               </div>
-              <div class="notice-qr">
-                <div class="qr-code-box"></div>
-              </div>
+              <div class="notice-qr"><div class="qr-code-box"></div></div>
             </div>
           </div>
         </div>
@@ -1213,7 +1243,7 @@ class Mon2Display {
 
     // Accurate Citybus Fare Table by Route Code
     const FARE_TABLE = {
-      "H3": { full: "$41.8", stages: [{ match: "香港摩天輪", fare: "$41.8" }, { match: "赤柱", fare: "$19.8" }] },
+      "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H1": { full: "$41.8", stages: [{ match: "中環", fare: "$41.8" }, { match: "尖沙咀", fare: "$19.8" }] },
       "H2": { full: "$41.8", stages: [{ match: "中環", fare: "$41.8" }, { match: "尖沙咀", fare: "$19.8" }] },
       "A10": { full: "$49.7", stages: [{ match: "青嶼幹線", fare: "$17.8" }, { match: "西區海底隧道", fare: "$41.8" }] },
@@ -1257,7 +1287,7 @@ class Mon2Display {
       "A17": { full: "$45.0", stages: [{ match: "青嶼幹線", fare: "$17.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H2": { full: "$19.8", stages: [] },
-      "H3": { full: "$47.6", stages: [{ match: "中環", fare: "$47.6" }, { match: "金鐘", fare: "$47.6" }] },
+      "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "H3": { full: "$19.8", stages: [{ match: "赤柱", fare: "$19.8" }] },
       "720": { full: "$8.7", stages: [{ match: "國際調解院", fare: "$5.5" }] },
       "H3": { full: "$41.8", stages: [] },
@@ -1324,17 +1354,13 @@ class Mon2Display {
     const listEl = document.getElementById("allstop-stops-list");
     if (!listEl || !this.currentRoute) return;
 
-    const stops = this.currentRoute.stops;
+    const stops = this.currentRoute.stops || [];
     const totalStops = stops.length;
     const isArrived = !this.manualModeNoArrive && (this.telargo_busarrivingstop === 1);
 
-    // Stops per page: 13 stops
+    // 「13頁車站 應該要到底」: 嚴格以每頁 13 站計算總頁數，例如 26 站剛好為 2 頁！
     const STOPS_PER_PAGE = 13;
-    if (totalStops <= STOPS_PER_PAGE) {
-      this.Mon2_Page_Totel = 1;
-    } else {
-      this.Mon2_Page_Totel = 1 + Math.ceil((totalStops - STOPS_PER_PAGE) / 12);
-    }
+    this.Mon2_Page_Totel = Math.max(1, Math.ceil(totalStops / STOPS_PER_PAGE));
 
     if (this.Mon2_Page_Now > this.Mon2_Page_Totel) {
       this.Mon2_Page_Now = this.Mon2_Page_Totel;
@@ -1350,167 +1376,70 @@ class Mon2Display {
       pageEl.textContent = `${this.Mon2_Page_Now}/${this.Mon2_Page_Totel} ⏱`;
     }
 
-    const isPageOne = (this.Mon2_Page_Now === 1);
-    let trackHtml = `<div class="track-bar-chevron"></div>`;
+    // Calculate start index for current page
+    const startIdx = (this.Mon2_Page_Now - 1) * STOPS_PER_PAGE;
+    const pageStops = stops.slice(startIdx, startIdx + STOPS_PER_PAGE);
+    const visibleCount = pageStops.length;
+
     let rowsHtml = "";
 
-    if (isPageOne) {
-      // PAGE 1: Up to 13 stops
-      const pageList = stops.slice(0, STOPS_PER_PAGE);
+    // Render stops in unified rows: Circle and Station Name in SAME row (100% locked alignment!)
+    pageStops.forEach((s, i) => {
+      const globalIdx = startIdx + i;
+      const isCurrent = (globalIdx === curIdx);
+      const isYellow = (i % 2 === 0);
+      let minsDiff = (globalIdx - curIdx) * 2;
+      let minsHtml = "";
 
-      pageList.forEach((s, idx) => {
-        const isCurrent = (idx === curIdx);
-        const isYellow = (idx % 2 === 0);
-        let minsDiff = (idx - curIdx) * 2;
-        let minsHtml = "";
+      if (globalIdx < curIdx) {
+        minsHtml = "";
+      } else if (globalIdx === curIdx) {
+        minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
+      } else {
+        minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
+      }
 
-        if (idx < curIdx) {
-          minsHtml = "";
-        } else if (idx === curIdx) {
-          minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
-        } else {
-          minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
-        }
+      let circleClass = "track-circle-upcoming";
+      if (isCurrent) {
+        circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
+      }
 
-        // 「車站號碼圓形框底色: 下一站 紅色, 此站 綠色」
-        let circleClass = "track-circle-upcoming";
-        if (isCurrent) {
-          circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
-        }
+      const zhName = this.cleanStopName(s.zh);
+      const enName = this.cleanStopName(s.en);
 
-        trackHtml += `
-          <div class="ladder-track-cell">
+      // Auto-adapt font size based on text length ("自動適應大細")
+      const zhStyle = zhName.length > 10 ? 'font-size: clamp(12px, 1.8vh, 15px);' : (zhName.length > 7 ? 'font-size: clamp(14px, 2.1vh, 18px);' : '');
+      const enStyle = enName.length > 22 ? 'font-size: clamp(9px, 1.3vh, 11px);' : '';
+
+      rowsHtml += `
+        <div class="ladder-unified-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
+          <div class="ladder-circle-cell">
             <div class="${circleClass}">
               ${s.num}
             </div>
           </div>
-        `;
-
-        rowsHtml += `
-          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-names-cell">
-              <div class="ladder-zh-col ${s.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col ${s.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(s.en)}</div>
-            </div>
-            <div class="ladder-eta-col">
-              ${minsHtml}
-            </div>
+          <div class="ladder-name-cell">
+            <div class="name-zh" style="${zhStyle}">${zhName}</div>
+            <div class="name-en" style="${enStyle}">${enName}</div>
           </div>
-        `;
-      });
-
-      listEl.innerHTML = `
-        <div class="ladder-layout-wrapper">
-          <div class="ladder-nav-track-col arrow-rounded">
-            ${trackHtml}
-          </div>
-          <div class="ladder-rows-col">
-            ${rowsHtml}
-            <div class="ladder-eta-footer-label">
-              <span>預計(分鐘) ETA(min)</span>
-            </div>
+          <div class="ladder-eta-cell">
+            ${minsHtml}
           </div>
         </div>
       `;
-    } else {
-      // PAGE 2+: Origin stop + 3 dots + subsequent stops (Strict 1-to-1 matching, no extra circles!)
-      const firstStop = stops[0] || { num: 1, zh: "起點站", en: "Origin" };
-      const startIdx = STOPS_PER_PAGE + (this.Mon2_Page_Now - 2) * 12;
-      const pageList = stops.slice(startIdx, startIdx + 12);
+    });
 
-      // Row 1: Origin Stop
-      trackHtml += `
-        <div class="ladder-track-cell">
-          <div class="track-circle-upcoming">
-            ${firstStop.num}
-          </div>
+    listEl.innerHTML = `
+      <div class="ladder-unified-wrapper">
+        <div class="ladder-rows-container">
+          ${rowsHtml}
         </div>
-      `;
-      rowsHtml += `
-        <div class="ladder-name-row row-yellow">
-          <div class="ladder-names-cell">
-            <div class="ladder-zh-col ${firstStop.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(firstStop.zh)}</div>
-            <div class="ladder-en-col ${firstStop.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(firstStop.en)}</div>
-          </div>
-          <div class="ladder-eta-col"></div>
+        <div class="ladder-eta-footer-label">
+          <span>預計(分鐘) ETA(min)</span>
         </div>
-      `;
-
-      // 3 Dots spacer in Track + Spacer row in Names
-      trackHtml += `
-        <div class="ladder-track-cell ladder-dots-cell">
-          <div class="track-dots-group">
-            <span class="track-dot"></span>
-            <span class="track-dot"></span>
-            <span class="track-dot"></span>
-          </div>
-        </div>
-      `;
-      rowsHtml += `
-        <div class="ladder-name-row row-dots-spacer">
-          <div class="ladder-names-cell"></div>
-          <div class="ladder-eta-col"></div>
-        </div>
-      `;
-
-      pageList.forEach((s, idx) => {
-        const globalIdx = startIdx + idx;
-        const isCurrent = (globalIdx === curIdx);
-        const isYellow = ((idx + 1) % 2 === 0);
-        let minsDiff = (globalIdx - curIdx) * 2;
-        let minsHtml = "";
-
-        if (globalIdx < curIdx) {
-          minsHtml = "";
-        } else if (globalIdx === curIdx) {
-          minsHtml = isArrived ? "" : `<span class="eta-val-num">&lt;1</span>`;
-        } else {
-          minsHtml = `<span class="eta-val-num">${minsDiff}</span>`;
-        }
-
-        let circleClass = "track-circle-upcoming";
-        if (isCurrent) {
-          circleClass = isArrived ? "track-circle-arrived-green" : "track-circle-active";
-        }
-
-        trackHtml += `
-          <div class="ladder-track-cell">
-            <div class="${circleClass}">
-              ${s.num}
-            </div>
-          </div>
-        `;
-
-        rowsHtml += `
-          <div class="ladder-name-row ${isYellow ? 'row-yellow' : 'row-white'} ${isCurrent ? 'row-current' : ''}">
-            <div class="ladder-names-cell">
-              <div class="ladder-zh-col ${s.zh.length > 8 ? 'text-shrink' : ''}">${this.cleanStopName(s.zh)}</div>
-              <div class="ladder-en-col ${s.en.length > 18 ? 'text-shrink' : ''}">${this.cleanStopName(s.en)}</div>
-            </div>
-            <div class="ladder-eta-col">
-              ${minsHtml}
-            </div>
-          </div>
-        `;
-      });
-
-      const isFinalPage = (this.Mon2_Page_Now === this.Mon2_Page_Totel);
-      listEl.innerHTML = `
-        <div class="ladder-layout-wrapper">
-          <div class="ladder-nav-track-col ${isFinalPage ? 'arrow-rounded' : 'arrow-pointed'}">
-            ${trackHtml}
-          </div>
-          <div class="ladder-rows-col">
-            ${rowsHtml}
-            <div class="ladder-eta-footer-label">
-              <span>預計(分鐘) ETA(min)</span>
-            </div>
-          </div>
-        </div>
-      `;
-    }
+      </div>
+    `;
   }
-
   setTargetDistance(meters) {
     this.targetDistanceMeters = meters;
     const badgeZh = document.getElementById("hud-target-dist-zh");
