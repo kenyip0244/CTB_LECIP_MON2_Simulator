@@ -249,8 +249,7 @@ class CitybusAPIService {
             en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
-            subZh: "",
-            subEn: "",
+            ...this.getLandmarkForStop(stopInfo.name_tc, stopInfo.name_en, item.seq, json.data.length, route),
             fare: this.calculateStopFare(route, parseInt(item.seq, 10), json.data.length, stopInfo.name_tc),
             isTerminus: parseInt(item.seq, 10) === json.data.length
           };
@@ -413,6 +412,66 @@ class CitybusAPIService {
   }
 
   // 2. Fetch Route Stops for Direction (outbound / inbound)
+  
+  // Authentic Landmarks & Sub-text dictionary (Matching real LECIP Mon2 bus displays)
+  getLandmarkForStop(zhName, enName, seq, totalStops, routeCode = '') {
+    const zh = (zhName || '').trim();
+    const en = (enName || '').trim();
+    const code = (routeCode || '').toUpperCase();
+
+    // A21 Authentic Landmarks (from actual Cityflyer Mon2 onboard photos)
+    if (zh.includes('碧街') || en.includes('Pitt Street')) {
+      return { subZh: '油麻地站', subEn: 'Yau Ma Tei Station' };
+    }
+    if (zh.includes('長沙街') || en.includes('Changsha Street')) {
+      return { subZh: '信和中心', subEn: 'Sino Centre' };
+    }
+    if (zh.includes('雅蘭中心') || en.includes('Grand Plaza')) {
+      return { subZh: '朗豪坊、奶路臣街、旺角站', subEn: 'Langham Place, Nelson Street, Mong Kok Station' };
+    }
+    if (zh.includes('碧海藍天') || en.includes('AquaMarine')) {
+      return { subZh: '海麗邨', subEn: 'Hoi Lai Estate' };
+    }
+    if (zh.includes('文明里') || en.includes('Man Ming Lane')) {
+      return {
+        subZh: '城景國際、卜維廉賓館、明愛白英奇賓館、香港海景絲麗酒店、九龍王子酒店、旭逸酒店、旺角、油麻地站',
+        subEn: 'The Cityview, Booth Lodge, Caritas Bianchi Lodge, Silka Hotels, Kings de Nathan, Hotel Ease · Mong Kok, Yau Ma Tei Station'
+      };
+    }
+    if (zh.includes('彌敦酒店') || en.includes('Nathan Hotel')) {
+      return {
+        subZh: '香港逸東酒店、登臺酒店、朗逸酒店、香港彩鴻酒店、木的地酒店、西貢街',
+        subEn: 'Eaton Hong Kong Hotel, Hotel Stage, Largos Hotel, Travelodge Kowloon, Hotel Madera Hong Kong, Saigon Street'
+      };
+    }
+    if (zh.includes('恆豐中心') || en.includes('Prudential Centre')) {
+      return {
+        subZh: '恆豐酒店、龍堡國際、德成街、佐敦站',
+        subEn: 'Prudential Hotel, BP International, Tak Shing Street, Jordan Station'
+      };
+    }
+    if (zh.includes('金巴利道') || en.includes('Kimberley Road')) {
+      return {
+        subZh: 'The Mira Hong Kong、美麗華酒店、帝樂文娜公館、皇悅卓越酒店(尖沙咀)',
+        subEn: 'The Mira Hong Kong, Kimberley Hotel, The Luxe Manor, Empire Prestige Tsim Sha Tsui'
+      };
+    }
+    if (zh.includes('中間道') || en.includes('Middle Road')) {
+      return {
+        subZh: '半島酒店、九龍酒店、重慶大廈、喜來登酒店、尖沙咀站、尖東站',
+        subEn: 'The Peninsula Hong Kong, The Kowloon Hotel, Chungking Mansions, Sheraton Hong Kong, Tsim Sha Tsui Station, East Tsim Sha Tsui Station'
+      };
+    }
+    if (zh.includes('海達邨') || en.includes('Hoi Tat Estate')) {
+      return { subZh: '海盈邨', subEn: 'Hoi Ying Estate' };
+    }
+    if (zh.includes('青嶼幹線') || en.includes('Lantau Link')) {
+      return { subZh: '巴士轉乘站', subEn: 'Bus-Bus Interchange' };
+    }
+
+    return { subZh: '', subEn: '' };
+  }
+
   async getRouteStops(route, direction = "outbound") {
     // 檢查路線所屬公司 (KMB / LWB vs CTB)
     const routeMeta = (this.routeCache || []).find(r => r.route.toUpperCase() === route.toUpperCase());
@@ -437,8 +496,7 @@ class CitybusAPIService {
             en: (stopInfo.name_en || `Stop ${item.seq}`).split(/[,，]/)[0].replace(/\s*[\(（][A-Za-z0-9\s#_-]+[\)）]\s*$/g, "").trim(),
             lat: parseFloat(stopInfo.lat) || 0,
             long: parseFloat(stopInfo.long) || 0,
-            subZh: "",
-            subEn: "",
+            ...this.getLandmarkForStop(stopInfo.name_tc, stopInfo.name_en, item.seq, json.data.length, route),
             fare: this.calculateStopFare(route, item.seq, json.data.length, stopInfo.name_tc),
             isTerminus: item.seq === json.data.length
           };
@@ -588,6 +646,14 @@ class CitybusAPIService {
     if (code.startsWith("H")) {
       return "$19.8";
     }
+
+    // 2. Specific Route Fares
+    if (code === "73X" || code === "73" || code === "73P") return "$7.5";
+    if (code === "E32" || code === "E32A") {
+      if (name.includes("東涌") || seq >= totalStops * 0.75) return "$4.5";
+      return "$11.6";
+    }
+    if (code === "H3") return "$19.8";
 
     // 2. Specific Route Fares from authentic Citybus photos
     if (code === "720") {
